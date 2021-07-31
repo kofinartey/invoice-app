@@ -8,7 +8,8 @@ const NewInvoiceStyles = makeStyles({
     left: "-100rem",
     top: "4.5rem",
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
     padding: "3rem 0",
     transition: "all .3s ease-in-out",
 
@@ -73,7 +74,17 @@ const NewInvoiceStyles = makeStyles({
     color: "#777F98",
     marginTop: "4.6875rem",
   },
-
+  footer: {
+    height: "90px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "10rem",
+    // boxShadow: "0px 5px 100px 17px rgba(0,0,0,0.43)",
+    "& button": {
+      margin: "0.2rem",
+    },
+  },
   "@media(min-width:48rem)": {
     NewInvoice: {
       width: "80%",
@@ -102,6 +113,14 @@ const NewInvoiceStyles = makeStyles({
       top: "0",
       paddingLeft: "1.5rem",
       // left: "6.4375rem",
+    },
+    wrapper: {
+      height: "90vh",
+    },
+  },
+  "@media(min-width:90rem)": {
+    NewInvoice: {
+      width: "50%",
     },
   },
 });

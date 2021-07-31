@@ -28,7 +28,7 @@ export function StyledInput(props) {
     input: {
       outline: "none",
       width: "100%",
-      minWidth: "152px",
+      minWidth: "1rem",
       flexGrow: "1",
       border: "2px solid #DFE3FA",
       borderRadius: "0.3rem",

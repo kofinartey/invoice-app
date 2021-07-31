@@ -4,7 +4,7 @@ const InvoiceAppStyles = makeStyles({
   InvoiceApp: {
     display: "flex",
     flexDirection: "column",
-    transition: "all .3s ease-in-out",
+    transition: "all .3s ease-out",
   },
   Appbar: {
     width: "100%",

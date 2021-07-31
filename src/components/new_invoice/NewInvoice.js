@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { showForm } from "../../redux/form_display/formDisplayAction";
-
 import dayjs from "dayjs";
+import { showForm } from "../../redux/form_display/formDisplayAction";
+import { addInvoice } from "../../redux/invoice/invoiceActions";
+import ItemList from "../item_list/ItemList";
+import Button from "../shared_components/Button";
 import {
   StyledLabel,
   StyledInput,
@@ -12,7 +14,6 @@ import {
 import useInputState from "../../hooks/useInputState";
 import NewInvoiceStyles from "./NewInvoiceStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
-import trashCan from "../../assets/icon-delete.svg";
 
 function NewInvoice() {
   const classes = NewInvoiceStyles();
@@ -27,6 +28,7 @@ function NewInvoice() {
     setWindowWidth(width);
   });
 
+  //store data from form inputs
   const [address, updateAddress, resetAddress] = useInputState("");
   const [city, updateCity, resetCity] = useInputState("");
   const [postCode, updatePostCode, resetPostCode] = useInputState("");
@@ -46,7 +48,7 @@ function NewInvoice() {
   const [description, updateDescription, resetDescription] = useInputState("");
 
   const resetInputs = () => {
-    //reset all input fields
+    //reset all input fields at once
     resetAddress();
     resetCity();
     resetPostCode();
@@ -65,14 +67,29 @@ function NewInvoice() {
     }, 300);
   };
 
-  const scrollToTop = () => {
-    window.scrollTo(0, 0);
+  //create an object to hold all entries and pass to the main invoices state
+  const newInvoice = {
+    createdAt: date,
+    paymentDue: dayjs().add(payTerms, "day").format("YYYY-MM-DD"),
+    description: description,
+    clientName: clientName,
+    clientEmail: clientEmail,
+    status: "pending",
+    senderAddress: {
+      street: address,
+      city: city,
+      postCode: postCode,
+      country: country,
+    },
+    clientAddress: {
+      street: clientAddress,
+      city: clientcity,
+      postCode: clientpostCode,
+      country: clientcountry,
+    },
   };
 
-  useEffect(() => {
-    scrollToTop();
-  });
-
+  console.log(newInvoice);
   return (
     // rendered component has two parts
     //     * AN OVERLAY
@@ -294,11 +311,47 @@ function NewInvoice() {
           <div>
             <img src={trashCan} alt="" />
           </div> */}
-
-            <button>Save and Send</button>
+            <ItemList />
+            <footer className={classes.footer}>
+              <Button
+                color={darkTheme && "white"}
+                background={darkTheme && "#252945"}
+                onClick={(e) => {
+                  console.log(e);
+                  e.preventDefault();
+                }}
+              >
+                Discard
+              </Button>
+              <Button
+                color="white"
+                background="#373B53"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                Save as Draft
+              </Button>
+              <Button
+                color="white"
+                background="#7C5DFA"
+                onClick={(e) => {
+                  console.log(e);
+                  e.preventDefault();
+                  dispatch(addInvoice(newInvoice));
+                  resetInputs();
+                  dispatch(showForm());
+                }}
+              >
+                Save & Send
+              </Button>
+            </footer>
           </form>
           {/* ----- content wrapper ends ----- */}
         </div>
+        {/* <footer className={classes.footer}>
+          <h1> this is the footer</h1>
+        </footer> */}
         {/* ***** NEW INVOICE CONTENT ENDS ****** */}
       </div>
     </>
