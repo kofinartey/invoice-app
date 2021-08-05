@@ -46,25 +46,11 @@ const InvoiceStyles = makeStyles({
     alignSelf: "end",
   },
   status: {
-    width: "6.5rem",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#FF8F00",
-    backgroundColor: "rgba(225,143,0,0.07)",
-    padding: ".7rem 0",
-    borderRadius: ".3rem",
     gridColumn: "2/3",
     gridRow: "2/3",
     justifySelf: "end",
   },
-  status__dot: {
-    width: ".5rem",
-    height: ".5rem",
-    backgroundColor: "#FF8F00",
-    borderRadius: "50%",
-    marginRight: ".5rem",
-  },
+
   "@media(min-width: 48rem)": {
     Invoice: {
       gridTemplateColumns: "15% 1fr 1fr 1fr 1fr 2rem",

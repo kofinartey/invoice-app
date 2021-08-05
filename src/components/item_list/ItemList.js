@@ -9,7 +9,7 @@ function ItemList() {
   const classes = ItemListStyles();
   const darkTheme = useSelector((state) => state.theme);
   const [list, setList] = useState([
-    { name: "logo", id: uuidv4(), qty: "2", price: "24", total: "" },
+    { name: "", id: uuidv4(), qty: "", price: "", total: "" },
   ]);
 
   const addItem = () => {

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import InvoiceStyles from "./InvoiceStyles";
 import arrowRight from "../../assets/icon-arrow-right.svg";
+import StatusCard from "../shared_components/StatusCard";
 
 function Invoice({ data }) {
   const classes = InvoiceStyles();
@@ -13,9 +14,6 @@ function Invoice({ data }) {
     setWindowWidth(width);
   });
 
-  const capitalize = (word) => {
-    return word && word[0].toUpperCase() + word.slice(1);
-  };
   //add commas to amount
   const formatAmount = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -24,7 +22,7 @@ function Invoice({ data }) {
   //// ***** MAIN FUNCTION RENDER ******
   return (
     <Link
-      to="#"
+      to={`/invoice/${data.id}`}
       className={classes.Invoice}
       style={{
         backgroundColor: darkTheme && "#1E2139",
@@ -37,45 +35,10 @@ function Invoice({ data }) {
       </h5>
       <p className={classes.clientName}>{data.clientName}</p>
       <p className={classes.date}>Due {data.paymentDue}</p>
-      {/* <h4 className={classes.amount}>£{formatAmount(data.total.toFixed(2))}</h4> */}
+      <h4 className={classes.amount}>£{formatAmount(data.total.toFixed(2))}</h4>
 
-      <div
-        className={classes.status}
-        style={{
-          color:
-            data.status === "paid"
-              ? "rgba(57,214,159, 1)"
-              : data.status === "pending"
-              ? "rgba(255,143,0,1)"
-              : darkTheme
-              ? "rgb(237, 227, 250)"
-              : data.status === "draft"
-              ? "hsl(231, 20%,27%)"
-              : null,
-          backgroundColor:
-            data.status === "paid"
-              ? "rgba(57,214,159, 0.1)"
-              : data.status === "draft"
-              ? "rgba(100,100,150,0.1)"
-              : null,
-        }}
-      >
-        <div
-          className={classes.status__dot}
-          style={{
-            backgroundColor:
-              data.status === "paid"
-                ? "hsl(160,67%,52%)"
-                : data.status === "pending"
-                ? "rgba(255,143,0,1)"
-                : darkTheme
-                ? "rgb(237, 227, 250)"
-                : data.status === "draft"
-                ? "hsl(231, 20%,27%)"
-                : null,
-          }}
-        ></div>
-        <h5>{capitalize(`${data.status}`)}</h5>
+      <div className={classes.status}>
+        <StatusCard status={data.status}>{data.status}</StatusCard>
       </div>
       {windowWidth > 768 && (
         <div className={classes.arrowRight}>

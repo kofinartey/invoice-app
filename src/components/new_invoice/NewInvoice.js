@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { showForm } from "../../redux/form_display/formDisplayAction";
 import { addInvoice } from "../../redux/invoice/invoiceActions";
@@ -17,6 +18,7 @@ import leftArrow from "../../assets/icon-arrow-left.svg";
 
 function NewInvoice() {
   const classes = NewInvoiceStyles();
+  const { register, handleSubmit } = useForm();
   const formTopRef = useRef(null);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
@@ -89,7 +91,10 @@ function NewInvoice() {
     },
   };
 
-  console.log(newInvoice);
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     // rendered component has two parts
     //     * AN OVERLAY
@@ -147,7 +152,7 @@ function NewInvoice() {
             New Invoice
           </h2>
           {/* ---- form begins ----- */}
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/* ----- owner details ----- */}
             <h5 className={classes.group__heading}>Bill From</h5>
             <div className={classes.form__control}>
@@ -155,6 +160,7 @@ function NewInvoice() {
               <StyledInput
                 type="text"
                 className={classes.input}
+                ref={register}
                 id="address"
                 value={address}
                 onChange={updateAddress}
@@ -167,6 +173,7 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="city"
+                  ref={register}
                   value={city}
                   onChange={updateCity}
                 />
@@ -336,7 +343,6 @@ function NewInvoice() {
                 color="white"
                 background="#7C5DFA"
                 onClick={(e) => {
-                  console.log(e);
                   e.preventDefault();
                   dispatch(addInvoice(newInvoice));
                   resetInputs();

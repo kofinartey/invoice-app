@@ -1,10 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import { useSelector } from "react-redux";
 import NewInvoice from "./components/new_invoice/NewInvoice";
 import Appbar from "./components/appbar/Appbar";
 import InvoiceAppStyles from "./InvoiceAppStyles";
 import MainPage from "./components/main_page/MainPage";
+import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
@@ -19,7 +21,17 @@ function InvoiceApp() {
         <div className={classes.Appbar}>
           <Appbar />
         </div>
-        <MainPage />
+        <Switch>
+          <Route exact path="/" render={() => <MainPage />} />
+          <Route
+            exact
+            path="/invoice/:id"
+            render={(routeProps) => (
+              <InvoiceDetails id={routeProps.match.params.id} />
+            )}
+          />
+        </Switch>
+
         <NewInvoice />
       </div>
     </Router>
