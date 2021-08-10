@@ -20,6 +20,7 @@ function Button(props) {
   return (
     <button
       className={classes.button}
+      type={props.type}
       style={{ color: props.color, backgroundColor: props.background }}
       onClick={props.onClick}
     >

@@ -37,7 +37,7 @@ function InvoiceDetails(props) {
         {invoiceData.map((invoice) => {
           if (invoice.id === props.id) {
             return (
-              <>
+              <div key={invoice.id}>
                 <Card>
                   <div className={classes.top_card}>
                     <div className={classes.status__wrapper}>
@@ -127,7 +127,7 @@ function InvoiceDetails(props) {
                     >
                       {windowWidth < 768 ? (
                         invoice.items.map((item) => (
-                          <div className={classes.item}>
+                          <div className={classes.item} key={item.name}>
                             <h5 style={{ color: darkTheme && "white" }}>
                               {item.name}
                             </h5>
@@ -149,7 +149,10 @@ function InvoiceDetails(props) {
                           </div>
                           {invoice.items.map((item) => {
                             return (
-                              <div className={classes.item_tbody}>
+                              <div
+                                className={classes.item_tbody}
+                                key={item.name}
+                              >
                                 <h5 style={{ color: darkTheme && "white" }}>
                                   {item.name}
                                 </h5>
@@ -178,7 +181,7 @@ function InvoiceDetails(props) {
                     </div>
                   </div>
                 </Card>
-              </>
+              </div>
             );
           } else {
             return null;

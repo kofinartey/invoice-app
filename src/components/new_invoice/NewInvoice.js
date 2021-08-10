@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import dayjs from "dayjs";
 import { showForm } from "../../redux/form_display/formDisplayAction";
 import { addInvoice } from "../../redux/invoice/invoiceActions";
@@ -16,9 +18,29 @@ import useInputState from "../../hooks/useInputState";
 import NewInvoiceStyles from "./NewInvoiceStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 
+// const schema = yup.object().shape({
+//   address: yup.string().required(),
+//   city: yup.string().required(),
+//   postCode: yup.string().required(),
+//   country: yup.string().required(),
+//   clientName: yup.string().required(),
+//   clientEmail: yup.string().email().required(),
+//   clientAddress: yup.string().required(),
+//   clientCity: yup.string().required(),
+//   clientPostCode: yup.string().required(),
+//   clientCountry: yup.string().required(),
+// });
+
 function NewInvoice() {
   const classes = NewInvoiceStyles();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  // {
+  //   resolver: yupResolver(schema),
+  // }
   const formTopRef = useRef(null);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
@@ -29,67 +51,9 @@ function NewInvoice() {
     let width = window.innerWidth;
     setWindowWidth(width);
   });
-
-  //store data from form inputs
-  const [address, updateAddress, resetAddress] = useInputState("");
-  const [city, updateCity, resetCity] = useInputState("");
-  const [postCode, updatePostCode, resetPostCode] = useInputState("");
-  const [country, updateCountry, resetCountry] = useInputState("");
-
-  const [clientName, updateClientName, resetClientName] = useInputState("");
-  const [clientEmail, updateClientEmail, resetClientEmail] = useInputState("");
-  const [clientAddress, updateClientAddress, resetClientAddress] =
-    useInputState("");
-  const [clientcity, updateClientCity, resetClientCity] = useInputState("");
-  const [clientpostCode, updateClientPostCode, resetClientPostCode] =
-    useInputState("");
-  const [clientcountry, updateClientCountry, resetClientCountry] =
-    useInputState("");
   const [date, setDate] = useState(today);
   const [payTerms, setPayTerms] = useState(1);
   const [description, updateDescription, resetDescription] = useInputState("");
-
-  const resetInputs = () => {
-    //reset all input fields at once
-    resetAddress();
-    resetCity();
-    resetPostCode();
-    resetCountry();
-    resetClientName();
-    resetClientEmail();
-    resetClientAddress();
-    resetClientAddress();
-    resetClientCity();
-    resetClientPostCode();
-    resetClientCountry();
-    resetDescription();
-
-    setTimeout(() => {
-      formTopRef.current.scrollIntoView();
-    }, 300);
-  };
-
-  //create an object to hold all entries and pass to the main invoices state
-  const newInvoice = {
-    createdAt: date,
-    paymentDue: dayjs().add(payTerms, "day").format("YYYY-MM-DD"),
-    description: description,
-    clientName: clientName,
-    clientEmail: clientEmail,
-    status: "pending",
-    senderAddress: {
-      street: address,
-      city: city,
-      postCode: postCode,
-      country: country,
-    },
-    clientAddress: {
-      street: clientAddress,
-      city: clientcity,
-      postCode: clientpostCode,
-      country: clientcountry,
-    },
-  };
 
   const onSubmit = (data) => {
     console.log(data);
@@ -108,7 +72,7 @@ function NewInvoice() {
         className={classes.overlay}
         onClick={() => {
           dispatch(showForm());
-          resetInputs();
+          // resetInputs();
         }}
         style={{
           left: formDisplay && "0",
@@ -139,7 +103,7 @@ function NewInvoice() {
             style={{ color: darkTheme && "white" }}
             onClick={() => {
               dispatch(showForm());
-              resetInputs();
+              // resetInputs();
             }}
           >
             <img src={leftArrow} alt="" />
@@ -152,19 +116,23 @@ function NewInvoice() {
             New Invoice
           </h2>
           {/* ---- form begins ----- */}
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
             {/* ----- owner details ----- */}
             <h5 className={classes.group__heading}>Bill From</h5>
             <div className={classes.form__control}>
               <StyledLabel htmlFor="address">Street Address</StyledLabel>
+              {/* {errors.address && (
+                <small className={classes.error__msg}>can't be empty</small>
+              )} */}
+              <input type="text" name="kofi" {...register("kofi")} />
               <StyledInput
                 type="text"
                 className={classes.input}
-                ref={register}
                 id="address"
-                value={address}
-                onChange={updateAddress}
+                name="address"
+                register={register}
               />
+              <p>{errors.address?.message}</p>
             </div>
 
             <div className={classes.city_post_country}>
@@ -173,9 +141,8 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="city"
-                  ref={register}
-                  value={city}
-                  onChange={updateCity}
+                  name="city"
+                  // {...register("city")}
                 />
               </div>
               <div className={classes.form__control}>
@@ -183,8 +150,8 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="postCode"
-                  value={postCode}
-                  onChange={updatePostCode}
+                  name="postcode"
+                  // {...register("postCode")}
                 />
               </div>
               <div className={classes.form__control}>
@@ -192,8 +159,8 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="country"
-                  value={country}
-                  onChange={updateCountry}
+                  name="country"
+                  // {...register("country")}
                 />
               </div>
             </div>
@@ -205,26 +172,21 @@ function NewInvoice() {
               <StyledInput
                 type="text"
                 id="clientName"
-                value={clientName}
-                onChange={updateClientName}
+                name="clientName"
+                // {...register("clientName", { required: true })}
               />
             </div>
             <div className={classes.form__control}>
               <StyledLabel htmlFor="clientEmail">Client's Email</StyledLabel>
-              <StyledInput
-                type="email"
-                id="clientEmail"
-                value={clientEmail}
-                onChange={updateClientEmail}
-              />
+              <StyledInput type="email" id="clientEmail" name="clientEmail" />
             </div>
             <div className={classes.form__control}>
               <StyledLabel htmlFor="clientStreet">Street Address</StyledLabel>
               <StyledInput
                 type="email"
                 id="clientStreet"
-                value={clientAddress}
-                onChange={updateClientAddress}
+                name="clientStreet"
+                // {...register("clientStreet", { required: true })}
               />
             </div>
             <div className={classes.city_post_country}>
@@ -234,8 +196,8 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="clientCity"
-                  value={clientcity}
-                  onChange={updateClientCity}
+                  name="clientCity"
+                  // {...register("clientCity", { required: true })}
                 />
               </div>
               <div className={classes.form__control}>
@@ -243,8 +205,8 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="clientPostCode"
-                  value={clientpostCode}
-                  onChange={updateClientPostCode}
+                  name="clientPostCode"
+                  // {...register("clientPostCode", { required: true })}
                 />
               </div>
               <div className={classes.form__control}>
@@ -252,8 +214,8 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="clientCountry"
-                  value={clientcountry}
-                  onChange={updateClientCountry}
+                  name="clientCountry"
+                  // {...register("clientCountry", { required: true })}
                 />
               </div>
             </div>
@@ -296,8 +258,10 @@ function NewInvoice() {
               <StyledInput
                 type="text"
                 id="projectDescription"
-                value={description}
-                onChange={updateDescription}
+                // {...register("progectDescription")}
+
+                // value={description}
+                // onChange={updateDescription}
               />
             </div>
 
@@ -340,13 +304,13 @@ function NewInvoice() {
                 Save as Draft
               </Button>
               <Button
+                type="submit"
                 color="white"
                 background="#7C5DFA"
                 onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(addInvoice(newInvoice));
-                  resetInputs();
-                  dispatch(showForm());
+                  // e.preventDefault();
+                  // dispatch(showForm());
+                  handleSubmit(onSubmit);
                 }}
               >
                 Save & Send
