@@ -23,7 +23,7 @@ export function StyledLabel(props) {
 
 // ***** INPUT COMPONENT *****
 // export const StyledInput = React.forwardRef((props, ref) => {
-export const StyledInput = ({ type, id, name, register, style }) => {
+export const StyledInput = (props) => {
   const darkTheme = useSelector((state) => state.theme);
   const styles = makeStyles({
     input: {
@@ -44,7 +44,15 @@ export const StyledInput = ({ type, id, name, register, style }) => {
   });
   const classes = styles();
 
-  return <input id={id} {...register(name)} className={classes.input} />;
+  return (
+    <input
+      id={props.id}
+      className={classes.input}
+      name={props.name}
+      value={props.value}
+      onChange={props.onChange}
+    />
+  );
 };
 
 // ***** SELECT COMPONENT *****

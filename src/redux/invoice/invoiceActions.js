@@ -1,4 +1,4 @@
-import { ADD_INVOICE } from "./invoiceTypes";
+import { ADD_INVOICE, DELETE, EDIT, MARK_AS_PAID } from "./invoiceTypes";
 import { generateID } from "../../helper_functions/generateID";
 
 export const addInvoice = (newInvoice) => {
@@ -14,18 +14,31 @@ export const addInvoice = (newInvoice) => {
       clientEmail: newInvoice.clientEmail,
       status: "pending",
       senderAddress: {
-        street: newInvoice.senderAddress.street,
-        city: newInvoice.senderAddress.city,
-        postCode: newInvoice.senderAddress.postCode,
-        country: newInvoice.senderAddress.country,
+        street: newInvoice.street,
+        city: newInvoice.city,
+        postCode: newInvoice.postCode,
+        country: newInvoice.country,
       },
       clientAddress: {
-        street: newInvoice.clientAddress.street,
-        city: newInvoice.clientAddress.city,
-        postCode: newInvoice.clientAddress.postCode,
-        country: newInvoice.clientAddress.country,
+        street: newInvoice.clientStreet,
+        city: newInvoice.clientCity,
+        postCode: newInvoice.clientPostCode,
+        country: newInvoice.clientCountry,
       },
       total: "",
     },
+  };
+};
+
+export const deleteInvoice = (id) => {
+  return {
+    type: DELETE,
+    payload: id,
+  };
+};
+export const markAsPaid = (id) => {
+  return {
+    type: MARK_AS_PAID,
+    payload: id,
   };
 };

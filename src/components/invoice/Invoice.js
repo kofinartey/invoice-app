@@ -35,7 +35,7 @@ function Invoice({ data }) {
       </h5>
       <p className={classes.clientName}>{data.clientName}</p>
       <p className={classes.date}>Due {data.paymentDue}</p>
-      <h4 className={classes.amount}>£{formatAmount(data.total.toFixed(2))}</h4>
+      {/* <h4 className={classes.amount}>£{formatAmount(data.total.toFixed(2))}</h4> */}
 
       <div className={classes.status}>
         <StatusCard status={data.status}>{data.status}</StatusCard>

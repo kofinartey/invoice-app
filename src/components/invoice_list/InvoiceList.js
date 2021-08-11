@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Invoice from "../invoice/Invoice";
 import InvoiceListStyles from "./InvoiceListStyles";
@@ -8,6 +8,15 @@ function InvoiceList() {
   const classes = InvoiceListStyles();
   const invoiceData = useSelector((state) => state.invoice);
   const darkTheme = useSelector((state) => state.theme);
+  const formDisplay = useSelector((state) => state.formDisplay);
+
+  useEffect(() => {
+    if (formDisplay) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  });
 
   const displayList = () => {
     return (

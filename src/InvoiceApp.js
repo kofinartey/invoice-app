@@ -27,7 +27,7 @@ function InvoiceApp() {
             exact
             path="/invoice/:id"
             render={(routeProps) => (
-              <InvoiceDetails id={routeProps.match.params.id} />
+              <InvoiceDetails id={routeProps.match.params.id} {...routeProps} />
             )}
           />
         </Switch>

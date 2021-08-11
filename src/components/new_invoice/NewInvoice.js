@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import dayjs from "dayjs";
 import { showForm } from "../../redux/form_display/formDisplayAction";
 import { addInvoice } from "../../redux/invoice/invoiceActions";
@@ -14,33 +11,15 @@ import {
   StyledInput,
   StyledSelect,
 } from "../shared_components/FormElements";
+import useForm from "../../hooks/useForm";
 import useInputState from "../../hooks/useInputState";
+import validation from "./validation";
 import NewInvoiceStyles from "./NewInvoiceStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 
-// const schema = yup.object().shape({
-//   address: yup.string().required(),
-//   city: yup.string().required(),
-//   postCode: yup.string().required(),
-//   country: yup.string().required(),
-//   clientName: yup.string().required(),
-//   clientEmail: yup.string().email().required(),
-//   clientAddress: yup.string().required(),
-//   clientCity: yup.string().required(),
-//   clientPostCode: yup.string().required(),
-//   clientCountry: yup.string().required(),
-// });
-
 function NewInvoice() {
   const classes = NewInvoiceStyles();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  // {
-  //   resolver: yupResolver(schema),
-  // }
+
   const formTopRef = useRef(null);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
@@ -51,6 +30,9 @@ function NewInvoice() {
     let width = window.innerWidth;
     setWindowWidth(width);
   });
+
+  const { values, handleChange, handleSubmit } = useForm();
+  // const { errors } = validation();
   const [date, setDate] = useState(today);
   const [payTerms, setPayTerms] = useState(1);
   const [description, updateDescription, resetDescription] = useInputState("");
@@ -116,23 +98,20 @@ function NewInvoice() {
             New Invoice
           </h2>
           {/* ---- form begins ----- */}
-          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <form noValidate>
             {/* ----- owner details ----- */}
             <h5 className={classes.group__heading}>Bill From</h5>
             <div className={classes.form__control}>
-              <StyledLabel htmlFor="address">Street Address</StyledLabel>
-              {/* {errors.address && (
-                <small className={classes.error__msg}>can't be empty</small>
-              )} */}
-              <input type="text" name="kofi" {...register("kofi")} />
+              <StyledLabel htmlFor="street">Street Address</StyledLabel>
               <StyledInput
                 type="text"
                 className={classes.input}
-                id="address"
-                name="address"
-                register={register}
+                id="street"
+                name="street"
+                value={values.address}
+                onChange={handleChange}
               />
-              <p>{errors.address?.message}</p>
+              {/* <p>{errors.address?.message}</p> */}
             </div>
 
             <div className={classes.city_post_country}>
@@ -142,6 +121,8 @@ function NewInvoice() {
                   type="text"
                   id="city"
                   name="city"
+                  value={values.city}
+                  onChange={handleChange}
                   // {...register("city")}
                 />
               </div>
@@ -150,7 +131,9 @@ function NewInvoice() {
                 <StyledInput
                   type="text"
                   id="postCode"
-                  name="postcode"
+                  name="postCode"
+                  value={values.postCode}
+                  onChange={handleChange}
                   // {...register("postCode")}
                 />
               </div>
@@ -160,6 +143,8 @@ function NewInvoice() {
                   type="text"
                   id="country"
                   name="country"
+                  value={values.country}
+                  onChange={handleChange}
                   // {...register("country")}
                 />
               </div>
@@ -173,12 +158,20 @@ function NewInvoice() {
                 type="text"
                 id="clientName"
                 name="clientName"
+                value={values.clientName}
+                onChange={handleChange}
                 // {...register("clientName", { required: true })}
               />
             </div>
             <div className={classes.form__control}>
               <StyledLabel htmlFor="clientEmail">Client's Email</StyledLabel>
-              <StyledInput type="email" id="clientEmail" name="clientEmail" />
+              <StyledInput
+                type="email"
+                id="clientEmail"
+                name="clientEmail"
+                value={values.clientEmail}
+                onChange={handleChange}
+              />
             </div>
             <div className={classes.form__control}>
               <StyledLabel htmlFor="clientStreet">Street Address</StyledLabel>
@@ -186,6 +179,8 @@ function NewInvoice() {
                 type="email"
                 id="clientStreet"
                 name="clientStreet"
+                value={values.clientStreet}
+                onChange={handleChange}
                 // {...register("clientStreet", { required: true })}
               />
             </div>
@@ -197,6 +192,8 @@ function NewInvoice() {
                   type="text"
                   id="clientCity"
                   name="clientCity"
+                  value={values.clientCity}
+                  onChange={handleChange}
                   // {...register("clientCity", { required: true })}
                 />
               </div>
@@ -206,6 +203,8 @@ function NewInvoice() {
                   type="text"
                   id="clientPostCode"
                   name="clientPostCode"
+                  value={values.clientPostCode}
+                  onChange={handleChange}
                   // {...register("clientPostCode", { required: true })}
                 />
               </div>
@@ -215,6 +214,8 @@ function NewInvoice() {
                   type="text"
                   id="clientCountry"
                   name="clientCountry"
+                  value={values.clientCountry}
+                  onChange={handleChange}
                   // {...register("clientCountry", { required: true })}
                 />
               </div>
@@ -228,6 +229,7 @@ function NewInvoice() {
                   value={date}
                   type="date"
                   id="invoiceDate"
+                  name="invoiceDate"
                   onChange={(e) =>
                     setDate(dayjs(e.target.value).format("YYYY-MM-DD"))
                   }
@@ -239,6 +241,7 @@ function NewInvoice() {
                   value={payTerms}
                   id="paymentTerms"
                   style={{ background: darkTheme && "#1E2139" }}
+                  name="paymentTerms"
                   onChange={(e) => {
                     setPayTerms(e.target.value);
                   }}
@@ -257,32 +260,16 @@ function NewInvoice() {
               </StyledLabel>
               <StyledInput
                 type="text"
-                id="projectDescription"
-                // {...register("progectDescription")}
-
-                // value={description}
-                // onChange={updateDescription}
+                id="description"
+                name="description"
+                value={values.description}
+                onChange={handleChange}
               />
             </div>
 
             {/* ----- item details ----- */}
-            {/* <h3 className={classes.itemList}>Item List</h3>
-          <div className={classes.form__control}>
-            <StyledLabel htmlFor="itemName">Item Name</StyledLabel>
-            <input type="text" id="itemName" />
-          </div>
-          <div className={classes.form__control}>
-            <StyledLabel htmlFor="quantity">Quantity</StyledLabel>
-            <input type="text" id="quantity" />
-          </div>
-          <div className={classes.form__control}>
-            <StyledLabel htmlFor="quantity">Quantity</StyledLabel>
-            <h4> XXX.00</h4>
-          </div>
-          <div>
-            <img src={trashCan} alt="" />
-          </div> */}
             <ItemList />
+
             <footer className={classes.footer}>
               <Button
                 color={darkTheme && "white"}
@@ -308,9 +295,10 @@ function NewInvoice() {
                 color="white"
                 background="#7C5DFA"
                 onClick={(e) => {
-                  // e.preventDefault();
-                  // dispatch(showForm());
-                  handleSubmit(onSubmit);
+                  handleSubmit(e);
+                  validation(values);
+                  // dispatch(addInvoice(values));
+                  console.log(values);
                 }}
               >
                 Save & Send
