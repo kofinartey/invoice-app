@@ -3,7 +3,7 @@ import { ADD_INVOICE, DELETE, EDIT, MARK_AS_PAID } from "./invoiceTypes";
 
 const invoiceReducer = (state = invoiceData, action) => {
   switch (action.type) {
-    case "ADD_INVOICE":
+    case ADD_INVOICE:
       console.log(action);
       return [action.payload, ...state];
     case DELETE:

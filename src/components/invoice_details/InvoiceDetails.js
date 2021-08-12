@@ -75,7 +75,7 @@ function InvoiceDetails(props) {
                           >
                             Delete
                           </Button>
-                          {invoice.status !== "paid" && (
+                          {invoice.status === "pending" && (
                             <Button
                               color="white"
                               background="#7C5DFA"

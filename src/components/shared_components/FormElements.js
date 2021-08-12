@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import check from "../../assets/icon-check.svg";
 
 // ***** LABEL COMPENENT *****
 export function StyledLabel(props) {
@@ -82,5 +83,73 @@ export function StyledSelect(props) {
     >
       {props.children}
     </select>
+  );
+}
+
+// ****** CHECKBOX COMPONENT ******
+export function CheckInput(props) {
+  const [checked, setChecked] = useState(false);
+  const darkTheme = useSelector((state) => state.theme);
+  const styles = makeStyles({
+    filter__option: {
+      display: "flex",
+      alignItems: "center",
+      padding: ".5rem 0",
+      "& input": {
+        marginRight: "0.5rem",
+        cursor: "pointer",
+      },
+      "& label": {
+        cursor: "pointer",
+      },
+    },
+    checkbox: {
+      width: "1rem",
+      height: "1rem",
+      backgroundColor: props.filters[props.label.toLowerCase()]
+        ? "#7C5DFA"
+        : darkTheme
+        ? "#1E2139"
+        : "#DFE3FA",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      border: "2px solid #7C5DFA",
+      marginRight: "1rem",
+      borderRadius: "0.2rem",
+      position: "relative",
+      top: "-0.2rem",
+    },
+
+    checkMark: {
+      opacity: props.filters[props.label.toLowerCase()] ? "1" : "0",
+    },
+    CheckInput: {
+      display: "none",
+    },
+  });
+  const classes = styles();
+
+  // const handleCheck = (e) => {
+  //   setChecked(!checked);
+  //   props.onClick(e);
+  // };
+  return (
+    <div className={classes.filter__option}>
+      <div className={classes.checkbox}>
+        <img src={check} className={classes.checkMark} alt="" />
+      </div>
+      <input
+        className={classes.CheckInput}
+        type="checkbox"
+        id={props.label}
+        name={props.label.toLowerCase()}
+        onClick={props.onClick}
+        checked={props.filters[props.label.toLowerCase()]}
+      />
+      <label htmlFor={props.label}>
+        <h5>{props.label}</h5>
+      </label>
+    </div>
   );
 }

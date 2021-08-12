@@ -16,6 +16,7 @@ const MainPageStyles = makeStyles({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: "4rem",
   },
   top__left: {
     "& h4": {

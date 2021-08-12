@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InvoiceList from "../invoice_list/InvoiceList";
+import Filters from "../filters/Filters";
 import { showForm } from "../../redux/form_display/formDisplayAction";
 
 import arrowDown from "../../assets/icon-arrow-down.svg";
@@ -17,6 +18,21 @@ function MainPage() {
     let width = window.innerWidth;
     setWindowWidth(width);
   });
+
+  const [filters, setFilters] = useState({
+    draft: false,
+    pending: false,
+    paid: false,
+  });
+
+  const toggleFilter = (selectedFilter) => {
+    console.log("toggle filter called");
+    console.log();
+    setFilters((curState) => ({
+      ...curState,
+      [selectedFilter]: !curState[selectedFilter],
+    }));
+  };
 
   return (
     <div
@@ -35,13 +51,7 @@ function MainPage() {
           </div>
           <div className={`${classes.top__right}`}>
             {/* ...filter */}
-            <div
-              className={classes.filter}
-              style={{ color: darkTheme && "white" }}
-            >
-              <h5>{windowWidth < 768 ? "Filter" : "Filter by status"}</h5>
-              <img src={arrowDown} alt="filter button" />
-            </div>
+            <Filters filters={filters} toggleFilter={toggleFilter} />
             {/* ...add new invoice */}
             <div
               className={classes.new__invoice}
