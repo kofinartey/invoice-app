@@ -1,7 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import { Switch, Route, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { AnimatePresence } from "framer-motion";
 import NewInvoice from "./components/new_invoice/NewInvoice";
 import Appbar from "./components/appbar/Appbar";
 import InvoiceAppStyles from "./InvoiceAppStyles";
@@ -11,17 +11,18 @@ import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
   const darkTheme = useSelector((state) => state.theme);
+  const location = useLocation();
 
   return (
-    <Router>
-      <div
-        className={classes.InvoiceApp}
-        style={{ backgroundColor: darkTheme ? "#141625" : "#F8F8FB " }}
-      >
-        <div className={classes.Appbar}>
-          <Appbar />
-        </div>
-        <Switch>
+    <div
+      className={classes.InvoiceApp}
+      style={{ backgroundColor: darkTheme ? "#141625" : "#F8F8FB " }}
+    >
+      <div className={classes.Appbar}>
+        <Appbar />
+      </div>
+      <AnimatePresence>
+        <Switch location={location} key={location.key}>
           <Route exact path="/" render={() => <MainPage />} />
           <Route
             exact
@@ -31,10 +32,10 @@ function InvoiceApp() {
             )}
           />
         </Switch>
+      </AnimatePresence>
 
-        <NewInvoice />
-      </div>
-    </Router>
+      <NewInvoice />
+    </div>
   );
 }
 

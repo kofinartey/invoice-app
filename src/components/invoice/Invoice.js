@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import formatAmount from "../../helper_functions/formatAmount";
+
 import InvoiceStyles from "./InvoiceStyles";
 import arrowRight from "../../assets/icon-arrow-right.svg";
 import StatusCard from "../shared_components/StatusCard";
@@ -15,9 +17,6 @@ function Invoice({ data }) {
   });
 
   //add commas to amount
-  const formatAmount = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
 
   //// ***** MAIN FUNCTION RENDER ******
   return (
@@ -35,7 +34,7 @@ function Invoice({ data }) {
       </h5>
       <p className={classes.clientName}>{data.clientName}</p>
       <p className={classes.date}>Due {data.paymentDue}</p>
-      {/* <h4 className={classes.amount}>£{formatAmount(data.total.toFixed(2))}</h4> */}
+      <h4 className={classes.amount}>£{formatAmount(data.total.toFixed(2))}</h4>
 
       <div className={classes.status}>
         <StatusCard status={data.status}>{data.status}</StatusCard>

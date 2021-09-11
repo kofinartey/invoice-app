@@ -120,6 +120,9 @@ export function CheckInput(props) {
       position: "relative",
       top: "-0.2rem",
     },
+    label: {
+      display: "flex",
+    },
 
     checkMark: {
       opacity: props.filters[props.label.toLowerCase()] ? "1" : "0",
@@ -136,9 +139,6 @@ export function CheckInput(props) {
   // };
   return (
     <div className={classes.filter__option}>
-      <div className={classes.checkbox}>
-        <img src={check} className={classes.checkMark} alt="" />
-      </div>
       <input
         className={classes.CheckInput}
         type="checkbox"
@@ -146,8 +146,12 @@ export function CheckInput(props) {
         name={props.label.toLowerCase()}
         onClick={props.onClick}
         checked={props.filters[props.label.toLowerCase()]}
+        readOnly
       />
-      <label htmlFor={props.label}>
+      <label className={classes.label} htmlFor={props.label}>
+        <div className={classes.checkbox}>
+          <img src={check} className={classes.checkMark} alt="" />
+        </div>
         <h5>{props.label}</h5>
       </label>
     </div>

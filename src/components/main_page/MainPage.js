@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
 import InvoiceList from "../invoice_list/InvoiceList";
 import Filters from "../filters/Filters";
 import { showForm } from "../../redux/form_display/formDisplayAction";
-
-import arrowDown from "../../assets/icon-arrow-down.svg";
 import plus from "../../assets/icon-plus.svg";
 import MainPageStyles from "./MainPageStyles.js";
+
+const listVariants = {
+  hidden: {
+    x: -1000,
+    opacity: 0,
+  },
+  show: {
+    x: 0,
+    opacity: 1,
+    transition: { type: "tween", duration: 0.5 },
+  },
+  exit: {
+    x: -1000,
+    transition: { ease: "easeInOut", duration: 0.1 },
+  },
+};
 
 function MainPage() {
   const classes = MainPageStyles();
@@ -26,17 +41,22 @@ function MainPage() {
   });
 
   const toggleFilter = (selectedFilter) => {
-    console.log("toggle filter called");
-    console.log();
     setFilters((curState) => ({
-      ...curState,
+      draft: false,
+      pending: false,
+      paid: false,
       [selectedFilter]: !curState[selectedFilter],
     }));
   };
 
   return (
-    <div
+    <motion.div
       className={classes.MainPage}
+      variants={listVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+
       // style={{ color: darkTheme && "white" }}
     >
       <div className={classes.wrapper}>
@@ -68,11 +88,11 @@ function MainPage() {
         </div>
 
         {/* List goes Heere */}
-        <div className={classes.list__container}>
-          <InvoiceList />
-        </div>
+        <motion.div className={classes.list__container}>
+          <InvoiceList filters={filters} />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -14,13 +14,7 @@ function Filters(props) {
     setWindowWidth(width);
   });
   const classes = FiltersStyles();
-  //   if (open) {
-  //     document.body.addEventListener("click", () => {
-  //       setOpen(!open);
-  //     });
-  //   } else {
-  //       document.body.removeEventListener*
-  //   }
+
   const handleClick = () => {
     setOpen(!open);
   };
@@ -32,6 +26,7 @@ function Filters(props) {
 
   return (
     <div className={classes.filter} style={{ color: darkTheme && "white" }}>
+      {open && <div className={classes.overlay} onClick={handleClick}></div>}
       <div className={classes.filter__toggler} onClick={handleClick}>
         <h5>{windowWidth < 768 ? "Filter" : "Filter by status"}</h5>
         <img

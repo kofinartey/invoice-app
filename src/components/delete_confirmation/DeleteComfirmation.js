@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router";
 import { deleteInvoice } from "../../redux/invoice/invoiceActions";
 import { toggleConfirmation } from "../../redux/delete_confirmation/deleteConfirmationActions";
 import Card from "../shared_components/Card";

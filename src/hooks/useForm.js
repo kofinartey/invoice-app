@@ -1,20 +1,22 @@
 import { useState } from "react";
 
+const initialState = {
+  street: "",
+  city: "",
+  postCode: "",
+  country: "",
+  clientName: "",
+  clientEmail: "",
+  clientStreet: "",
+  clientCity: "",
+  clientPostCode: "",
+  clientCountry: "",
+  description: "",
+  status: "",
+};
+
 const useForm = () => {
-  const [values, setValues] = useState({
-    street: "",
-    city: "",
-    postCode: "",
-    country: "",
-    clientName: "",
-    clientEmail: "",
-    clientStreet: "",
-    clientCity: "",
-    clientPostCode: "",
-    clientCountry: "",
-    description: "",
-    status: "",
-  });
+  const [values, setValues] = useState(initialState);
 
   const [errors, setErrors] = useState({});
 
@@ -27,9 +29,15 @@ const useForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    resetInputs();
   };
 
-  return { values, errors, handleChange, handleSubmit };
+  const resetInputs = () => {
+    console.log("reset inputs called");
+    setValues(initialState);
+  };
+
+  return { values, errors, handleChange, handleSubmit, resetInputs };
 };
 
 export default useForm;

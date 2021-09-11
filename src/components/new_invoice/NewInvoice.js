@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import { v4 as uuidv4 } from "uuid";
 import { showForm } from "../../redux/form_display/formDisplayAction";
 import { addInvoice } from "../../redux/invoice/invoiceActions";
 import ItemList from "../item_list/ItemList";
@@ -14,8 +15,10 @@ import {
 import useForm from "../../hooks/useForm";
 import useInputState from "../../hooks/useInputState";
 import validation from "./validation";
+import formatAmount from "../../helper_functions/formatAmount";
 import NewInvoiceStyles from "./NewInvoiceStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
+import trashCan from "../../assets/icon-delete.svg";
 
 function NewInvoice() {
   const classes = NewInvoiceStyles();
@@ -24,6 +27,7 @@ function NewInvoice() {
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
   const dispatch = useDispatch();
+
   const today = dayjs(new Date()).format("YYYY-MM-DD");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
@@ -31,14 +35,40 @@ function NewInvoice() {
     setWindowWidth(width);
   });
 
-  const { values, handleChange, handleSubmit } = useForm();
+  const { values, handleChange, handleSubmit, resetInputs } = useForm();
   // const { errors } = validation();
   const [date, setDate] = useState(today);
   const [payTerms, setPayTerms] = useState(1);
-  const [description, updateDescription, resetDescription] = useInputState("");
+
+  // item list state management
+  const [itemList, setItemList] = useState([
+    { name: "test", id: uuidv4(), qty: 0, price: 0, total: 0 },
+  ]);
+
+  const handleItemChange = (e) => {
+    let id = e.target.parentElement.parentElement.id;
+    setItemList((curState) => [
+      curState.map((item) =>
+        item.id === id ? { [e.target.name]: e.target.value } : item
+      ),
+    ]);
+  };
+
+  const addItem = () => {
+    setItemList([
+      ...itemList,
+      { name: "", id: uuidv4(), qty: "", price: "", total: "" },
+    ]);
+  };
+  const deleteItem = (id) => {
+    if (itemList.length > 1) {
+      setItemList((curState) => curState.filter((item) => item.id !== id));
+    }
+  };
 
   const onSubmit = (data) => {
     console.log(data);
+    resetInputs();
   };
 
   return (
@@ -113,7 +143,6 @@ function NewInvoice() {
               />
               {/* <p>{errors.address?.message}</p> */}
             </div>
-
             <div className={classes.city_post_country}>
               <div className={classes.form__control}>
                 <StyledLabel htmlFor="city">City</StyledLabel>
@@ -149,7 +178,6 @@ function NewInvoice() {
                 />
               </div>
             </div>
-
             {/* ------ client details -------- */}
             <h5 className={classes.group__heading}>Bill To</h5>
             <div className={classes.form__control}>
@@ -220,7 +248,6 @@ function NewInvoice() {
                 />
               </div>
             </div>
-
             <div className={classes.pay__date}>
               {/* group date and payment terms for easy styling */}
               <div className={classes.form__control}>
@@ -253,7 +280,6 @@ function NewInvoice() {
                 </StyledSelect>
               </div>
             </div>
-
             <div className={classes.form__control}>
               <StyledLabel htmlFor="projectDescription">
                 Project Description
@@ -267,8 +293,68 @@ function NewInvoice() {
               />
             </div>
 
-            {/* ----- item details ----- */}
-            <ItemList />
+            {/* ----- ITEM DETAILS ----- */}
+            <div className={classes.itemList}>
+              <h2>Item List</h2>
+              {itemList.map((item) => (
+                <div className={classes.Item} key={item.id} id={item.id}>
+                  <div className={classes.form__control}>
+                    <StyledLabel htmlFor="name">Item Name</StyledLabel>
+                    <StyledInput
+                      type="text"
+                      id="name"
+                      name="item_name"
+                      value={item.name}
+                      onChange={handleItemChange}
+                    />
+                  </div>
+                  <div className={classes.form__control}>
+                    <StyledLabel htmlFor="qty">Qty.</StyledLabel>
+                    <StyledInput
+                      type="text"
+                      id="qty"
+                      name="qty"
+                      value={item.qty}
+                      onChange={handleItemChange}
+                    />
+                  </div>
+                  <div className={classes.form__control}>
+                    <StyledLabel htmlFor="price">Price</StyledLabel>
+                    <StyledInput
+                      type="text"
+                      id="price"
+                      name="price"
+                      value={item.price}
+                      onChange={handleItemChange}
+                    />
+                  </div>
+                  <div className={classes.form__control}>
+                    <StyledLabel htmlFor="total">Total</StyledLabel>
+
+                    <h4 className={classes.total}>{item.total}</h4>
+                  </div>
+                  <div
+                    className={`${classes.form__control} ${classes.delete}`}
+                    onClick={() => {
+                      deleteItem(item.id);
+                    }}
+                  >
+                    <img src={trashCan} alt="" />
+                  </div>
+                </div>
+              ))}
+              <button
+                className={classes.itemList__button}
+                style={{ backgroundColor: darkTheme && "#252945" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  addItem();
+                }}
+              >
+                + Add New Item
+              </button>
+            </div>
+            {/* <ItemList /> */}
 
             <footer className={classes.footer}>
               <Button

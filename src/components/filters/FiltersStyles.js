@@ -4,6 +4,7 @@ const FiltersStyles = makeStyles({
   filter: {
     position: "relative",
     width: "12rem",
+    zIndex: "5",
   },
   filter__toggler: {
     display: "flex",
@@ -15,7 +16,14 @@ const FiltersStyles = makeStyles({
       marginRight: "0.5rem",
     },
   },
-
+  overlay: {
+    position: "fixed",
+    backgroundColor: "rgba(0,0,0,0.05)",
+    width: "100%",
+    height: "100vh",
+    left: "0",
+    top: "0",
+  },
   dropDown: {
     position: "absolute",
     width: "100%",

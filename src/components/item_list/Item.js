@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { StyledInput, StyledLabel } from "../shared_components/FormElements";
+import formatAmount from "../../helper_functions/formatAmount";
 import ItemStyles from "./ItemStyles";
 import { IconButton } from "@material-ui/core";
 import useInputState from "../../hooks/useInputState";
 import trashCan from "../../assets/icon-delete.svg";
 
 function Item(props) {
+  const { item, deleteItem, addItem, handleChange, getListData } = props;
   const classes = ItemStyles();
-  const [name, updateName, resetName] = useInputState(props.item.name);
-  const [qty, updateQty, resetQty] = useInputState(props.item.qty);
-  const [price, updatePrice, resetPrice] = useInputState(props.item.price);
+  const [name, updateName, resetName] = useInputState(item.name);
+  const [qty, updateQty, resetQty] = useInputState(item.qty);
+  const [price, updatePrice, resetPrice] = useInputState(item.price);
   const [total, updateTotal] = useState("0");
+  const itemValues = [name, qty, price, total];
 
   //update total on price or qty change
   useEffect(() => {
@@ -21,6 +24,19 @@ function Item(props) {
       updateTotal(calculated.toFixed(2));
     }
   }, [qty, price]);
+
+  useEffect(() => {
+    getListData(item.id, itemValues);
+  }, [name, qty, price]);
+
+  const handleDelete = () => {
+    deleteItem(item.id);
+  };
+
+  //onchange
+  //  take item id, run to item list and single out that item
+  //  return new item object
+  //  set event.taget.name to value
 
   return (
     <div className={classes.Item}>
@@ -44,9 +60,12 @@ function Item(props) {
       <div className={classes.form__control}>
         <StyledLabel htmlFor="total">Total</StyledLabel>
 
-        <h4 className={classes.total}>{total}</h4>
+        <h4 className={classes.total}>{formatAmount(total)}</h4>
       </div>
-      <div className={`${classes.form__control} ${classes.delete}`}>
+      <div
+        className={`${classes.form__control} ${classes.delete}`}
+        onClick={handleDelete}
+      >
         <img src={trashCan} alt="" />
       </div>
     </div>

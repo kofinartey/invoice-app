@@ -6,6 +6,7 @@ const MainPageStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     marginTop: "5rem",
+    overflowX: "hidden",
   },
   wrapper: {
     width: "90%",
@@ -35,6 +36,7 @@ const MainPageStyles = makeStyles({
       display: "flex",
       alignItems: "center",
       marginRight: "1rem",
+      zIndex: "10000",
       "& img": {
         marginLeft: ".5rem",
       },

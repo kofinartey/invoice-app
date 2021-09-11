@@ -1,18 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import dayjs from "dayjs";
 import Card from "../shared_components/Card";
 import StatusCard from "../shared_components/StatusCard";
 import DeleteComfirmation from "../delete_confirmation/DeleteComfirmation";
 import { toggleConfirmation } from "../../redux/delete_confirmation/deleteConfirmationActions";
 import { markAsPaid } from "../../redux/invoice/invoiceActions";
+import formatAmount from "../../helper_functions/formatAmount";
 import InvoiceDetailsStyles from "./InvoiceDetailsStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 import Button from "../shared_components/Button";
 
+const detailsVariants = {
+  hidden: {
+    x: 1000,
+    opacity: 0,
+  },
+  show: {
+    x: 0,
+    opacity: 1,
+    transition: { type: "tween", duration: 0.5 },
+  },
+  exit: {
+    x: "1000vw",
+    transition: { ease: "easeInOut" },
+  },
+};
+
 function InvoiceDetails(props) {
   const classes = InvoiceDetailsStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
   const invoiceData = useSelector((state) => state.invoice);
   const darkTheme = useSelector((state) => state.theme);
@@ -29,16 +49,26 @@ function InvoiceDetails(props) {
     dispatch(markAsPaid(props.id));
   };
   return (
-    <div
+    <motion.div
       className={classes.InvoiceDetails}
       style={{ backgroundColor: darkTheme && "#141625", overflowY: "hidden" }}
+      variants={detailsVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
     >
       <div className={classes.wrapper}>
         <div>
-          <Link to="/" className={classes.goBack}>
+          <p
+            to="/"
+            className={classes.goBack}
+            onClick={() => {
+              history.goBack();
+            }}
+          >
             <img src={leftArrow} alt="" />
             <h4 style={{ color: darkTheme && "white" }}>Go Back</h4>
-          </Link>
+          </p>
         </div>
 
         {invoiceData.map((invoice) => {
@@ -182,10 +212,10 @@ function InvoiceDetails(props) {
                                     {item.quantity}
                                   </h5>
                                   <h5 style={{ color: darkTheme && "white" }}>
-                                    £{item.price.toFixed(2)}
+                                    £{formatAmount(item.price.toFixed(2))}
                                   </h5>
                                   <h5 style={{ color: darkTheme && "white" }}>
-                                    £{item.total.toFixed(2)}
+                                    £{formatAmount(item.total.toFixed(2))}
                                   </h5>
                                 </div>
                               );
@@ -198,7 +228,7 @@ function InvoiceDetails(props) {
                           style={{ backgroundColor: darkTheme && "#0C0E16" }}
                         >
                           <p>Amount Due</p>
-                          <h3>£ {invoice.total.toFixed(2)}</h3>
+                          <h3>£ {formatAmount(invoice.total.toFixed(2))}</h3>
                         </div>
                       </div>
                     </div>
@@ -242,7 +272,7 @@ function InvoiceDetails(props) {
           }
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

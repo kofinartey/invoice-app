@@ -24,6 +24,7 @@ const InvoiceDetailsStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     marginBottom: "2rem",
+    cursor: "pointer",
     "& img": {
       marginRight: "1rem",
     },
