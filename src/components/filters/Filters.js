@@ -20,7 +20,6 @@ function Filters(props) {
   };
 
   const checkFilter = (e) => {
-    console.log(e.target.name);
     props.toggleFilter(e.target.name);
   };
 

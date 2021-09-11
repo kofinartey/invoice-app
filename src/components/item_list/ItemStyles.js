@@ -21,9 +21,15 @@ const ItemStyles = makeStyles({
     flexDirection: "column",
     marginBottom: "1.75rem",
   },
-  total: {
-    marginTop: "1rem",
+  item_part: {
     color: "#888EB0",
+    backgroundColor: "rgba(223, 227, 250, 0.4 )",
+    padding: "1rem",
+    borderRadius: "0.5rem",
+  },
+  total: {
+    color: "black",
+    backgroundColor: "rgba(223, 227, 250, 1 )",
   },
   delete: {
     alignSelf: "center",
@@ -31,6 +37,7 @@ const ItemStyles = makeStyles({
     width: "0.75rem",
     height: "1rem",
     paddingTop: "0.8rem",
+    cursor: "pointer",
   },
 
   "@media(min-width: 48rem)": {

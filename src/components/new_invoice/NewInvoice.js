@@ -7,18 +7,16 @@ import { showForm } from "../../redux/form_display/formDisplayAction";
 import { addInvoice } from "../../redux/invoice/invoiceActions";
 import ItemList from "../item_list/ItemList";
 import Button from "../shared_components/Button";
-import {
-  StyledLabel,
-  StyledInput,
-  StyledSelect,
-} from "../shared_components/FormElements";
+import { StyledLabel, StyledInput } from "../shared_components/FormElements";
 import useForm from "../../hooks/useForm";
+import Input from "../shared_components/Input";
 import useInputState from "../../hooks/useInputState";
 import validation from "./validation";
 import formatAmount from "../../helper_functions/formatAmount";
 import NewInvoiceStyles from "./NewInvoiceStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 import trashCan from "../../assets/icon-delete.svg";
+import Select from "../shared_components/Select";
 
 function NewInvoice() {
   const classes = NewInvoiceStyles();
@@ -41,30 +39,6 @@ function NewInvoice() {
   const [payTerms, setPayTerms] = useState(1);
 
   // item list state management
-  const [itemList, setItemList] = useState([
-    { name: "test", id: uuidv4(), qty: 0, price: 0, total: 0 },
-  ]);
-
-  const handleItemChange = (e) => {
-    let id = e.target.parentElement.parentElement.id;
-    setItemList((curState) => [
-      curState.map((item) =>
-        item.id === id ? { [e.target.name]: e.target.value } : item
-      ),
-    ]);
-  };
-
-  const addItem = () => {
-    setItemList([
-      ...itemList,
-      { name: "", id: uuidv4(), qty: "", price: "", total: "" },
-    ]);
-  };
-  const deleteItem = (id) => {
-    if (itemList.length > 1) {
-      setItemList((curState) => curState.filter((item) => item.id !== id));
-    }
-  };
 
   const onSubmit = (data) => {
     console.log(data);
@@ -131,228 +105,51 @@ function NewInvoice() {
           <form noValidate>
             {/* ----- owner details ----- */}
             <h5 className={classes.group__heading}>Bill From</h5>
-            <div className={classes.form__control}>
-              <StyledLabel htmlFor="street">Street Address</StyledLabel>
-              <StyledInput
-                type="text"
-                className={classes.input}
-                id="street"
-                name="street"
-                value={values.address}
-                onChange={handleChange}
-              />
-              {/* <p>{errors.address?.message}</p> */}
-            </div>
+
+            <Input type="text" label="Street Address" inputId="street" />
+
             <div className={classes.city_post_country}>
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="city">City</StyledLabel>
-                <StyledInput
-                  type="text"
-                  id="city"
-                  name="city"
-                  value={values.city}
-                  onChange={handleChange}
-                  // {...register("city")}
-                />
-              </div>
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="postCode">Post Code</StyledLabel>
-                <StyledInput
-                  type="text"
-                  id="postCode"
-                  name="postCode"
-                  value={values.postCode}
-                  onChange={handleChange}
-                  // {...register("postCode")}
-                />
-              </div>
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="country">Country</StyledLabel>
-                <StyledInput
-                  type="text"
-                  id="country"
-                  name="country"
-                  value={values.country}
-                  onChange={handleChange}
-                  // {...register("country")}
-                />
-              </div>
+              <Input type="text" label="City" inputId="city" />
+              <Input type="text" label="Post Code" inputId="postcode" />
+              <Input type="text" label="Country" inputId="counry" />
             </div>
             {/* ------ client details -------- */}
             <h5 className={classes.group__heading}>Bill To</h5>
-            <div className={classes.form__control}>
-              <StyledLabel htmlFor="clientName">Client's Name</StyledLabel>
-              <StyledInput
-                type="text"
-                id="clientName"
-                name="clientName"
-                value={values.clientName}
-                onChange={handleChange}
-                // {...register("clientName", { required: true })}
-              />
-            </div>
-            <div className={classes.form__control}>
-              <StyledLabel htmlFor="clientEmail">Client's Email</StyledLabel>
-              <StyledInput
-                type="email"
-                id="clientEmail"
-                name="clientEmail"
-                value={values.clientEmail}
-                onChange={handleChange}
-              />
-            </div>
-            <div className={classes.form__control}>
-              <StyledLabel htmlFor="clientStreet">Street Address</StyledLabel>
-              <StyledInput
-                type="email"
-                id="clientStreet"
-                name="clientStreet"
-                value={values.clientStreet}
-                onChange={handleChange}
-                // {...register("clientStreet", { required: true })}
-              />
-            </div>
+            <Input type="text" label="Client's Name" inputId="clientName" />
+            <Input type="email" label="Client's Email" inputId="clientEmail" />
+            <Input type="text" label="Street Address" inputId="clientStreet" />
+
             <div className={classes.city_post_country}>
               {/* grouped for city,post code, country easy styling */}
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="clientCity">City</StyledLabel>
-                <StyledInput
-                  type="text"
-                  id="clientCity"
-                  name="clientCity"
-                  value={values.clientCity}
-                  onChange={handleChange}
-                  // {...register("clientCity", { required: true })}
-                />
-              </div>
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="clientPostCode">Post Code</StyledLabel>
-                <StyledInput
-                  type="text"
-                  id="clientPostCode"
-                  name="clientPostCode"
-                  value={values.clientPostCode}
-                  onChange={handleChange}
-                  // {...register("clientPostCode", { required: true })}
-                />
-              </div>
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="clientCountry">Country</StyledLabel>
-                <StyledInput
-                  type="text"
-                  id="clientCountry"
-                  name="clientCountry"
-                  value={values.clientCountry}
-                  onChange={handleChange}
-                  // {...register("clientCountry", { required: true })}
-                />
-              </div>
+              <Input type="text" label="City" inputId="clientCity" />
+              <Input type="text" label="Post Code" inputId="clientPostCode" />
+              <Input type="text" label="Country" inputId="clientCountry" />
             </div>
+
             <div className={classes.pay__date}>
               {/* group date and payment terms for easy styling */}
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="invoiceDate">Invoice Date</StyledLabel>
-                <StyledInput
-                  value={date}
-                  type="date"
-                  id="invoiceDate"
-                  name="invoiceDate"
-                  onChange={(e) =>
-                    setDate(dayjs(e.target.value).format("YYYY-MM-DD"))
-                  }
-                />
-              </div>
-              <div className={classes.form__control}>
-                <StyledLabel htmlFor="paymentTerms">Payment Terms</StyledLabel>
-                <StyledSelect
-                  value={payTerms}
-                  id="paymentTerms"
-                  style={{ background: darkTheme && "#1E2139" }}
-                  name="paymentTerms"
-                  onChange={(e) => {
-                    setPayTerms(e.target.value);
-                  }}
-                >
-                  <option value="1">Net 1 day</option>
-                  <option value="7">Net 7 days</option>
-                  <option value="14">Net 14 days</option>
-                  <option value="30">Net 30 days</option>
-                </StyledSelect>
-              </div>
-            </div>
-            <div className={classes.form__control}>
-              <StyledLabel htmlFor="projectDescription">
-                Project Description
-              </StyledLabel>
-              <StyledInput
-                type="text"
-                id="description"
-                name="description"
-                value={values.description}
-                onChange={handleChange}
+              <Input
+                type="date"
+                label="Invoice Date"
+                inputId="invoiceDate"
+                // value={date}
               />
+              <Select label="Payment Terms">
+                <option value="1">Net 1 day</option>
+                <option value="7">Net 7 days</option>
+                <option value="14">Net 14 days</option>
+                <option value="30">Net 30 days</option>
+              </Select>
             </div>
+            <Input
+              type="text"
+              label="Project Description"
+              inputId="description"
+            />
 
             {/* ----- ITEM DETAILS ----- */}
             <div className={classes.itemList}>
-              <h2>Item List</h2>
-              {itemList.map((item) => (
-                <div className={classes.Item} key={item.id} id={item.id}>
-                  <div className={classes.form__control}>
-                    <StyledLabel htmlFor="name">Item Name</StyledLabel>
-                    <StyledInput
-                      type="text"
-                      id="name"
-                      name="item_name"
-                      value={item.name}
-                      onChange={handleItemChange}
-                    />
-                  </div>
-                  <div className={classes.form__control}>
-                    <StyledLabel htmlFor="qty">Qty.</StyledLabel>
-                    <StyledInput
-                      type="text"
-                      id="qty"
-                      name="qty"
-                      value={item.qty}
-                      onChange={handleItemChange}
-                    />
-                  </div>
-                  <div className={classes.form__control}>
-                    <StyledLabel htmlFor="price">Price</StyledLabel>
-                    <StyledInput
-                      type="text"
-                      id="price"
-                      name="price"
-                      value={item.price}
-                      onChange={handleItemChange}
-                    />
-                  </div>
-                  <div className={classes.form__control}>
-                    <StyledLabel htmlFor="total">Total</StyledLabel>
-
-                    <h4 className={classes.total}>{item.total}</h4>
-                  </div>
-                  <div
-                    className={`${classes.form__control} ${classes.delete}`}
-                    onClick={() => {
-                      deleteItem(item.id);
-                    }}
-                  >
-                    <img src={trashCan} alt="" />
-                  </div>
-                </div>
-              ))}
-              <button
-                className={classes.itemList__button}
-                style={{ backgroundColor: darkTheme && "#252945" }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  addItem();
-                }}
-              >
-                + Add New Item
-              </button>
+              <ItemList />
             </div>
             {/* <ItemList /> */}
 
@@ -361,8 +158,7 @@ function NewInvoice() {
                 color={darkTheme && "white"}
                 background={darkTheme && "#252945"}
                 onClick={(e) => {
-                  console.log(e);
-                  e.preventDefault();
+                  // e.preventDefault();
                 }}
               >
                 Discard

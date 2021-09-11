@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Invoice from "../invoice/Invoice";
 import InvoiceListStyles from "./InvoiceListStyles";
@@ -9,7 +9,6 @@ function InvoiceList(props) {
   const invoiceData = useSelector((state) => state.invoice);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
-
   useEffect(() => {
     if (formDisplay) {
       document.body.style.overflow = "hidden";
@@ -42,36 +41,20 @@ function InvoiceList(props) {
     );
   };
 
-  // const renderFiltered = () => {
-  //   if (props.filters.paid) {
-  //     let PAID = invoiceData.filter((invoice) => invoice.status === "paid");
-  //     filteredInvoices.push(PAID);
-  //     console.log(filteredInvoices);
-  //   } else {
-  //     setFilteredInvoices((curState) =>
-  //       curState.filter((invoice) => invoice.status !== "paid")
-  //     );
-  //     console.log(filteredInvoices);
-  //   }
-
-  //   // return filteredInvoices.map((invoice) => (
-  //   //   <Invoice data={invoice} key={invoice.id} />
-  //   // ));
-  // };
-
-  if (props.filters.paid) {
+  //conditionally render invoice list based on selected filters
+  if (props.filters.paid && invoiceData.length > 1) {
     let PAID = invoiceData.filter((invoice) => invoice.status === "paid");
     return PAID.map((invoice) => <Invoice data={invoice} key={invoice.id} />);
-  } else if (props.filters.pending) {
+  } else if (props.filters.pending && invoiceData.length > 1) {
     let PENDING = invoiceData.filter((invoice) => invoice.status === "pending");
     return PENDING.map((invoice) => (
       <Invoice data={invoice} key={invoice.id} />
     ));
-  } else if (props.filters.draft) {
+  } else if (props.filters.draft && invoiceData.length > 1) {
     let DRAFT = invoiceData.filter((invoice) => invoice.status === "draft");
     return DRAFT.map((invoice) => <Invoice data={invoice} key={invoice.id} />);
-  } else if (invoiceData === 0) {
-    showEmpty();
+  } else if (invoiceData.length === 0) {
+    return <>{showEmpty()}</>;
   } else {
     return <div>{displayList()}</div>;
   }

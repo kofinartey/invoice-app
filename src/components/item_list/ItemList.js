@@ -1,55 +1,48 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { v4 as uuidv4, v4 } from "uuid";
+import { useForm } from "react-hook-form";
+import { addItem } from "../../redux/items/itemActions";
 import Item from "./Item";
-import Button from "../shared_components/Button";
+import Input from "../shared_components/Input";
+import useInputState from "../../hooks/useInputState";
 import ItemListStyles from "./ItemListStyles";
-import { deleteInvoice } from "../../redux/invoice/invoiceActions";
-import { date } from "yup";
+import { StyledLabel } from "../shared_components/FormElements";
 
 function ItemList() {
   const classes = ItemListStyles();
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
   const darkTheme = useSelector((state) => state.theme);
-  const [itemList, setItemList] = useState([
-    { name: "", id: uuidv4(), qty: "", price: "", total: "" },
-  ]);
+  const itemList = useSelector((state) => state.items);
+  const [name, updateName, resetName] = useInputState("");
+  const [qty, updateQty, resetQty] = useInputState("");
+  const [price, updatePrice, resetPrice] = useInputState("");
+  const [total, updateTotal] = useState("");
 
-  const addItem = () => {
-    setItemList([
-      ...itemList,
-      { name: "", id: uuidv4(), qty: "", price: "", total: "" },
-    ]);
+  const dataToAdd = {
+    itemName: name,
+    itemQty: qty,
+    itemPrice: price,
+    id: v4(),
   };
-  //onchange
-  //  setStatewith a new
-  //  return new item object
-  //  set event.taget.name to value
-  // const handleChange = () => {
-  //   let ITEM = list.find((item) =>
-  //     item.id === id ? { ...item, name: "a test" } : item
-  //   );
-  //   // setList((curState) => [...curState, ITEM]);
-  //   // console.log(ITEM);
-  // };
-
-  const deleteItem = (id) => {
-    if (itemList.length > 1) {
-      setItemList((curState) => curState.filter((item) => item.id !== id));
+  //update total on price or qty change
+  useEffect(() => {
+    if (qty === "" || price === "") {
+      updateTotal("0");
+    } else {
+      let calculated = parseFloat(qty) * parseFloat(price);
+      updateTotal(calculated.toFixed(2));
     }
-  };
+  }, [qty, price]);
 
-  const getListData = (id, data) => {
-    console.group(data, id);
-    itemList.find((item) =>
-      item.id === id
-        ? {
-            name: data.name,
-            qty: data.qty,
-            price: data.price,
-            total: data.total,
-          }
-        : item
-    );
+  const handleAdd = (e) => {
+    e.preventDefault();
+    console.log(dataToAdd);
+    dispatch(addItem(dataToAdd));
+    resetName();
+    resetQty();
+    resetPrice();
   };
 
   return (
@@ -59,19 +52,45 @@ function ItemList() {
         <Item
           item={item}
           key={item.id}
-          addItem={addItem}
-          deleteItem={deleteItem}
-          getListData={getListData}
+          itemdata={item}
           // handleChange={handleChange(item.id)}
         />
       ))}
+      <div className={classes.form}>
+        <Input
+          type="text"
+          label="Item Name"
+          inputId="name"
+          value={name}
+          onChange={updateName}
+          // {...register("name")}
+        />
+        <Input
+          type="text"
+          label="Qty."
+          inputId="qty"
+          value={qty}
+          onChange={updateQty}
+          // {...register("qty")}
+        />
+        <Input
+          type="text"
+          label="Price"
+          inputId="price"
+          value={price}
+          onChange={updatePrice}
+          // {...register("price")}
+        />
+        <div className={classes.total}>
+          <StyledLabel>Total</StyledLabel>
+          <h4>{total}</h4>
+        </div>
+      </div>
+
       <button
         className={classes.button}
         style={{ backgroundColor: darkTheme && "#252945" }}
-        onClick={(e) => {
-          e.preventDefault();
-          addItem();
-        }}
+        onClick={handleAdd}
       >
         + Add New Item
       </button>
