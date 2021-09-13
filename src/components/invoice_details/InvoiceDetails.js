@@ -59,7 +59,7 @@ function InvoiceDetails(props) {
     >
       <div className={classes.wrapper}>
         <div>
-          <p
+          <div
             to="/"
             className={classes.goBack}
             onClick={() => {
@@ -68,13 +68,15 @@ function InvoiceDetails(props) {
           >
             <img src={leftArrow} alt="" />
             <h4 style={{ color: darkTheme && "white" }}>Go Back</h4>
-          </p>
+          </div>
         </div>
 
-        {invoiceData.map((invoice) => {
-          if (invoice.id === props.id) {
-            return (
-              <>
+        {/* //go through invoiceData to find one with an id that matches */}
+
+        {invoiceData.map(
+          (invoice) =>
+            invoice.id === props.id && (
+              <div key={invoice.id}>
                 <div key={invoice.id}>
                   <DeleteComfirmation id={invoice.id} history={props.history} />
 
@@ -215,7 +217,7 @@ function InvoiceDetails(props) {
                                     £{formatAmount(item.price.toFixed(2))}
                                   </h5>
                                   <h5 style={{ color: darkTheme && "white" }}>
-                                    £{formatAmount(item.total.toFixed(2))}
+                                    £{formatAmount(item.total)}
                                   </h5>
                                 </div>
                               );
@@ -228,7 +230,7 @@ function InvoiceDetails(props) {
                           style={{ backgroundColor: darkTheme && "#0C0E16" }}
                         >
                           <p>Amount Due</p>
-                          <h3>£ {formatAmount(invoice.total.toFixed(2))}</h3>
+                          {/* <h3>£ {formatAmount(invoice.total.toFixed(2))}</h3> */}
                         </div>
                       </div>
                     </div>
@@ -265,12 +267,9 @@ function InvoiceDetails(props) {
                     </Button>
                   )}
                 </footer>
-              </>
-            );
-          } else {
-            return null;
-          }
-        })}
+              </div>
+            )
+        )}
       </div>
     </motion.div>
   );

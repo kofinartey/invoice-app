@@ -8,6 +8,7 @@ const Input = forwardRef((props, ref) => {
   const styles = makeStyles({
     formControl: {
       marginBottom: "1rem",
+      position: "relative",
     },
     label: {
       fontSize: "0.75rem",
@@ -24,30 +25,38 @@ const Input = forwardRef((props, ref) => {
       padding: "0.9rem",
       color: darkTheme && "white",
       backgroundColor: darkTheme && "#1E2139",
-      borderColor: darkTheme && "#252945",
+      borderColor: props.errors ? "#EC5757" : darkTheme ? "#252945" : "#DFE3FA",
       marginTop: "0.75rem",
 
       "&:focus": {
         border: "2px solid #7C5DFA",
       },
     },
+    errors: {
+      color: "#EC5757",
+      position: "absolute",
+      fontSize: "0.75rem",
+      top: "0",
+      right: "0",
+    },
   });
   const classes = styles();
   return (
     <div className={classes.formControl}>
-      <label className={classes.label} htmlFor={props.inputId}>
+      <label className={classes.label} htmlFor={props.inputid}>
         {props.label}
       </label>
       <input
         {...props}
         className={classes.input}
         type={props.type}
-        name={props.inputId}
-        id={props.inputId}
+        name={props.inputid}
+        id={props.inputid}
         ref={ref}
         value={props.value}
         onChange={props.onChange}
       />
+      <small className={classes.errors}>{props.errors}</small>
     </div>
   );
 });

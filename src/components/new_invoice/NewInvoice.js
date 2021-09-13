@@ -1,22 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
+import { yupResolver } from "@hookform/resolvers/yup";
+import schema from "./schema";
 import { showForm } from "../../redux/form_display/formDisplayAction";
 import { addInvoice } from "../../redux/invoice/invoiceActions";
+import { resetItems } from "../../redux/items/itemActions";
+import Select from "../shared_components/Select";
 import ItemList from "../item_list/ItemList";
 import Button from "../shared_components/Button";
-import { StyledLabel, StyledInput } from "../shared_components/FormElements";
-import useForm from "../../hooks/useForm";
 import Input from "../shared_components/Input";
-import useInputState from "../../hooks/useInputState";
-import validation from "./validation";
-import formatAmount from "../../helper_functions/formatAmount";
 import NewInvoiceStyles from "./NewInvoiceStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
-import trashCan from "../../assets/icon-delete.svg";
-import Select from "../shared_components/Select";
 
 function NewInvoice() {
   const classes = NewInvoiceStyles();
@@ -25,25 +23,65 @@ function NewInvoice() {
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
   const dispatch = useDispatch();
-
+  const itemList = useSelector((state) => state.items);
   const today = dayjs(new Date()).format("YYYY-MM-DD");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
     let width = window.innerWidth;
     setWindowWidth(width);
   });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
 
-  const { values, handleChange, handleSubmit, resetInputs } = useForm();
-  // const { errors } = validation();
+  //handle date and calculate due date from payTerms
   const [date, setDate] = useState(today);
   const [payTerms, setPayTerms] = useState(1);
+  const [dueDate, setDueDate] = useState(
+    dayjs(date).add(payTerms, "days").format("D MMM YYYY")
+  );
 
-  // item list state management
+  useEffect(() => {
+    setDueDate(dayjs(date).add(payTerms, "days").format("D MMM YYYY"));
+  }, [date, payTerms]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    resetInputs();
+  //scroll to top of form whev
+  useEffect(() => {
+    formTopRef.current.scrollIntoView();
+    reset();
+  }, [formDisplay, reset]);
+
+  const resetAll = () => {
+    dispatch(showForm());
+    setTimeout(() => {
+      reset();
+      dispatch(resetItems());
+      setDate(today);
+      setPayTerms(1);
+    }, 1000);
   };
+
+  const submitForm = (data) => {
+    let dataToAdd = {
+      formData: data,
+      invoiceDate: dayjs(date).format("D MMM YYYY"),
+      paymentDate: dueDate,
+      items: itemList,
+    };
+    //add invoice to state ,hide form and reset input fields
+    dispatch(addInvoice(dataToAdd));
+    resetAll();
+  };
+
+  // MAIN RENDER
+  // MAIN RENDER
+  // MAIN RENDER
 
   return (
     // rendered component has two parts
@@ -57,8 +95,7 @@ function NewInvoice() {
       <div
         className={classes.overlay}
         onClick={() => {
-          dispatch(showForm());
-          // resetInputs();
+          resetAll();
         }}
         style={{
           left: formDisplay && "0",
@@ -102,28 +139,88 @@ function NewInvoice() {
             New Invoice
           </h2>
           {/* ---- form begins ----- */}
-          <form noValidate>
+          <form onSubmit={handleSubmit(submitForm)}>
             {/* ----- owner details ----- */}
             <h5 className={classes.group__heading}>Bill From</h5>
 
-            <Input type="text" label="Street Address" inputId="street" />
+            <Input
+              type="text"
+              label="Street Address"
+              inputid="street"
+              {...register("street")}
+              errors={errors.street?.message}
+            />
 
             <div className={classes.city_post_country}>
-              <Input type="text" label="City" inputId="city" />
-              <Input type="text" label="Post Code" inputId="postcode" />
-              <Input type="text" label="Country" inputId="counry" />
+              <Input
+                type="text"
+                label="City"
+                inputid="city"
+                {...register("city")}
+                errors={errors.city?.message}
+              />
+              <Input
+                type="text"
+                label="Post Code"
+                inputid="postcode"
+                {...register("postcode")}
+                errors={errors.postcode?.message}
+              />
+              <Input
+                type="text"
+                label="Country"
+                inputid="country"
+                {...register("country")}
+                errors={errors.country?.message}
+              />
             </div>
             {/* ------ client details -------- */}
             <h5 className={classes.group__heading}>Bill To</h5>
-            <Input type="text" label="Client's Name" inputId="clientName" />
-            <Input type="email" label="Client's Email" inputId="clientEmail" />
-            <Input type="text" label="Street Address" inputId="clientStreet" />
+            <Input
+              type="text"
+              label="Client's Name"
+              inputid="clientName"
+              {...register("clientName")}
+              errors={errors.clientName?.message}
+            />
+            <Input
+              type="email"
+              label="Client's Email"
+              inputid="clientEmail"
+              {...register("clientEmail")}
+              errors={errors.clientEmail?.message}
+            />
+            <Input
+              type="text"
+              label="Street Address"
+              inputid="clientStreet"
+              {...register("clientStreet")}
+              errors={errors.clientStreet?.message}
+            />
 
             <div className={classes.city_post_country}>
               {/* grouped for city,post code, country easy styling */}
-              <Input type="text" label="City" inputId="clientCity" />
-              <Input type="text" label="Post Code" inputId="clientPostCode" />
-              <Input type="text" label="Country" inputId="clientCountry" />
+              <Input
+                type="text"
+                label="City"
+                inputid="clientCity"
+                {...register("clientCity")}
+                errors={errors.clientCity?.message}
+              />
+              <Input
+                type="text"
+                label="Post Code"
+                inputid="clientPostCode"
+                {...register("clientPostCode")}
+                errors={errors.clientPostCode?.message}
+              />
+              <Input
+                type="text"
+                label="Country"
+                inputid="clientCountry"
+                {...register("clientCountry")}
+                errors={errors.clientCountry?.message}
+              />
             </div>
 
             <div className={classes.pay__date}>
@@ -131,10 +228,19 @@ function NewInvoice() {
               <Input
                 type="date"
                 label="Invoice Date"
-                inputId="invoiceDate"
-                // value={date}
+                inputid="invoiceDate"
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
               />
-              <Select label="Payment Terms">
+              <Select
+                label="Payment Terms"
+                value={payTerms}
+                onChange={(e) => {
+                  setPayTerms(e.target.value);
+                }}
+              >
                 <option value="1">Net 1 day</option>
                 <option value="7">Net 7 days</option>
                 <option value="14">Net 14 days</option>
@@ -144,7 +250,8 @@ function NewInvoice() {
             <Input
               type="text"
               label="Project Description"
-              inputId="description"
+              inputid="description"
+              {...register("description")}
             />
 
             {/* ----- ITEM DETAILS ----- */}
@@ -158,7 +265,8 @@ function NewInvoice() {
                 color={darkTheme && "white"}
                 background={darkTheme && "#252945"}
                 onClick={(e) => {
-                  // e.preventDefault();
+                  e.preventDefault();
+                  resetAll();
                 }}
               >
                 Discard
@@ -176,12 +284,9 @@ function NewInvoice() {
                 type="submit"
                 color="white"
                 background="#7C5DFA"
-                onClick={(e) => {
-                  handleSubmit(e);
-                  validation(values);
-                  // dispatch(addInvoice(values));
-                  console.log(values);
-                }}
+                // onClick={(e) => {
+                //   handleSubmit(e);
+                // }}
               >
                 Save & Send
               </Button>

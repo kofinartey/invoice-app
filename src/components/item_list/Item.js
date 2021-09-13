@@ -5,7 +5,6 @@ import { StyledLabel } from "../shared_components/FormElements";
 import formatAmount from "../../helper_functions/formatAmount";
 import { deleteItem } from "../../redux/items/itemActions";
 import ItemStyles from "./ItemStyles";
-import useInputState from "../../hooks/useInputState";
 import trashCan from "../../assets/icon-delete.svg";
 
 //create a small component to use in this main component.
@@ -30,24 +29,20 @@ function Item(props) {
   const { item } = props;
   const classes = ItemStyles();
   const dispatch = useDispatch();
-  const [name, updateName, resetName] = useInputState(item.name);
-  const [qty, updateQty, resetQty] = useInputState(item.qty);
-  const [price, updatePrice, resetPrice] = useInputState(item.price);
+  // const [name, updateName, resetName] = useInputState(item.name);
+  // const [qty, updateQty, resetQty] = useInputState(item.quantity);
+  // const [price, updatePrice, resetPrice] = useInputState(item.price);
   const [total, updateTotal] = useState("0");
-  const itemValues = [name, qty, price, total];
-  //update total on price or qty change
+  // const itemValues = [name, qty, price, total];
+  // //update total on price or qty change
   useEffect(() => {
-    if (qty === "" || price === "") {
+    if (item.qty === "" || item.price === "") {
       updateTotal("0");
     } else {
-      let calculated = parseFloat(qty) * parseFloat(price);
+      let calculated = parseFloat(item.qty) * parseFloat(item.price);
       updateTotal(calculated.toFixed(2));
     }
-  }, [qty, price]);
-
-  useEffect(() => {
-    // getListData(item.id, itemValues);
-  }, [name, qty, price]);
+  }, [item.qty, item.price]);
 
   const handleDelete = () => {
     dispatch(deleteItem(item.id));
@@ -66,7 +61,7 @@ function Item(props) {
       </div>
       <div className={classes.form__control}>
         <StyledLabel htmlFor="qty">Qty.</StyledLabel>
-        <ItemPart>{item.qty}</ItemPart>
+        <ItemPart>{item.quantity}</ItemPart>
       </div>
       <div className={classes.form__control}>
         <StyledLabel htmlFor="price">Price</StyledLabel>
@@ -74,7 +69,7 @@ function Item(props) {
       </div>
       <div className={classes.form__control}>
         <StyledLabel htmlFor="total">Total</StyledLabel>
-        <ItemPart>{formatAmount(total)}</ItemPart>
+        <ItemPart>{formatAmount(item.total)}</ItemPart>
       </div>
       <div
         className={`${classes.form__control} ${classes.delete}`}

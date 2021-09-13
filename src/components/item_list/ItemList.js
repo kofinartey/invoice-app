@@ -11,7 +11,6 @@ import { StyledLabel } from "../shared_components/FormElements";
 
 function ItemList() {
   const classes = ItemListStyles();
-  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const darkTheme = useSelector((state) => state.theme);
   const itemList = useSelector((state) => state.items);
@@ -22,9 +21,10 @@ function ItemList() {
 
   const dataToAdd = {
     itemName: name,
-    itemQty: qty,
-    itemPrice: price,
-    id: v4(),
+    itemQty: parseInt(qty),
+    itemPrice: parseInt(price),
+    itemTotal: parseInt(total),
+    itemId: v4(),
   };
   //update total on price or qty change
   useEffect(() => {
@@ -38,7 +38,6 @@ function ItemList() {
 
   const handleAdd = (e) => {
     e.preventDefault();
-    console.log(dataToAdd);
     dispatch(addItem(dataToAdd));
     resetName();
     resetQty();

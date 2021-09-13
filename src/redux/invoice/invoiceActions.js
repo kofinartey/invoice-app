@@ -2,29 +2,32 @@ import { ADD_INVOICE, DELETE, EDIT, MARK_AS_PAID } from "./invoiceTypes";
 import { generateID } from "../../helper_functions/generateID";
 
 export const addInvoice = (newInvoice) => {
+  console.log(newInvoice);
   return {
     type: ADD_INVOICE,
+    // payload: newInvoice,
     payload: {
       id: generateID(),
-      createdAt: newInvoice.createdAt,
-      paymentDue: newInvoice.paymentDue,
-      description: newInvoice.description,
-      paymentTerm: newInvoice.paymentTerm,
-      clientName: newInvoice.clientName,
-      clientEmail: newInvoice.clientEmail,
+      createdAt: newInvoice.invoiceDate,
+      paymentDue: newInvoice.paymentDate,
+      description: newInvoice.formData.description,
+      paymentTerm: newInvoice.formData.paymentTerm,
+      clientName: newInvoice.formData.clientName,
+      clientEmail: newInvoice.formData.clientEmail,
       status: "pending",
       senderAddress: {
-        street: newInvoice.street,
-        city: newInvoice.city,
-        postCode: newInvoice.postCode,
-        country: newInvoice.country,
+        street: newInvoice.formData.street,
+        city: newInvoice.formData.city,
+        postCode: newInvoice.formData.postCode,
+        country: newInvoice.formData.country,
       },
       clientAddress: {
-        street: newInvoice.clientStreet,
-        city: newInvoice.clientCity,
-        postCode: newInvoice.clientPostCode,
-        country: newInvoice.clientCountry,
+        street: newInvoice.formData.clientStreet,
+        city: newInvoice.formData.clientCity,
+        postCode: newInvoice.formData.clientPostCode,
+        country: newInvoice.formData.clientCountry,
       },
+      items: [...newInvoice.items],
       total: "",
     },
   };
