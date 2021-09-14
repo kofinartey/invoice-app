@@ -41,7 +41,7 @@ function DeleteComfirmation(props) {
       >
         <div className={classes.deleteCard}>
           <Card>
-            <h2>Comfirm Deletion</h2>
+            <h2 style={{ color: darkTheme && "white" }}>Comfirm Deletion</h2>
             <p>
               Are you sure you want to delete invoice #{props.id}? This action
               cannot be undone.

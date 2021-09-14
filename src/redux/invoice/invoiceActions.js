@@ -14,7 +14,7 @@ export const addInvoice = (newInvoice) => {
       paymentTerm: newInvoice.formData.paymentTerm,
       clientName: newInvoice.formData.clientName,
       clientEmail: newInvoice.formData.clientEmail,
-      status: "pending",
+      status: newInvoice.status,
       senderAddress: {
         street: newInvoice.formData.street,
         city: newInvoice.formData.city,
@@ -28,7 +28,7 @@ export const addInvoice = (newInvoice) => {
         country: newInvoice.formData.clientCountry,
       },
       items: [...newInvoice.items],
-      total: "",
+      total: newInvoice.totalAmount,
     },
   };
 };

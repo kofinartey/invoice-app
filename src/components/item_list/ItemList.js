@@ -80,7 +80,7 @@ function ItemList() {
           onChange={updatePrice}
           // {...register("price")}
         />
-        <div className={classes.total}>
+        <div className={classes.total} style={{ color: darkTheme && "white" }}>
           <StyledLabel>Total</StyledLabel>
           <h4>{total}</h4>
         </div>

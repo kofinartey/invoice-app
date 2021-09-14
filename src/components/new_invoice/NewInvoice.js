@@ -18,18 +18,21 @@ import leftArrow from "../../assets/icon-arrow-left.svg";
 
 function NewInvoice() {
   const classes = NewInvoiceStyles();
-
   const formTopRef = useRef(null);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
   const dispatch = useDispatch();
   const itemList = useSelector((state) => state.items);
-  const today = dayjs(new Date()).format("YYYY-MM-DD");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
     let width = window.innerWidth;
     setWindowWidth(width);
   });
+
+  // for the purpose of draft and actual complete invoice,
+  // set state to show if the form will be validated (NB: draft needs no validtion)
+  // if form won't be validated,set validating(state) to FALSE and use schema with no required inputs (ie. schema.no_validate)
+  const [validating, setValidating] = useState(true);
   const {
     register,
     handleSubmit,
@@ -37,21 +40,24 @@ function NewInvoice() {
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    resolver: yupResolver(schema),
+    resolver: validating
+      ? yupResolver(schema.validate)
+      : yupResolver(schema.no_validate),
   });
-
+  const [total, setTotal] = useState(0);
   //handle date and calculate due date from payTerms
+  //recalculate dueDate anytime date or payment terms change(s)
+  const today = dayjs(new Date()).format("YYYY-MM-DD");
   const [date, setDate] = useState(today);
   const [payTerms, setPayTerms] = useState(1);
   const [dueDate, setDueDate] = useState(
     dayjs(date).add(payTerms, "days").format("D MMM YYYY")
   );
-
   useEffect(() => {
     setDueDate(dayjs(date).add(payTerms, "days").format("D MMM YYYY"));
   }, [date, payTerms]);
 
-  //scroll to top of form whev
+  //scroll to top of form when form is toggled
   useEffect(() => {
     formTopRef.current.scrollIntoView();
     reset();
@@ -67,22 +73,48 @@ function NewInvoice() {
     }, 1000);
   };
 
+  //calculate total for all items
+  useEffect(() => {
+    const calculateTotal = () => {
+      if (itemList.length === 1) {
+        setTotal(itemList[0].total);
+      } else {
+        const calculated =
+          itemList.length > 0 &&
+          itemList.reduce((accumulator, currentValue) => {
+            return accumulator.total + currentValue.total;
+          });
+        setTotal(calculated);
+      }
+    };
+    calculateTotal();
+  }, [itemList]);
+
+  //add new invoice to state ,hide form and reset input fields
   const submitForm = (data) => {
     let dataToAdd = {
       formData: data,
       invoiceDate: dayjs(date).format("D MMM YYYY"),
       paymentDate: dueDate,
       items: itemList,
+      status: validating ? "pending" : "draft",
+      totalAmount: total,
     };
-    //add invoice to state ,hide form and reset input fields
     dispatch(addInvoice(dataToAdd));
     resetAll();
+  };
+
+  //remove validation for draft and reset validation state
+  const handleSaveDraft = (e) => {
+    setValidating(false);
+    setTimeout(() => {
+      setValidating(true);
+    }, 100);
   };
 
   // MAIN RENDER
   // MAIN RENDER
   // MAIN RENDER
-
   return (
     // rendered component has two parts
     //     * AN OVERLAY
@@ -274,20 +306,11 @@ function NewInvoice() {
               <Button
                 color="white"
                 background="#373B53"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
+                onClick={handleSaveDraft}
               >
                 Save as Draft
               </Button>
-              <Button
-                type="submit"
-                color="white"
-                background="#7C5DFA"
-                // onClick={(e) => {
-                //   handleSubmit(e);
-                // }}
-              >
+              <Button color="white" background="#7C5DFA">
                 Save & Send
               </Button>
             </footer>

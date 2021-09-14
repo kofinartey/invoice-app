@@ -4,7 +4,6 @@ const FiltersStyles = makeStyles({
   filter: {
     position: "relative",
     width: "12rem",
-    zIndex: "5",
   },
   filter__toggler: {
     display: "flex",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import check from "../../assets/icon-check.svg";
@@ -88,7 +88,7 @@ export function StyledSelect(props) {
 
 // ****** CHECKBOX COMPONENT ******
 export function CheckInput(props) {
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
   const darkTheme = useSelector((state) => state.theme);
   const styles = makeStyles({
     filter__option: {

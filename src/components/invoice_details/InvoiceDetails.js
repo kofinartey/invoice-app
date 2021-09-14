@@ -49,6 +49,8 @@ function InvoiceDetails(props) {
     dispatch(markAsPaid(props.id));
   };
   return (
+    // PAGE LAYOUT
+    //
     <motion.div
       className={classes.InvoiceDetails}
       style={{ backgroundColor: darkTheme && "#141625", overflowY: "hidden" }}
@@ -72,7 +74,6 @@ function InvoiceDetails(props) {
         </div>
 
         {/* //go through invoiceData to find one with an id that matches */}
-
         {invoiceData.map(
           (invoice) =>
             invoice.id === props.id && (
@@ -217,7 +218,9 @@ function InvoiceDetails(props) {
                                     £{formatAmount(item.price.toFixed(2))}
                                   </h5>
                                   <h5 style={{ color: darkTheme && "white" }}>
-                                    £{formatAmount(item.total)}
+                                    £
+                                    {item.total &&
+                                      formatAmount(item.total.toFixed(2))}
                                   </h5>
                                 </div>
                               );
@@ -230,7 +233,11 @@ function InvoiceDetails(props) {
                           style={{ backgroundColor: darkTheme && "#0C0E16" }}
                         >
                           <p>Amount Due</p>
-                          {/* <h3>£ {formatAmount(invoice.total.toFixed(2))}</h3> */}
+                          <h3>
+                            £{" "}
+                            {invoice.total &&
+                              formatAmount(invoice.total.toFixed(2))}
+                          </h3>
                         </div>
                       </div>
                     </div>
@@ -257,7 +264,7 @@ function InvoiceDetails(props) {
                   >
                     Delete
                   </Button>
-                  {invoice.status !== "paid" && (
+                  {invoice.status === "pending" && (
                     <Button
                       color="white"
                       background="#7C5DFA"
