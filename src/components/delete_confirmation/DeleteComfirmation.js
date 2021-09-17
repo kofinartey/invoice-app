@@ -2,12 +2,17 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteInvoice } from "../../redux/invoice/invoiceActions";
 import { toggleConfirmation } from "../../redux/delete_confirmation/deleteConfirmationActions";
+import {
+  deletedNotification,
+  hideNotification,
+} from "../../redux/notification/notificationReducer";
 import Card from "../shared_components/Card";
 import Button from "../shared_components/Button";
 import DeleteComfirmationStyles from "./DeleteConfirmaionStyles";
 
 function DeleteComfirmation(props) {
   const darkTheme = useSelector((state) => state.theme);
+
   const confirmation = useSelector((state) => state.deleteConfirmation);
   const dispatch = useDispatch();
   const classes = DeleteComfirmationStyles();
@@ -27,6 +32,10 @@ function DeleteComfirmation(props) {
       props.history.push("/");
       dispatch(toggleConfirmation());
     }, 300);
+    dispatch(deletedNotification());
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 2000);
   };
   return (
     <div>

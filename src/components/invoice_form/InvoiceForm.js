@@ -7,6 +7,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "./schema";
 import { hideForm } from "../../redux/form_display/formDisplayAction";
 import { addInvoice, editInvoice } from "../../redux/invoice/invoiceActions";
+import {
+  addedNotification,
+  draftNotification,
+  hideNotification,
+} from "../../redux/notification/notificationReducer";
 import { resetItems } from "../../redux/items/itemActions";
 import Select from "../shared_components/Select";
 import ItemList from "../item_list/ItemList";
@@ -21,6 +26,7 @@ function InvoiceForm(props) {
   const formTopRef = useRef(null);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
+  // const notification = useSelector((state) => state.notifications);
   const dispatch = useDispatch();
   const itemList = useSelector((state) => state.items);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -73,6 +79,13 @@ function InvoiceForm(props) {
     }, 1000);
   };
 
+  const toggleNotification = (type) => {
+    dispatch(type);
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 2000);
+  };
+
   //calculate total for all items
   useEffect(() => {
     const calculateTotal = () => {
@@ -103,6 +116,7 @@ function InvoiceForm(props) {
     };
     dispatch(addInvoice(dataToAdd));
     resetAll();
+    toggleNotification(validating ? addedNotification() : draftNotification());
   };
 
   const handleEdit = (data) => {
@@ -120,6 +134,7 @@ function InvoiceForm(props) {
   };
 
   //remove validation for draft and reset validation state
+  //NB: clicking on draft button calls both handleSaveDraft() and submitForm()
   const handleSaveDraft = (e) => {
     setValidating(false);
     setTimeout(() => {
@@ -170,9 +185,9 @@ function InvoiceForm(props) {
           left:
             windowWidth > 1024 && formDisplay.new
               ? "5rem"
-              : formDisplay.new
-              ? "0"
-              : null,
+              : // : formDisplay.new
+                // ? "0"
+                "0",
         }}
       >
         {/* ----- content wrapper ----- */}

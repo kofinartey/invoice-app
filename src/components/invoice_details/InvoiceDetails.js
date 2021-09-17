@@ -265,6 +265,9 @@ function InvoiceDetails(props) {
                     <Button
                       color="#7E88C3"
                       background={darkTheme ? "#252945" : "#F9FAFE"}
+                      onClick={() => {
+                        dispatch(toggleEditForm());
+                      }}
                     >
                       Edit
                     </Button>

@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Appbar from "./components/appbar/Appbar";
 import InvoiceAppStyles from "./InvoiceAppStyles";
 import MainPage from "./components/main_page/MainPage";
+import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 
 function InvoiceApp() {
@@ -31,6 +32,7 @@ function InvoiceApp() {
             )}
           />
         </Switch>
+        <Notification />
       </AnimatePresence>
 
       {/* <InvoiceForm /> */}
