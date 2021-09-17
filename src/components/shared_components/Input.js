@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { forwardRef } from "react";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core";
 
 const Input = forwardRef((props, ref) => {
   const darkTheme = useSelector((state) => state.theme);
+  const [passedValue, setPassedValue] = useState(props.value);
+  const updateValue = (e) => {
+    setPassedValue(e.target.value);
+  };
   const styles = makeStyles({
     formControl: {
       marginBottom: "1rem",
@@ -53,8 +57,8 @@ const Input = forwardRef((props, ref) => {
         name={props.inputid}
         id={props.inputid}
         ref={ref}
-        value={props.value}
-        onChange={props.onChange}
+        value={props.value && passedValue}
+        onChange={updateValue}
       />
       <small className={classes.errors}>{props.errors}</small>
     </div>

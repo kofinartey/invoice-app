@@ -1,7 +1,21 @@
-import { SHOW_FORM } from "./formDisplayTypes";
+import {
+  HIDE_FORM,
+  TOGGLE_EDIT_FORM,
+  TOGGLE_NEW_FORM,
+} from "./formDisplayTypes";
 
-export const showForm = () => {
+export const toggleNewForm = () => {
   return {
-    type: SHOW_FORM,
+    type: TOGGLE_NEW_FORM,
+  };
+};
+export const toggleEditForm = () => {
+  return {
+    type: TOGGLE_EDIT_FORM,
+  };
+};
+export const hideForm = () => {
+  return {
+    type: HIDE_FORM,
   };
 };

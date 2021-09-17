@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import formatAmount from "../../helper_functions/formatAmount";
-
 import InvoiceStyles from "./InvoiceStyles";
 import arrowRight from "../../assets/icon-arrow-right.svg";
 import StatusCard from "../shared_components/StatusCard";

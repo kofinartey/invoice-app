@@ -1,11 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 import { makeStyles } from "@material-ui/core";
 
 function Button(props) {
-  const darkTheme = useSelector((state) => state.theme);
-
   const styles = makeStyles({
     button: {
       fontSize: "0.75rem",

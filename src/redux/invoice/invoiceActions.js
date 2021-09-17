@@ -1,13 +1,10 @@
 import { ADD_INVOICE, DELETE, EDIT, MARK_AS_PAID } from "./invoiceTypes";
-import { generateID } from "../../helper_functions/generateID";
 
 export const addInvoice = (newInvoice) => {
-  console.log(newInvoice);
   return {
     type: ADD_INVOICE,
-    // payload: newInvoice,
     payload: {
-      id: generateID(),
+      id: newInvoice.id,
       createdAt: newInvoice.invoiceDate,
       paymentDue: newInvoice.paymentDate,
       description: newInvoice.formData.description,
@@ -29,6 +26,36 @@ export const addInvoice = (newInvoice) => {
       },
       items: [...newInvoice.items],
       total: newInvoice.totalAmount,
+    },
+  };
+};
+
+export const editInvoice = (editedInvoice) => {
+  return {
+    type: EDIT,
+    payload: {
+      id: editedInvoice.id,
+      createdAt: editedInvoice.invoiceDate,
+      paymentDue: editedInvoice.paymentDate,
+      description: editedInvoice.formData.description,
+      paymentTerm: editedInvoice.formData.paymentTerm,
+      clientName: editedInvoice.formData.clientName,
+      clientEmail: editedInvoice.formData.clientEmail,
+      status: editedInvoice.status,
+      senderAddress: {
+        street: editedInvoice.formData.street,
+        city: editedInvoice.formData.city,
+        postCode: editedInvoice.formData.postCode,
+        country: editedInvoice.formData.country,
+      },
+      clientAddress: {
+        street: editedInvoice.formData.clientStreet,
+        city: editedInvoice.formData.clientCity,
+        postCode: editedInvoice.formData.clientPostCode,
+        country: editedInvoice.formData.clientCountry,
+      },
+      items: [...editedInvoice.items],
+      total: editedInvoice.totalAmount,
     },
   };
 };

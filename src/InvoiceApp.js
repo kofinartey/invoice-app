@@ -2,7 +2,6 @@ import React from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AnimatePresence } from "framer-motion";
-import NewInvoice from "./components/new_invoice/NewInvoice";
 import Appbar from "./components/appbar/Appbar";
 import InvoiceAppStyles from "./InvoiceAppStyles";
 import MainPage from "./components/main_page/MainPage";
@@ -34,7 +33,7 @@ function InvoiceApp() {
         </Switch>
       </AnimatePresence>
 
-      <NewInvoice />
+      {/* <InvoiceForm /> */}
     </div>
   );
 }

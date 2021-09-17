@@ -4,6 +4,7 @@ const InvoiceListStyles = makeStyles({
   InvoiceList: {
     // marginTop: "1rem",
     // height: "100%",
+    paddingBottom: "3rem",
   },
 
   empty: {

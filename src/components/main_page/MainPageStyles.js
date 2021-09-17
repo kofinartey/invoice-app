@@ -3,10 +3,11 @@ import { makeStyles } from "@material-ui/core";
 const MainPageStyles = makeStyles({
   MainPage: {
     width: "100%",
+    height: "90vh",
     display: "flex",
     justifyContent: "center",
     marginTop: "5rem",
-    overflowX: "hidden",
+    paddingBottom: "3rem",
   },
   wrapper: {
     width: "90%",
@@ -36,7 +37,7 @@ const MainPageStyles = makeStyles({
       display: "flex",
       alignItems: "center",
       marginRight: "1rem",
-      zIndex: "10000",
+      zIndex: "5",
       "& img": {
         marginLeft: ".5rem",
       },
@@ -86,8 +87,9 @@ const MainPageStyles = makeStyles({
   },
   "@media(min-width: 64rem)": {
     MainPage: {
-      marginTop: "2rem",
+      marginTop: "0",
       marginLeft: "3rem",
+      padding: "3rem 0",
     },
     wrapper: {
       width: "70%",

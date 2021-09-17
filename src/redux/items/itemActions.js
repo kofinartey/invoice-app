@@ -1,19 +1,21 @@
 import { ADD_ITEM, DELETE_ITEM, RESET_ITEMS } from "./itemTypes";
+import { v4 } from "uuid";
 
 export const addItem = (item) => {
   return {
     type: ADD_ITEM,
     payload: {
-      name: item.itemName,
-      quantity: item.itemQty,
-      price: item.itemPrice,
-      total: item.itemTotal,
-      id: item.itemId,
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+      total: item.total,
+      id: v4(),
     },
   };
 };
 
 export const deleteItem = (id) => {
+  console.log(id);
   return {
     type: DELETE_ITEM,
     payload: id,

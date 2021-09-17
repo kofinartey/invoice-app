@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import InvoiceList from "../invoice_list/InvoiceList";
 import Filters from "../filters/Filters";
-import { showForm } from "../../redux/form_display/formDisplayAction";
+import { toggleNewForm } from "../../redux/form_display/formDisplayAction";
 import plus from "../../assets/icon-plus.svg";
 import MainPageStyles from "./MainPageStyles.js";
+import InvoiceForm from "../invoice_form/InvoiceForm";
 
 const listVariants = {
   hidden: {
@@ -27,6 +28,7 @@ function MainPage() {
   const classes = MainPageStyles();
   const darkTheme = useSelector((state) => state.theme);
   const invoiceData = useSelector((state) => state.invoice);
+  const formDisplay = useSelector((state) => state.formDisplay);
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
@@ -56,8 +58,6 @@ function MainPage() {
       initial="hidden"
       animate="show"
       exit="exit"
-
-      // style={{ color: darkTheme && "white" }}
     >
       <div className={classes.wrapper}>
         <div className={classes.top}>
@@ -76,7 +76,7 @@ function MainPage() {
             <div
               className={classes.new__invoice}
               onClick={() => {
-                dispatch(showForm());
+                dispatch(toggleNewForm());
               }}
             >
               <div className={classes.icon__container}>
@@ -91,6 +91,8 @@ function MainPage() {
         <motion.div className={classes.list__container}>
           <InvoiceList filters={filters} />
         </motion.div>
+
+        {formDisplay.new && <InvoiceForm />}
       </div>
     </motion.div>
   );

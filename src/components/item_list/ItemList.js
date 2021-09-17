@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { v4 as uuidv4, v4 } from "uuid";
-import { useForm } from "react-hook-form";
 import { addItem } from "../../redux/items/itemActions";
 import Item from "./Item";
-import Input from "../shared_components/Input";
+import { StyledInput, StyledLabel } from "../shared_components/FormElements";
 import useInputState from "../../hooks/useInputState";
 import ItemListStyles from "./ItemListStyles";
-import { StyledLabel } from "../shared_components/FormElements";
 
-function ItemList() {
+//Remember that this componet only receives props from edit form no new forms
+function ItemList(props) {
   const classes = ItemListStyles();
   const dispatch = useDispatch();
   const darkTheme = useSelector((state) => state.theme);
@@ -19,12 +17,21 @@ function ItemList() {
   const [price, updatePrice, resetPrice] = useInputState("");
   const [total, updateTotal] = useState("");
 
+  //for edit forms push the editted invoice's items into the item state
+  useEffect(() => {
+    if (props.items) {
+      props.items.map((item) => {
+        dispatch(addItem(item));
+        return item;
+      });
+    }
+  }, [dispatch, props.items]);
+
   const dataToAdd = {
-    itemName: name,
-    itemQty: parseInt(qty),
-    itemPrice: parseInt(price),
-    itemTotal: parseInt(total),
-    itemId: v4(),
+    name: name,
+    quantity: parseInt(qty),
+    price: parseInt(price),
+    total: parseInt(total),
   };
   //update total on price or qty change
   useEffect(() => {
@@ -47,39 +54,31 @@ function ItemList() {
   return (
     <div className={classes.ItemList}>
       <h2>Item List</h2>
-      {itemList.map((item) => (
-        <Item
-          item={item}
-          key={item.id}
-          itemdata={item}
-          // handleChange={handleChange(item.id)}
-        />
-      ))}
+      <div>
+        {itemList.map((item) => (
+          <Item
+            item={item}
+            key={item.name}
+            // handleChange={handleChange(item.id)}
+          />
+        ))}
+      </div>
       <div className={classes.form}>
-        <Input
-          type="text"
-          label="Item Name"
-          inputId="name"
-          value={name}
-          onChange={updateName}
-          // {...register("name")}
-        />
-        <Input
-          type="text"
-          label="Qty."
-          inputId="qty"
-          value={qty}
-          onChange={updateQty}
-          // {...register("qty")}
-        />
-        <Input
-          type="text"
-          label="Price"
-          inputId="price"
-          value={price}
-          onChange={updatePrice}
-          // {...register("price")}
-        />
+        {/* Had to use a differnt form of input other than the custom built <Input/> 
+        component because it was causing a few issues */}
+        <div>
+          <StyledLabel htmlFor="name">Item Name</StyledLabel>
+          <StyledInput id="name" value={name} onChange={updateName} />
+        </div>
+        <div>
+          <StyledLabel htmlFor="qty">Qty</StyledLabel>
+          <StyledInput id="qty" value={qty} onChange={updateQty} />
+        </div>
+        <div>
+          <StyledLabel htmlFor="price">Price</StyledLabel>
+          <StyledInput id="price" value={price} onChange={updatePrice} />
+        </div>
+
         <div className={classes.total} style={{ color: darkTheme && "white" }}>
           <StyledLabel>Total</StyledLabel>
           <h4>{total}</h4>

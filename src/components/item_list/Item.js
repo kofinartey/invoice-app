@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core";
 import { StyledLabel } from "../shared_components/FormElements";
@@ -29,20 +29,6 @@ function Item(props) {
   const { item } = props;
   const classes = ItemStyles();
   const dispatch = useDispatch();
-  // const [name, updateName, resetName] = useInputState(item.name);
-  // const [qty, updateQty, resetQty] = useInputState(item.quantity);
-  // const [price, updatePrice, resetPrice] = useInputState(item.price);
-  const [total, updateTotal] = useState("0");
-  // const itemValues = [name, qty, price, total];
-  // //update total on price or qty change
-  useEffect(() => {
-    if (item.qty === "" || item.price === "") {
-      updateTotal("0");
-    } else {
-      let calculated = parseFloat(item.qty) * parseFloat(item.price);
-      updateTotal(calculated.toFixed(2));
-    }
-  }, [item.qty, item.price]);
 
   const handleDelete = () => {
     dispatch(deleteItem(item.id));

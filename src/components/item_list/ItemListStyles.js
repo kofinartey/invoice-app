@@ -13,6 +13,7 @@ const ItemListStyles = makeStyles({
     gridTemplateColumns: "1fr 2fr 1fr 1fr",
     gridTemplateRows: "1fr 1fr",
     gridGap: "1rem",
+    marginBottom: "1rem",
     "& div:nth-of-type(1)": {
       gridColumn: "1/5",
       gridRow: "1/2",

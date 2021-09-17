@@ -19,9 +19,11 @@ function InvoiceList(props) {
 
   const displayList = () => {
     return (
-      // <div className={classes.InvoiceList}>
-      invoiceData.map((invoice) => <Invoice data={invoice} key={invoice.id} />)
-      // </div>
+      <div className={classes.InvoiceList}>
+        {invoiceData.map((invoice) => (
+          <Invoice data={invoice} key={invoice.id} />
+        ))}
+      </div>
     );
   };
   const showEmpty = () => {
