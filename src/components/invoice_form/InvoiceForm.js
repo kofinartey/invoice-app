@@ -71,12 +71,12 @@ function InvoiceForm(props) {
 
   const resetAll = () => {
     dispatch(hideForm());
-    setTimeout(() => {
-      reset();
-      dispatch(resetItems());
-      setDate(today);
-      setPayTerms(1);
-    }, 1000);
+    // setTimeout(() => {
+    reset();
+    dispatch(resetItems());
+    setDate(today);
+    setPayTerms(1);
+    // }, 1000);
   };
 
   const toggleNotification = (type) => {
@@ -183,7 +183,7 @@ function InvoiceForm(props) {
         style={{
           backgroundColor: darkTheme && "#141625",
           left:
-            windowWidth > 1024 && formDisplay.new
+            windowWidth > 1024 && (formDisplay.new || formDisplay.edit)
               ? "5rem"
               : // : formDisplay.new
                 // ? "0"
@@ -247,8 +247,8 @@ function InvoiceForm(props) {
               <Input
                 type="text"
                 label="Post Code"
-                inputid="postcode"
-                {...register("postcode")}
+                inputid="postCode"
+                {...register("postCode")}
                 value={props.values && props.values.senderAddress.postCode}
                 errors={errors.postcode?.message}
               />

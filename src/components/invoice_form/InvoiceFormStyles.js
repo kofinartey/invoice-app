@@ -6,6 +6,7 @@ const InvoiceFormStyles = makeStyles({
     height: "100%",
     position: "fixed",
     top: "4.5rem",
+    left: "-100rem",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

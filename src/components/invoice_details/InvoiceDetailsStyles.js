@@ -8,6 +8,7 @@ const InvoiceDetailsStyles = makeStyles({
     alignItems: "center",
     marginTop: "4.5rem",
     width: "100%",
+    // overflowX: "hidden",
     "& p": {
       fontSize: "0.75rem",
       fontWeight: "500",

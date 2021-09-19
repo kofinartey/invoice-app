@@ -38,10 +38,6 @@ const AppbarStyles = makeStyles({
     height: "4.5rem",
     backgroundColor: "#494E6E",
   },
-  avatar: {
-    width: "2rem",
-    borderRadius: "50%",
-  },
 
   "@media(min-width: 48rem)": {
     Appbar: {
