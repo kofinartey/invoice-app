@@ -31,10 +31,10 @@ function InvoiceApp() {
               <InvoiceDetails id={routeProps.match.params.id} {...routeProps} />
             )}
           />
-          <Notification />
         </Switch>
       </AnimatePresence>
 
+      <Notification />
       {/* <InvoiceForm /> */}
     </div>
   );
