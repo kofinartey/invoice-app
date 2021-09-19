@@ -28,7 +28,7 @@ function Appbar(props) {
       <div className={classes.theme__user}>
         <div className={classes.container}>
           <IconButton onClick={changeTheme}>
-            <img src={darkTheme ? moon : sun} alt="Theme switch" />
+            <img src={darkTheme ? sun : moon} alt="Theme switch" />
           </IconButton>
         </div>
         <div className={classes.divider}></div>
