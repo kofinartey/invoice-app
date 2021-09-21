@@ -393,4 +393,4 @@ function InvoiceForm(props) {
   );
 }
 
-export default InvoiceForm;
+export default React.memo(InvoiceForm);

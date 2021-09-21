@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 const AppbarStyles = makeStyles({
   Appbar: {
+    width: "100%",
     height: "4.5rem",
     backgroundColor: "#373B53",
     display: "flex",
