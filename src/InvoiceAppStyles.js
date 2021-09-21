@@ -22,6 +22,11 @@ const InvoiceAppStyles = makeStyles({
     position: "fixed",
     zIndex: "1000",
   },
+  notification: {
+    position: "absolute",
+    right: "4rem",
+    bottom: "4rem",
+  },
 
   "@media(min-width: 64rem)": {
     InvoiceApp: {

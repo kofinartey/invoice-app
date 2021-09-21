@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core";
 
@@ -12,22 +13,23 @@ function Notification() {
           ? "red"
           : "#9277FF",
       fontWeight: "bold",
-      position: "absolute",
       padding: "1rem 2rem",
       borderRadius: "0.5rem",
-      right: "4rem",
-      bottom: "4rem",
-      transform: notification.visible
-        ? "translateX(0px)"
-        : "translateX(200rem)",
-      transition: "transform 0.3s",
+      // position: "absolute",
+      // right: "4rem",
+      // bottom: "4rem",
     },
   });
   const classes = styles();
   return (
-    <div>
-      <div className={classes.notification}>{notification.msg}</div>
-    </div>
+    <motion.div
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      // transition={{ duration: 3 }}
+      exit={{ x: 100 }}
+    >
+      <p className={classes.notification}>{notification.msg}</p>
+    </motion.div>
   );
 }
 

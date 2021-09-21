@@ -33,17 +33,7 @@ const MainPageStyles = makeStyles({
   top__right: {
     display: "flex",
     alignItems: "center",
-    "& $filter": {
-      display: "flex",
-      alignItems: "center",
-      marginRight: "1rem",
-      zIndex: "5",
-      "& img": {
-        marginLeft: ".5rem",
-      },
-    },
   },
-  filter: {},
 
   new__invoice: {
     display: "flex",
@@ -77,11 +67,6 @@ const MainPageStyles = makeStyles({
       },
       "& p": {
         color: "#888EB0",
-      },
-    },
-    top__right: {
-      "& $filter": {
-        marginRight: "2rem",
       },
     },
   },

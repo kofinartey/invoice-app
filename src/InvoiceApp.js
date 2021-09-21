@@ -11,6 +11,9 @@ import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
   const darkTheme = useSelector((state) => state.theme);
+  const notificationDisplay = useSelector(
+    (state) => state.notifications.visible
+  );
   const location = useLocation();
 
   return (
@@ -18,9 +21,9 @@ function InvoiceApp() {
       className={classes.InvoiceApp}
       style={{ backgroundColor: darkTheme ? "#141625" : "#F8F8FB " }}
     >
-      <div className={classes.Appbar}>
+      <nav className={classes.Appbar}>
         <Appbar />
-      </div>
+      </nav>
       <AnimatePresence>
         <Switch location={location} key={location.key}>
           <Route exact path="/" render={() => <MainPage />} />
@@ -33,8 +36,9 @@ function InvoiceApp() {
           />
         </Switch>
       </AnimatePresence>
-
-      <Notification />
+      <div className={classes.notification}>
+        {notificationDisplay && <Notification />}
+      </div>
       {/* <InvoiceForm /> */}
     </div>
   );

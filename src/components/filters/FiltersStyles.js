@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core";
 const FiltersStyles = makeStyles({
   filter: {
     position: "relative",
-    width: "12rem",
   },
   filter__toggler: {
     display: "flex",
@@ -17,17 +16,20 @@ const FiltersStyles = makeStyles({
   },
   overlay: {
     position: "fixed",
-    backgroundColor: "rgba(0,0,0,0.05)",
+    backgroundColor: "rgba(0,0,0,0)",
     width: "100%",
     height: "100vh",
     left: "0",
     top: "0",
   },
   dropDown: {
+    // width: "12rem",
+
     position: "absolute",
-    width: "100%",
+    left: "-2rem",
     opacity: "0",
     transition: "opacity .3s ease-in-out",
+
     // top: "6rem",
   },
 
@@ -35,6 +37,7 @@ const FiltersStyles = makeStyles({
     width: "100%",
     display: "flex",
     flexDirection: "column",
+    paddingRight: "2rem",
   },
 });
 

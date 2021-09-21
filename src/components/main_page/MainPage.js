@@ -52,7 +52,7 @@ function MainPage() {
   };
 
   return (
-    <motion.div
+    <motion.main
       className={classes.MainPage}
       variants={listVariants}
       initial="hidden"
@@ -60,7 +60,7 @@ function MainPage() {
       exit="exit"
     >
       <div className={classes.wrapper}>
-        <div className={classes.top}>
+        <section className={classes.top}>
           <div className={classes.top__left}>
             <h4 style={{ color: darkTheme && "white" }}>Invoices</h4>
             <p style={{ color: darkTheme && "white" }}>
@@ -85,16 +85,16 @@ function MainPage() {
               <h5>{windowWidth < 768 ? "New" : "New Invoice"}</h5>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* List goes Heere */}
-        <motion.div className={classes.list__container}>
+        <section className={classes.list__container}>
           <InvoiceList filters={filters} />
-        </motion.div>
+        </section>
 
         {formDisplay.new && <InvoiceForm />}
       </div>
-    </motion.div>
+    </motion.main>
   );
 }
 
