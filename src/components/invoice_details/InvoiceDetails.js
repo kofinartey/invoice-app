@@ -57,6 +57,11 @@ function InvoiceDetails(props) {
     // PAGE LAYOUT
     //
     <>
+      {/* edit form component. To be show when "Edit" button is clicked */}
+      <div style={{ position: "fixed", left: "5rem", width: "100%" }}>
+        {formDisplay.edit && <InvoiceForm values={invoiceToDisplay} />}
+      </div>
+
       {/* Invoice Details */}
       <motion.div
         className={classes.InvoiceDetails}
@@ -295,9 +300,6 @@ function InvoiceDetails(props) {
           )}
         </div>
       </motion.div>
-      <div style={{ position: "fixed", left: "5rem", width: "100%" }}>
-        {formDisplay.edit && <InvoiceForm values={invoiceToDisplay} />}
-      </div>
     </>
   );
 }

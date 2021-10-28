@@ -15,9 +15,7 @@ function Notification() {
       fontWeight: "bold",
       padding: "1rem 2rem",
       borderRadius: "0.5rem",
-      // position: "absolute",
-      // right: "4rem",
-      // bottom: "4rem",
+  
     },
   });
   const classes = styles();

@@ -5,10 +5,7 @@ import { makeStyles } from "@material-ui/core";
 
 const Input = forwardRef((props, ref) => {
   const darkTheme = useSelector((state) => state.theme);
-  const [passedValue, setPassedValue] = useState(props.value);
-  const updateValue = (e) => {
-    setPassedValue(e.target.value);
-  };
+
   const styles = makeStyles({
     formControl: {
       marginBottom: "1rem",
@@ -44,6 +41,16 @@ const Input = forwardRef((props, ref) => {
       right: "0",
     },
   });
+  const [passedValue, setPassedValue] = useState(props.value);
+  const [inputValue, setInputValue] = useState("");
+  const updatePassedValue = (e) => {
+    console.log(e.target.value);
+    setPassedValue(e.target.value);
+  };
+  const updateInputValue = (e) => {
+    setInputValue(e.target.value);
+    console.log(e.target.value);
+  };
   const classes = styles();
   return (
     <div className={classes.formControl}>
@@ -57,8 +64,8 @@ const Input = forwardRef((props, ref) => {
         name={props.inputid}
         id={props.inputid}
         ref={ref}
-        value={props.value && passedValue}
-        onChange={updateValue}
+        value={props.value ? passedValue : inputValue}
+        onChange={props.value ? updatePassedValue : updateInputValue}
       />
       <small className={classes.errors}>{props.errors}</small>
     </div>
