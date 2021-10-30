@@ -28,30 +28,6 @@ export const addInvoice = (newInvoice) => {
   return {
     type: ADD_INVOICE,
     payload: newInvoice,
-    // payload: {
-    //   id: newInvoice.id,
-    //   createdAt: newInvoice.invoiceDate,
-    //   paymentDue: newInvoice.paymentDate,
-    //   description: newInvoice.formData.description,
-    //   paymentTerm: newInvoice.formData.paymentTerm,
-    //   clientName: newInvoice.formData.clientName,
-    //   clientEmail: newInvoice.formData.clientEmail,
-    //   status: newInvoice.status,
-    //   senderAddress: {
-    //     street: newInvoice.formData.street,
-    //     city: newInvoice.formData.city,
-    //     postCode: newInvoice.formData.postCode,
-    //     country: newInvoice.formData.country,
-    //   },
-    //   clientAddress: {
-    //     street: newInvoice.formData.clientStreet,
-    //     city: newInvoice.formData.clientCity,
-    //     postCode: newInvoice.formData.clientPostCode,
-    //     country: newInvoice.formData.clientCountry,
-    //   },
-    //   items: [...newInvoice.items],
-    //   total: newInvoice.totalAmount,
-    // },
   };
 };
 
@@ -147,6 +123,27 @@ export const postInvoice = (invoiceData) => async (dispatch) => {
   } catch (error) {
     console.log("Couldn't post request");
     console.log(error.message);
+  }
+};
+
+//change status from pending to paid
+export const patchStatus = (id) => async (dispatch) => {
+  console.log(id);
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/invoices/${id}/status`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch(markAsPaid(data));
+  } catch (error) {
+    console.log("Failed to change invoice status");
+    console.log(error);
   }
 };
 

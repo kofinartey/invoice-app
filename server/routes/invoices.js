@@ -8,6 +8,7 @@ router.get("/", async (req, res) => {
   const invoices = await Invoice.find({});
   res.send(invoices);
 });
+
 //POST
 router.post("/", async (req, res) => {
   console.log(req.body);
@@ -23,7 +24,19 @@ router.post("/", async (req, res) => {
   const results = await invoice.save();
   res.send(results);
 });
+
 //PUT
+
+//PATCH
+//change the status of a draft invoice
+router.patch("/:id/status", async (req, res) => {
+  const invoice = await Invoice.findById(req.params.id);
+  if (!invoice) return res.status(400).send("Requested invoice not found");
+  invoice.status = "paid";
+  const result = await invoice.save();
+  res.send(result._id);
+});
+
 //DELETE
 router.delete("/:id", async (req, res) => {
   console.log(req.params.id);

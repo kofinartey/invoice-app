@@ -1,4 +1,4 @@
-import invoiceData from "../../data.json";
+// import invoiceData from "../../data.json";
 import {
   FETCH_INVOICES_REQUEST,
   FETCH_INVOICES_SUCCESS,
@@ -53,6 +53,17 @@ const invoiceReducer = (state = initialState, action) => {
         (invoice) => invoice.id !== action.payload.id
       );
       return [action.payload, ...newState];
+
+    case MARK_AS_PAID:
+      return {
+        ...state,
+        invoices: state.invoices.map((invoice) =>
+          invoice._id === action.payload
+            ? { ...invoice, status: "paid" }
+            : invoice
+        ),
+      };
+
     case REMOVE:
       return {
         ...state,
@@ -60,11 +71,6 @@ const invoiceReducer = (state = initialState, action) => {
           (invoice) => invoice._id !== action.payload
         ),
       };
-    //yet to fix
-    case MARK_AS_PAID:
-      return state.map((invoice) =>
-        invoice.id === action.payload ? { ...invoice, status: "paid" } : invoice
-      );
 
     //notification stuff
     //notification stuff

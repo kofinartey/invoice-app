@@ -1,13 +1,15 @@
+//package imports
 import React, { useState, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
+//my imports
 import Card from "../shared_components/Card";
 import StatusCard from "../shared_components/StatusCard";
 import DeleteComfirmation from "../delete_confirmation/DeleteComfirmation";
 import { toggleConfirmation } from "../../redux/delete_confirmation/deleteConfirmationActions";
-import { markAsPaid } from "../../redux/invoice/invoiceActions";
+import { patchStatus } from "../../redux/invoice/invoiceActions";
 import { toggleEditForm } from "../../redux/form_display/formDisplayAction";
 import formatAmount from "../../helper_functions/formatAmount";
 import InvoiceDetailsStyles from "./InvoiceDetailsStyles";
@@ -32,6 +34,9 @@ const detailsVariants = {
 };
 
 function InvoiceDetails(props) {
+  console.log(props);
+  const { id } = props.match.params;
+  const { _id } = props.match.params;
   const classes = InvoiceDetailsStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -51,7 +56,7 @@ function InvoiceDetails(props) {
   };
 
   const handleMarkAsPaid = () => {
-    dispatch(markAsPaid(props.id));
+    dispatch(patchStatus(_id));
   };
   return (
     // PAGE LAYOUT
@@ -88,7 +93,7 @@ function InvoiceDetails(props) {
           {/* //go through invoiceData to find one with an id that matches */}
           {invoiceData.map(
             (invoice) =>
-              invoice.id === props.id && (
+              invoice.id === id && (
                 <div key={invoice.id}>
                   <div key={invoice.id}>
                     <DeleteComfirmation
@@ -140,6 +145,8 @@ function InvoiceDetails(props) {
                         )}
                       </div>
                     </Card>
+
+                    {/* main card with invoice details and breakdown */}
                     <Card>
                       <div className={classes.details_card}>
                         <div className={classes.id}>

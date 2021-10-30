@@ -36,10 +36,8 @@ function InvoiceApp() {
           <Route exact path="/" render={() => <MainPage />} />
           <Route
             exact
-            path="/invoice/:id"
-            render={(routeProps) => (
-              <InvoiceDetails id={routeProps.match.params.id} {...routeProps} />
-            )}
+            path="/invoice/:_id/:id"
+            render={(routeProps) => <InvoiceDetails {...routeProps} />}
           />
         </Switch>
       </AnimatePresence>
