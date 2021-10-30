@@ -4,7 +4,7 @@ const schema = {
   validate: yup.object().shape({
     street: yup.string().required("can't be empty"),
     city: yup.string().required("can't be empty"),
-    postCode: yup.string().required("can't be empty"),
+    postcode: yup.string().required("can't be empty"),
     country: yup.string().required("can't be empty"),
     clientName: yup.string().required("can't be empty"),
     clientEmail: yup.string().email("invalid email").required("can't be empty"),
@@ -17,7 +17,7 @@ const schema = {
   no_validate: yup.object().shape({
     street: yup.string(),
     city: yup.string(),
-    postCode: yup.string(),
+    postcode: yup.string(),
     country: yup.string(),
     clientName: yup.string(),
     clientEmail: yup.string().email("invalid email"),

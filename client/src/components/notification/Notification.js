@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core";
 
 function Notification() {
-  const notification = useSelector((state) => state.notifications);
+  const notification = useSelector((state) => state.invoice.notifications);
   const styles = makeStyles({
     notification: {
       color: "white",
@@ -15,7 +15,6 @@ function Notification() {
       fontWeight: "bold",
       padding: "1rem 2rem",
       borderRadius: "0.5rem",
-  
     },
   });
   const classes = styles();

@@ -1,7 +1,10 @@
-import React from "react";
+//package imports
+import React, { useEffect } from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AnimatePresence } from "framer-motion";
+//my imports
+import { fetchInvoices } from "./redux/invoice/invoiceActions";
 import Appbar from "./components/appbar/Appbar";
 import InvoiceAppStyles from "./InvoiceAppStyles";
 import MainPage from "./components/main_page/MainPage";
@@ -11,11 +14,15 @@ import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
   const darkTheme = useSelector((state) => state.theme);
-  const notificationDisplay = useSelector(
-    (state) => state.notifications.visible
-  );
+  const dispatch = useDispatch();
   const location = useLocation();
+  const notificationDisplay = useSelector(
+    (state) => state.invoice.notifications.visible
+  );
 
+  useEffect(() => {
+    dispatch(fetchInvoices());
+  }, [dispatch]);
   return (
     <div
       className={classes.InvoiceApp}

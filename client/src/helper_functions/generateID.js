@@ -5,8 +5,8 @@ function getRandomNum(max) {
 }
 
 export function generateID() {
-  let alph1 = alphabets[getRandomNum(alphabets.length)];
-  let alph2 = alphabets[getRandomNum(alphabets.length)];
+  let alph1 = alphabets[getRandomNum(alphabets.length - 1)];
+  let alph2 = alphabets[getRandomNum(alphabets.length - 1)];
   let num1 = getRandomNum(9);
   let num2 = getRandomNum(9);
   let num3 = getRandomNum(9);

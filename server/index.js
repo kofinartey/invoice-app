@@ -1,8 +1,14 @@
 // package imports
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 //my imports
+const invoices = require("./routes/invoices");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 //connect to mongoose
 mongoose
@@ -13,15 +19,9 @@ mongoose
   .catch(() => {
     console.log("Couldn't connect to mongoDB");
   });
+
 //routes
-
-const app = express();
-
-app.use(express.json());
-
-app.get("/api/invoice", async (req, res) => {
-  res.send("Hello world");
-});
+app.use("/api/invoices", invoices);
 
 const port = 5000;
 app.listen(port, () => {

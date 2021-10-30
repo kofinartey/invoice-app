@@ -1,12 +1,15 @@
+//package imports
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+//my imports
 import schema from "./schema";
 import { hideForm } from "../../redux/form_display/formDisplayAction";
-import { addInvoice, editInvoice } from "../../redux/invoice/invoiceActions";
+import { postInvoice, editInvoice } from "../../redux/invoice/invoiceActions";
 import {
   addedNotification,
   draftNotification,
@@ -21,6 +24,8 @@ import { generateID } from "../../helper_functions/generateID";
 import NewInvoiceStyles from "./InvoiceFormStyles";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 
+//MAIN COMPONENT FUNCTION
+//MAIN COMPONENT FUNCTION
 function InvoiceForm(props) {
   const classes = NewInvoiceStyles();
   const formTopRef = useRef(null);
@@ -69,23 +74,6 @@ function InvoiceForm(props) {
     reset();
   }, [formDisplay, reset]);
 
-  const resetAll = () => {
-    dispatch(hideForm());
-    // setTimeout(() => {
-    reset();
-    dispatch(resetItems());
-    setDate(today);
-    setPayTerms(1);
-    // }, 1000);
-  };
-
-  const toggleNotification = (type) => {
-    dispatch(type);
-    setTimeout(() => {
-      dispatch(hideNotification());
-    }, 2000);
-  };
-
   //calculate total for all items
   useEffect(() => {
     const calculateTotal = () => {
@@ -103,20 +91,43 @@ function InvoiceForm(props) {
     calculateTotal();
   }, [itemList]);
 
+  const resetAll = () => {
+    dispatch(hideForm());
+    reset();
+    dispatch(resetItems());
+    setDate(today);
+    setPayTerms(1);
+  };
+
   //add new invoice to state ,hide form and reset input fields
   const submitForm = (data) => {
+    //define the shape of the object to send to the server
     let dataToAdd = {
       id: generateID(),
-      formData: data,
-      invoiceDate: dayjs(date).format("D MMM YYYY"),
-      paymentDate: dueDate,
-      items: itemList,
+      createdAt: dayjs(date).format("D MMM YYYY"),
+      paymentDue: dueDate,
+      description: data.description,
+      paymentTerms: payTerms,
+      clientName: data.clientName,
+      clientEmail: data.clientEmail,
       status: validating ? "pending" : "draft",
-      totalAmount: total,
+      senderAddress: {
+        street: data.street,
+        city: data.city,
+        postCode: data.postcode,
+        country: data.country,
+      },
+      clientAddress: {
+        street: data.clientStreet,
+        city: data.clientCity,
+        postCode: data.clientPostCode,
+        country: data.clientCountry,
+      },
+      items: itemList,
+      total: itemList.length === 0 ? 0 : total,
     };
-    dispatch(addInvoice(dataToAdd));
+    dispatch(postInvoice(dataToAdd));
     resetAll();
-    toggleNotification(validating ? addedNotification() : draftNotification());
   };
 
   const handleEdit = (data) => {
@@ -141,7 +152,7 @@ function InvoiceForm(props) {
       setValidating(true);
     }, 100);
   };
-  // MAIN RENDER
+
   // MAIN RENDER
   // MAIN RENDER
   return (
@@ -247,8 +258,8 @@ function InvoiceForm(props) {
               <Input
                 type="text"
                 label="Post Code"
-                inputid="postCode"
-                {...register("postCode")}
+                inputid="postcode"
+                {...register("postcode")}
                 value={props.values && props.values.senderAddress.postCode}
                 errors={errors.postcode?.message}
               />

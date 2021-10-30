@@ -3,12 +3,18 @@ import { useSelector } from "react-redux";
 import Invoice from "../invoice/Invoice";
 import InvoiceListStyles from "./InvoiceListStyles";
 import empty from "../../assets/illustration-empty.svg";
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function InvoiceList(props) {
   const classes = InvoiceListStyles();
-  const invoiceData = useSelector((state) => state.invoice);
+  const invoiceData = useSelector((state) => state.invoice.invoices);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
+  const loading = useSelector((state) => state.invoice.loading);
+  const serverError = useSelector((state) => state.invoice.error);
+
+  //forgotten why I set this. But I'll leave if be for now
   useEffect(() => {
     if (formDisplay) {
       document.body.style.overflow = "hidden";
@@ -43,8 +49,30 @@ function InvoiceList(props) {
     );
   };
 
+  const showLoading = () => {
+    return (
+      <div className={classes.status}>
+        <CircularProgress color="inherit" />
+        <h4>Loading Invoices...</h4>
+      </div>
+    );
+  };
+
+  const showServerError = () => {
+    return (
+      <div className={classes.status}>
+        <WarningRoundedIcon color="secondary" />
+        <h4>Couldn't fetch data from the server</h4>
+      </div>
+    );
+  };
+
   //conditionally render invoice list based on selected filters
-  if (props.filters.paid && invoiceData.length > 1) {
+  if (loading) {
+    return <>{showLoading()}</>;
+  } else if (serverError) {
+    return <>{showServerError()}</>;
+  } else if (props.filters.paid && invoiceData.length > 1) {
     let PAID = invoiceData.filter((invoice) => invoice.status === "paid");
     return PAID.map((invoice) => <Invoice data={invoice} key={invoice.id} />);
   } else if (props.filters.pending && invoiceData.length > 1) {

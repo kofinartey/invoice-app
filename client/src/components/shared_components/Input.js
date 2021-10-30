@@ -44,12 +44,10 @@ const Input = forwardRef((props, ref) => {
   const [passedValue, setPassedValue] = useState(props.value);
   const [inputValue, setInputValue] = useState("");
   const updatePassedValue = (e) => {
-    console.log(e.target.value);
     setPassedValue(e.target.value);
   };
   const updateInputValue = (e) => {
     setInputValue(e.target.value);
-    console.log(e.target.value);
   };
   const classes = styles();
   return (

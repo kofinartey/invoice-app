@@ -2,9 +2,18 @@ import { makeStyles } from "@material-ui/core";
 
 const InvoiceListStyles = makeStyles({
   InvoiceList: {
-    // marginTop: "1rem",
-    // height: "100%",
     paddingBottom: "3rem",
+  },
+  status: {
+    textAlign: "center",
+    marginTop: "9rem",
+    color: "#888EB0",
+    "& h4": {
+      marginTop: "3rem",
+    },
+    "& svg": {
+      fontSize: "5rem",
+    },
   },
 
   empty: {

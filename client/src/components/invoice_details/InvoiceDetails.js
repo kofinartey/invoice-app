@@ -35,7 +35,7 @@ function InvoiceDetails(props) {
   const classes = InvoiceDetailsStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const invoiceData = useSelector((state) => state.invoice);
+  const invoiceData = useSelector((state) => state.invoice.invoices);
   const invoiceToDisplay = invoiceData.find(
     (invoice) => invoice.id === props.id
   );
@@ -93,6 +93,7 @@ function InvoiceDetails(props) {
                   <div key={invoice.id}>
                     <DeleteComfirmation
                       id={invoice.id}
+                      _id={invoice._id}
                       history={props.history}
                     />
 

@@ -12,7 +12,6 @@ import DeleteComfirmationStyles from "./DeleteConfirmaionStyles";
 
 function DeleteComfirmation(props) {
   const darkTheme = useSelector((state) => state.theme);
-
   const confirmation = useSelector((state) => state.deleteConfirmation);
   const dispatch = useDispatch();
   const classes = DeleteComfirmationStyles();
@@ -26,7 +25,7 @@ function DeleteComfirmation(props) {
   });
 
   const handleDelete = () => {
-    dispatch(deleteInvoice(props.id));
+    dispatch(deleteInvoice(props._id));
 
     setTimeout(() => {
       props.history.push("/");
