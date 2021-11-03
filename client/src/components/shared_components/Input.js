@@ -32,6 +32,9 @@ const Input = forwardRef((props, ref) => {
       "&:focus": {
         border: "2px solid #7C5DFA",
       },
+      "&::placeholder": {
+        color: "rgba(0,0,0,0.2)",
+      },
     },
     errors: {
       color: "#EC5757",
@@ -60,6 +63,7 @@ const Input = forwardRef((props, ref) => {
         className={classes.input}
         type={props.type}
         name={props.inputid}
+        placeholder={props.placeholder}
         id={props.inputid}
         ref={ref}
         value={props.value ? passedValue : inputValue}

@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+
+import SkeletonList from "../skeleton_list/SkeletonList";
 import Invoice from "../invoice/Invoice";
 import InvoiceListStyles from "./InvoiceListStyles";
 import empty from "../../assets/illustration-empty.svg";
@@ -51,9 +53,8 @@ function InvoiceList(props) {
 
   const showLoading = () => {
     return (
-      <div className={classes.status}>
-        <CircularProgress color="inherit" />
-        <h4>Loading Invoices...</h4>
+      <div>
+        <SkeletonList />
       </div>
     );
   };

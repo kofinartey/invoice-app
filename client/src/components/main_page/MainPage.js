@@ -27,7 +27,7 @@ const listVariants = {
 function MainPage() {
   const classes = MainPageStyles();
   const darkTheme = useSelector((state) => state.theme);
-  const invoiceData = useSelector((state) => state.invoice);
+  const invoiceData = useSelector((state) => state.invoice.invoices);
   const formDisplay = useSelector((state) => state.formDisplay);
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

@@ -5,11 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 //my imports
 import { fetchInvoices } from "./redux/invoice/invoiceActions";
+import Login from "./components/login_signup/Login";
 import Appbar from "./components/appbar/Appbar";
 import InvoiceAppStyles from "./InvoiceAppStyles";
 import MainPage from "./components/main_page/MainPage";
 import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
+import SignUp from "./components/login_signup/SignUp";
 
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
@@ -33,6 +35,8 @@ function InvoiceApp() {
       </nav>
       <AnimatePresence>
         <Switch location={location} key={location.key}>
+          <Route exact path="/login" render={() => <Login />} />
+          <Route exact path="/signup" render={() => <SignUp />} />
           <Route exact path="/" render={() => <MainPage />} />
           <Route
             exact

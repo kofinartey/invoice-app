@@ -12,6 +12,7 @@ function ItemList(props) {
   const dispatch = useDispatch();
   const darkTheme = useSelector((state) => state.theme);
   const itemList = useSelector((state) => state.items);
+  const [itemError, setItemError] = useState(false);
   const [name, updateName, resetName] = useInputState("");
   const [qty, updateQty, resetQty] = useInputState("");
   const [price, updatePrice, resetPrice] = useInputState("");
@@ -27,12 +28,6 @@ function ItemList(props) {
     }
   }, [dispatch, props.items]);
 
-  const dataToAdd = {
-    name: name,
-    quantity: parseInt(qty),
-    price: parseInt(price),
-    total: parseInt(total),
-  };
   //update total on price or qty change
   useEffect(() => {
     if (qty === "" || price === "") {
@@ -43,12 +38,43 @@ function ItemList(props) {
     }
   }, [qty, price]);
 
+  const dataToAdd = {
+    name: name,
+    quantity: parseInt(qty),
+    price: parseInt(price),
+    total: parseInt(total),
+  };
+
+  const validateInputs = () => {
+    if (
+      name.trim().length > 0 &&
+      isNaN(parseInt(name)) &&
+      qty.trim().length > 0 &&
+      price.trim().length > 0 &&
+      !isNaN(parseInt(qty)) &&
+      !isNaN(parseInt(price))
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  validateInputs();
+
   const handleAdd = (e) => {
     e.preventDefault();
-    dispatch(addItem(dataToAdd));
-    resetName();
-    resetQty();
-    resetPrice();
+    const isValid = validateInputs();
+    if (isValid) {
+      dispatch(addItem(dataToAdd));
+      resetName();
+      resetQty();
+      resetPrice();
+    } else {
+      setItemError(true);
+      setTimeout(() => {
+        setItemError(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -83,6 +109,9 @@ function ItemList(props) {
           <StyledLabel>Total</StyledLabel>
           <h4>{total}</h4>
         </div>
+        {itemError && (
+          <p className={classes.itemError}>*** Invalid Item Entries </p>
+        )}
       </div>
 
       <button

@@ -45,15 +45,16 @@ const invoiceReducer = (state = initialState, action) => {
     case ADD_INVOICE:
       return {
         ...state,
-        invoices: [action.payload, ...state.invoices],
+        invoices: [...state.invoices, action.payload],
       };
-    //yet to fix
     case EDIT:
-      const newState = state.filter(
-        (invoice) => invoice.id !== action.payload.id
-      );
-      return [action.payload, ...newState];
-
+      console.log(action.payload);
+      return {
+        ...state,
+        invoices: state.invoices.map((invoice) =>
+          invoice.id === action.payload.id ? action.payload : invoice
+        ),
+      };
     case MARK_AS_PAID:
       return {
         ...state,
@@ -63,7 +64,6 @@ const invoiceReducer = (state = initialState, action) => {
             : invoice
         ),
       };
-
     case REMOVE:
       return {
         ...state,

@@ -41,6 +41,10 @@ const ItemListStyles = makeStyles({
       backgroundColor: "#DFE3FA",
     },
   },
+  itemError: {
+    color: "#EC5757",
+    fontSize: "0.8rem",
+  },
   "@media(min-width: 48rem)": {
     form: {
       gridTemplateColumns: "3fr 1fr 2fr 1fr",

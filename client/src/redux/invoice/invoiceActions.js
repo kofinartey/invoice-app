@@ -34,30 +34,7 @@ export const addInvoice = (newInvoice) => {
 export const editInvoice = (editedInvoice) => {
   return {
     type: EDIT,
-    payload: {
-      id: editedInvoice.id,
-      createdAt: editedInvoice.invoiceDate,
-      paymentDue: editedInvoice.paymentDate,
-      description: editedInvoice.formData.description,
-      paymentTerm: editedInvoice.formData.paymentTerm,
-      clientName: editedInvoice.formData.clientName,
-      clientEmail: editedInvoice.formData.clientEmail,
-      status: editedInvoice.status,
-      senderAddress: {
-        street: editedInvoice.formData.street,
-        city: editedInvoice.formData.city,
-        postCode: editedInvoice.formData.postCode,
-        country: editedInvoice.formData.country,
-      },
-      clientAddress: {
-        street: editedInvoice.formData.clientStreet,
-        city: editedInvoice.formData.clientCity,
-        postCode: editedInvoice.formData.clientPostCode,
-        country: editedInvoice.formData.clientCountry,
-      },
-      items: [...editedInvoice.items],
-      total: editedInvoice.totalAmount,
-    },
+    payload: editedInvoice,
   };
 };
 
@@ -94,7 +71,6 @@ export const fetchInvoices = () => async (dispatch) => {
     dispatch(fetchInvoicesRequest());
     const response = await fetch("http://localhost:5000/api/invoices");
     const invoices = await response.json();
-
     dispatch(fetchInvoicesSuccess(invoices));
   } catch (error) {
     dispatch(fetchInvoiceFailure(error));
@@ -103,8 +79,8 @@ export const fetchInvoices = () => async (dispatch) => {
   }
 };
 
+//post a complete form
 export const postInvoice = (invoiceData) => async (dispatch) => {
-  console.log(invoiceData);
   try {
     const response = await fetch("http://localhost:5000/api/invoices", {
       method: "POST",
@@ -122,6 +98,44 @@ export const postInvoice = (invoiceData) => async (dispatch) => {
       toggleNotification(dispatch, draftNotification());
   } catch (error) {
     console.log("Couldn't post request");
+    console.log(error.message);
+  }
+};
+
+//post a draft invoice
+export const postDraft = (invoiceData) => async (dispatch) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/invoices/draft", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(invoiceData),
+    });
+    const data = await response.json();
+    dispatch(addInvoice(data));
+  } catch (error) {
+    console.log("Failed to post draft");
+    console.log(error);
+  }
+};
+
+// post an edited invoice
+export const patchInvoice = (id, invoiceData) => async (dispatch) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/invoices/edit/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(invoiceData),
+      }
+    );
+    const data = await response.json();
+    dispatch(editInvoice(data));
+  } catch (error) {
     console.log(error.message);
   }
 };

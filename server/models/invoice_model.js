@@ -22,6 +22,11 @@ const itemSchema = new mongoose.Schema({
 
 //create a invoice schema
 const invoiceSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   id: {
     type: String,
     required: true,
@@ -70,15 +75,17 @@ const validateInvoice = (data) => {
       postCode: Joi.string().max(255),
       country: Joi.string().max(255),
     }),
-    items: Joi.array().items(
-      Joi.object({
-        name: Joi.string().max(255),
-        id: Joi.string(),
-        quantity: Joi.number().min(0).max(100),
-        price: Joi.number().min(1),
-        total: Joi.number().min(0),
-      })
-    ),
+    items: Joi.array()
+      .items(
+        Joi.object({
+          name: Joi.string().max(255),
+          id: Joi.string(),
+          quantity: Joi.number().min(0).max(100),
+          price: Joi.number().min(1),
+          total: Joi.number().min(0),
+        })
+      )
+      .required(),
     total: Joi.number().min(0),
   });
 

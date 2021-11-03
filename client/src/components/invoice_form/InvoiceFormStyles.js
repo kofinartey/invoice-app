@@ -96,12 +96,7 @@ const InvoiceFormStyles = makeStyles({
       gridRows: "2/3",
     },
   },
-  // form__control: {
-  //   // height: "0",
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   marginBottom: "1.75rem",
-  // },
+
   total: {
     marginTop: "1rem",
     color: "#888EB0",
@@ -112,7 +107,7 @@ const InvoiceFormStyles = makeStyles({
     width: "0.75rem",
     height: "1rem",
     paddingTop: "0.8rem",
-    // backgroundColor: "red",
+
     cursor: "pointer",
   },
   itemList__button: {
@@ -127,6 +122,11 @@ const InvoiceFormStyles = makeStyles({
     "&:hover": {
       backgroundColor: "#DFE3FA",
     },
+  },
+  itemError: {
+    color: "#EC5757",
+    fontSize: "0.75rem",
+    margin: "2rem 0 0 2rem",
   },
   shadow: {
     width: "150%",

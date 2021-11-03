@@ -34,16 +34,13 @@ const detailsVariants = {
 };
 
 function InvoiceDetails(props) {
-  console.log(props);
   const { id } = props.match.params;
   const { _id } = props.match.params;
   const classes = InvoiceDetailsStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const invoiceData = useSelector((state) => state.invoice.invoices);
-  const invoiceToDisplay = invoiceData.find(
-    (invoice) => invoice.id === props.id
-  );
+  const invoiceToDisplay = invoiceData.find((invoice) => invoice.id === id);
   const darkTheme = useSelector((state) => state.theme);
   const formDisplay = useSelector((state) => state.formDisplay);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

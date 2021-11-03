@@ -9,12 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //my imports
 import schema from "./schema";
 import { hideForm } from "../../redux/form_display/formDisplayAction";
-import { postInvoice, editInvoice } from "../../redux/invoice/invoiceActions";
 import {
-  addedNotification,
-  draftNotification,
-  hideNotification,
-} from "../../redux/notification/notificationReducer";
+  postInvoice,
+  postDraft,
+  patchInvoice,
+} from "../../redux/invoice/invoiceActions";
 import { resetItems } from "../../redux/items/itemActions";
 import Select from "../shared_components/Select";
 import ItemList from "../item_list/ItemList";
@@ -34,6 +33,8 @@ function InvoiceForm(props) {
   // const notification = useSelector((state) => state.notifications);
   const dispatch = useDispatch();
   const itemList = useSelector((state) => state.items);
+  const [itemListError, setItemListError] = useState(true); //track item list in order to implement validation
+  console.log(itemListError);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
     let width = window.innerWidth;
@@ -91,6 +92,12 @@ function InvoiceForm(props) {
     calculateTotal();
   }, [itemList]);
 
+  //monitor itemlist length and change errors accordingly
+  useEffect(() => {
+    if (itemList.length > 0) setItemListError(false);
+    else setItemListError(true);
+  }, [itemList]);
+
   const resetAll = () => {
     dispatch(hideForm());
     reset();
@@ -101,6 +108,10 @@ function InvoiceForm(props) {
 
   //add new invoice to state ,hide form and reset input fields
   const submitForm = (data) => {
+    if (validating && itemListError) {
+      console.log("Add and item ");
+      return;
+    }
     //define the shape of the object to send to the server
     let dataToAdd = {
       id: generateID(),
@@ -126,21 +137,38 @@ function InvoiceForm(props) {
       items: itemList,
       total: itemList.length === 0 ? 0 : total,
     };
-    dispatch(postInvoice(dataToAdd));
+    //decide whether to send complete form or send draft
+    if (validating) dispatch(postInvoice(dataToAdd));
+    else dispatch(postDraft(dataToAdd));
     resetAll();
   };
 
   const handleEdit = (data) => {
     let dataToAdd = {
       id: props.values.id,
-      formData: data,
-      invoiceDate: dayjs(date).format("D MMM YYYY"),
-      paymentDate: dueDate,
+      createdAt: dayjs(date).format("D MMM YYYY"),
+      paymentDue: dueDate,
+      description: data.description,
+      paymentTerms: payTerms,
+      clientName: data.clientName,
+      clientEmail: data.clientEmail,
+      status: validating ? "pending" : "draft",
+      senderAddress: {
+        street: data.street,
+        city: data.city,
+        postCode: data.postcode,
+        country: data.country,
+      },
+      clientAddress: {
+        street: data.clientStreet,
+        city: data.clientCity,
+        postCode: data.clientPostCode,
+        country: data.clientCountry,
+      },
       items: itemList,
-      status: props.values.status,
-      totalAmount: total,
+      total: itemList.length === 0 ? 0 : total,
     };
-    dispatch(editInvoice(dataToAdd));
+    dispatch(patchInvoice(props.values._id, dataToAdd));
     resetAll();
   };
 
@@ -357,18 +385,23 @@ function InvoiceForm(props) {
               inputid="description"
               {...register("description")}
               value={props.values && props.values.description}
+              errors={errors.description?.message}
             />
 
             {/* ----- ITEM DETAILS ----- */}
             <div className={classes.itemList}>
               <ItemList items={props.values && props.values.items} />
             </div>
-            {/* <ItemList /> */}
-            {/* <div className={classes.shadow}></div> */}
+
+            {/* error if no item is added */}
+            {itemListError && (
+              <p className={classes.itemError}>
+                ** Please add an item or save as draft for later
+              </p>
+            )}
 
             <footer className={classes.footer}>
               {/* display different versions of the footer for new and edit forms */}
-
               <Button
                 color={darkTheme && "white"}
                 background={darkTheme && "#252945"}

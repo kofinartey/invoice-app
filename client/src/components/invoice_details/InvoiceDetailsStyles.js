@@ -175,6 +175,9 @@ const InvoiceDetailsStyles = makeStyles({
     },
   },
 
+  itemError: {
+    color: "#EC5757",
+  },
   footer: {
     width: "100%",
     backgroundColor: "white",

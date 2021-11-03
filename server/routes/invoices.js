@@ -6,26 +6,42 @@ const { Invoice, validateInvoice } = require("../models/invoice_model");
 //GET
 router.get("/", async (req, res) => {
   const invoices = await Invoice.find({});
-  res.send(invoices);
+  //intentionally delay response to client
+  setTimeout(() => {
+    res.send(invoices);
+  }, 2000);
 });
 
 //POST
+//post a complete form
 router.post("/", async (req, res) => {
-  console.log(req.body);
-  //validate request
   const { error } = validateInvoice(req.body);
   if (error) {
     console.log(error.details[0].message);
     return res.status(400).send(error.details[0].message);
   }
-  //create new Invoce
   const invoice = await new Invoice(req.body);
-  //save and send invoice
   const results = await invoice.save();
+  res.send(results);
+});
+//post a draft
+router.post("/draft", async (req, res) => {
+  //skip Joi validation for drafts since not all inputs may be provided
+  const draft = await new Invoice(req.body);
+  const results = await draft.save();
   res.send(results);
 });
 
 //PUT
+//edit an invoice
+router.put("/edit/:id", async (req, res) => {
+  const { error } = validateInvoice(req.body);
+  if (error) res.status(400).send(error.details[0].message);
+  let invoice = await Invoice.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.send(invoice);
+});
 
 //PATCH
 //change the status of a draft invoice
@@ -39,7 +55,6 @@ router.patch("/:id/status", async (req, res) => {
 
 //DELETE
 router.delete("/:id", async (req, res) => {
-  console.log(req.params.id);
   const toDelete = await Invoice.findByIdAndRemove({ _id: req.params.id });
   if (!toDelete) return res.status(404).send("The requested invoice not found");
   res.send(toDelete);

@@ -12,7 +12,7 @@ const schema = {
     clientCity: yup.string().required("can't be empty"),
     clientPostCode: yup.string().required("can't be empty"),
     clientCountry: yup.string().required("can't be empty"),
-    description: yup.string(),
+    description: yup.string().required("can't be empty"),
   }),
   no_validate: yup.object().shape({
     street: yup.string(),
