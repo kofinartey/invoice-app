@@ -34,7 +34,6 @@ function InvoiceForm(props) {
   const dispatch = useDispatch();
   const itemList = useSelector((state) => state.items);
   const [itemListError, setItemListError] = useState(true); //track item list in order to implement validation
-  console.log(itemListError);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
     let width = window.innerWidth;

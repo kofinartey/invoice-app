@@ -68,8 +68,14 @@ export const hideNotification = () => ({
 // async actions to communicate with the server
 export const fetchInvoices = () => async (dispatch) => {
   try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
+    // console.log(token);
     dispatch(fetchInvoicesRequest());
-    const response = await fetch("http://localhost:5000/api/invoices");
+    const response = await fetch("http://localhost:5000/api/invoices", {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
     const invoices = await response.json();
     dispatch(fetchInvoicesSuccess(invoices));
   } catch (error) {
@@ -82,10 +88,12 @@ export const fetchInvoices = () => async (dispatch) => {
 //post a complete form
 export const postInvoice = (invoiceData) => async (dispatch) => {
   try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch("http://localhost:5000/api/invoices", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
+        "x-auth-token": token,
       },
       body: JSON.stringify(invoiceData),
     });
@@ -105,10 +113,12 @@ export const postInvoice = (invoiceData) => async (dispatch) => {
 //post a draft invoice
 export const postDraft = (invoiceData) => async (dispatch) => {
   try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch("http://localhost:5000/api/invoices/draft", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-auth-token": token,
       },
       body: JSON.stringify(invoiceData),
     });
@@ -123,12 +133,14 @@ export const postDraft = (invoiceData) => async (dispatch) => {
 // post an edited invoice
 export const patchInvoice = (id, invoiceData) => async (dispatch) => {
   try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(
       `http://localhost:5000/api/invoices/edit/${id}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "x-auth-token": token,
         },
         body: JSON.stringify(invoiceData),
       }
@@ -142,7 +154,7 @@ export const patchInvoice = (id, invoiceData) => async (dispatch) => {
 
 //change status from pending to paid
 export const patchStatus = (id) => async (dispatch) => {
-  console.log(id);
+  const token = JSON.parse(localStorage.getItem("userInfo")).token;
   try {
     const response = await fetch(
       `http://localhost:5000/api/invoices/${id}/status`,
@@ -150,6 +162,7 @@ export const patchStatus = (id) => async (dispatch) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          "x-auth-token": token,
         },
       }
     );

@@ -5,17 +5,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 //my imports
 import { fetchInvoices } from "./redux/invoice/invoiceActions";
-import Login from "./components/login_signup/Login";
+import Login from "./components/auth/Auth";
 import Appbar from "./components/appbar/Appbar";
 import InvoiceAppStyles from "./InvoiceAppStyles";
 import MainPage from "./components/main_page/MainPage";
 import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
-import SignUp from "./components/login_signup/SignUp";
 
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
   const darkTheme = useSelector((state) => state.theme);
+  const user = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
   const location = useLocation();
   const notificationDisplay = useSelector(
@@ -24,19 +24,21 @@ function InvoiceApp() {
 
   useEffect(() => {
     dispatch(fetchInvoices());
-  }, [dispatch]);
+  }, [dispatch, user]);
   return (
     <div
       className={classes.InvoiceApp}
       style={{ backgroundColor: darkTheme ? "#141625" : "#F8F8FB " }}
     >
-      <nav className={classes.Appbar}>
-        <Appbar />
-      </nav>
+      {/* Remove appbar from login/signup page */}
+      {location.pathname !== "/auth" && (
+        <nav className={classes.Appbar}>
+          <Appbar />
+        </nav>
+      )}
       <AnimatePresence>
         <Switch location={location} key={location.key}>
-          <Route exact path="/login" render={() => <Login />} />
-          <Route exact path="/signup" render={() => <SignUp />} />
+          <Route exact path="/auth" render={() => <Login />} />
           <Route exact path="/" render={() => <MainPage />} />
           <Route
             exact

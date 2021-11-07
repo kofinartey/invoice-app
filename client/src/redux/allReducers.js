@@ -5,6 +5,7 @@ import formDisplayReducer from "./form_display/formDisplayReducer";
 import deleteConfirmationReducer from "./delete_confirmation/deleteConfirmReducer";
 import itemReducer from "./items/itemReducer";
 import notificationReducer from "./notification/notificationReducer";
+import userReducer from "./auth/authReducer";
 
 const allReducers = combineReducers({
   theme: themeReducer,
@@ -13,6 +14,7 @@ const allReducers = combineReducers({
   deleteConfirmation: deleteConfirmationReducer,
   items: itemReducer,
   notifications: notificationReducer,
+  user: userReducer,
 });
 
 export default allReducers;

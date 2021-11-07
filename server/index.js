@@ -6,7 +6,6 @@ const config = require("config");
 //my imports
 const invoices = require("./routes/invoices");
 const users = require("./routes/users");
-const login = require("./routes/login");
 const auth = require("./middleware/auth");
 
 if (!config.get("jwtPrivateKey")) {
@@ -29,10 +28,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 //routes
-app.use("/api/invoices", invoices);
-// app.use("/api/invoices", auth, invoices);
+// app.use("/api/invoices", invoices);
+app.use("/api/invoices", auth, invoices);
 app.use("/api/users", users);
-app.use("/api/login", login);
 
 const port = 5000;
 app.listen(port, () => {

@@ -1,7 +1,10 @@
+//package imports
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+//my imports
+import { logout } from "../../redux/auth/authActions";
 import { switchTheme } from "../../redux/theme/themeAction";
 import avatar from "../../assets/image-avatar.jpg";
 import Card from "../shared_components/Card";
@@ -46,12 +49,18 @@ function Avatar() {
   const classes = AvatarStyles();
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState("main");
+  const user = useSelector((state) => state.user.userInfo);
   const darkTheme = useSelector((state) => state.theme);
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setOpen(!open);
     setMenu("main");
+  };
+
+  const signOut = () => {
+    dispatch(logout(history));
   };
 
   return (
@@ -82,8 +91,8 @@ function Avatar() {
                 >
                   <div className={classes.username}>
                     <div>
-                      <p>Username</p>
-                      <small>useremail@invoice.com</small>
+                      <p>{user.name}</p>
+                      <small>{user.email}</small>
                     </div>
                     <div>
                       <img src={avatar} alt="" className={classes.avatar_img} />
@@ -118,7 +127,7 @@ function Avatar() {
                   >
                     {darkTheme ? "Light Mode" : "Dark Mode"}
                   </DropDownItem>
-                  <DropDownItem leftIcon={<LogoutIcon />}>
+                  <DropDownItem leftIcon={<LogoutIcon />} onClick={signOut}>
                     Sign Out
                   </DropDownItem>
                 </motion.div>

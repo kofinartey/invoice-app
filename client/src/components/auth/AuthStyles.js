@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 
-const LoginStyles = makeStyles({
-  Login: {
+const AuthStyles = makeStyles({
+  Auth: {
     width: "90%",
     maxWidth: "25rem",
     margin: "auto",
@@ -14,7 +14,7 @@ const LoginStyles = makeStyles({
   switch: {
     fontSize: "0.75rem",
     margin: "1rem 0",
-    "& a": {
+    "& span": {
       fontWeight: "bold",
       color: "#7C5DFA",
       "&:hover": {
@@ -31,7 +31,10 @@ const LoginStyles = makeStyles({
     color: "white",
     borderRadius: "0.5rem",
     fontSize: "1rem",
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
 });
 
-export default LoginStyles;
+export default AuthStyles;
