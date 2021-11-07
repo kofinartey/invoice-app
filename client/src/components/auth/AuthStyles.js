@@ -22,7 +22,37 @@ const AuthStyles = makeStyles({
       },
     },
   },
+  formControl: {
+    position: "relative",
+    marginBottom: "0.8rem",
+  },
+  input: {
+    outline: "none",
+    width: "100%",
+    minWidth: "1rem",
+    flexGrow: "1",
+    border: "2px solid #DFE3FA",
+    borderRadius: "0.3rem",
+    padding: "0.9rem",
+    // color: darkTheme && "white",
+    // backgroundColor: darkTheme && "#1E2139",
+    // borderColor: props.errors ? "#EC5757" : darkTheme ? "#252945" : "#DFE3FA",
+    marginTop: "0.75rem",
 
+    "&:focus": {
+      border: "2px solid #7C5DFA",
+    },
+    "&::placeholder": {
+      color: "rgba(0,0,0,0.2)",
+    },
+  },
+  error: {
+    color: "#EC5757",
+    position: "absolute",
+    fontSize: "0.75rem",
+    top: "0",
+    right: "0",
+  },
   button: {
     width: "100%",
     borderStyle: "none",

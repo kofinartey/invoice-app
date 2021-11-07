@@ -22,7 +22,7 @@ export const signUp = (formData, history) => async (dispatch) => {
     });
     const data = await response.json();
     dispatch(authSucess(data));
-    history.push("/");
+    history.push("/main");
   } catch (error) {
     dispatch(authFailure());
     console.log(error);
@@ -44,7 +44,7 @@ export const login = (formData, history) => async (dispatch) => {
     const data = await response.json();
     if (response.ok) {
       dispatch(authSucess(data));
-      history.push("/");
+      history.push("/main");
     } else {
       dispatch(authFailure(data));
     }
@@ -56,5 +56,5 @@ export const login = (formData, history) => async (dispatch) => {
 
 export const logout = (history) => async (dispatch) => {
   dispatch(userLogout());
-  history.push("/auth");
+  history.push("/");
 };

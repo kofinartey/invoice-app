@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+//my imports
 import { switchTheme } from "../../redux/theme/themeAction";
-
 import Avatar from "../avatar/Avatar";
 import AppbarStyles from "./AppbarStyles";
 import { IconButton } from "@material-ui/core";
@@ -17,6 +17,7 @@ function Appbar(props) {
   const changeTheme = () => {
     dispatch(switchTheme());
   };
+
   return (
     <div
       className={classes.Appbar}

@@ -5,7 +5,10 @@ const config = require("config");
 
 const settingsSchema = new mongoose.Schema({
   darkTheme: { type: Boolean, default: false },
+  currency: { type: String, default: "Dollar" },
 });
+
+const Settings = mongoose.model("Settings", settingsSchema);
 
 //create user schema
 const userSchema = new mongoose.Schema({
@@ -24,9 +27,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     max: 1000,
   },
-  settings: {
-    type: settingsSchema,
-  },
+  settings: settingsSchema,
 });
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
@@ -48,5 +49,6 @@ const validateUser = (data) => {
 
 module.exports = {
   User,
+  Settings,
   validateUser,
 };

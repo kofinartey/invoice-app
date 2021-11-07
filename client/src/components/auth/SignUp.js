@@ -40,16 +40,34 @@ function SignUp({ changeForm }) {
     <div className={classes.Auth}>
       <form className={classes.form} onSubmit={handleSubmit(submit)}>
         <>
-          <p>{errors.name?.message}</p>
-          <input type="text" placeholder="Name" {...register("name")} />
-          <p>{errors.email?.message}</p>
-          <input type="email" placeholder="Email" {...register("email")} />
-          <p>{errors.password?.message}</p>
-          <input
-            type="password"
-            placeholder="Password"
-            {...register("password")}
-          />
+          <div className={classes.formControl}>
+            <p className={classes.error}>{errors.name?.message}</p>
+            <input
+              type="text"
+              className={classes.input}
+              placeholder="Name"
+              {...register("name")}
+            />
+          </div>
+          <div className={classes.formControl}>
+            <p className={classes.error}>{errors.email?.message}</p>
+            <input
+              type="email"
+              className={classes.input}
+              placeholder="Email"
+              {...register("email")}
+            />
+          </div>
+          <div className={classes.formControl}>
+            <p className={classes.error}>{errors.password?.message}</p>
+            <input
+              type="password"
+              className={classes.input}
+              placeholder="Password"
+              {...register("password")}
+            />
+          </div>
+
           {/* <Input
             type="text"
             inputid="name"

@@ -40,19 +40,25 @@ function Login({ changeForm, values }) {
       <form onSubmit={handleSubmit(submit)} className={classes.form}>
         {fetchError && <p>{fetchError}</p>}
         <>
-          <p>{errors.email?.message}</p>
-          <input
-            type="text"
-            name="email"
-            {...register("email")}
-            placeholder="email"
-          />
-          <p>{errors.password?.message}</p>
-          <input
-            type="password"
-            {...register("password")}
-            placeholder="password"
-          />
+          <div className={classes.formControl}>
+            <p className={classes.error}>{errors.email?.message}</p>
+            <input
+              type="text"
+              className={classes.input}
+              {...register("email")}
+              placeholder="email"
+            />
+          </div>
+          <div className={classes.formControl}>
+            <p className={classes.error}>{errors.password?.message}</p>
+            <input
+              type="password"
+              className={classes.input}
+              {...register("password")}
+              placeholder="password"
+            />
+          </div>
+
           {/* <Input
             type="email"
             // value={values && values.email}

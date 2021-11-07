@@ -5,7 +5,6 @@ const { Invoice, validateInvoice } = require("../models/invoice_model");
 
 //GET
 router.get("/", async (req, res) => {
-  console.log(req.user);
   const invoices = await Invoice.find({ user: req.user._id });
   //intentionally delay response to client
   setTimeout(() => {
@@ -21,7 +20,6 @@ router.post("/", async (req, res) => {
     console.log(error.details[0].message);
     return res.status(400).send(error.details[0].message);
   }
-  console.log("here");
   const invoice = await new Invoice({ ...req.body, user: req.user._id });
   const results = await invoice.save();
   res.send(results);
@@ -29,7 +27,7 @@ router.post("/", async (req, res) => {
 //post a draft
 router.post("/draft", async (req, res) => {
   //skip Joi validation for drafts since not all inputs may be provided
-  const draft = await new Invoice(req.body);
+  const draft = await new Invoice({ ...req.body, user: req.user._id });
   const results = await draft.save();
   res.send(results);
 });

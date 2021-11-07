@@ -2,7 +2,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 
-const { User, validateUser } = require("../models/user_model");
+const { User, Settings, validateUser } = require("../models/user_model");
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -26,24 +27,26 @@ router.post("/sign_up", async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
+    settings: new Settings({
+      darkTheme: false,
+    }),
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
   //send response
   const token = user.generateAuthToken();
-
   res.send({
     name: user.name,
     id: user._id,
     email: user.email,
+    settings: user.settings,
     token,
   });
 });
 
 //login
 router.post("/login", async (req, res) => {
-  console.log(req.headers);
   //validate user input
   const { error } = validateLoginCredentials(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -60,8 +63,18 @@ router.post("/login", async (req, res) => {
     name: user.name,
     email: user.email,
     _id: user._id,
+    settings: user.settings,
     token,
   });
+});
+
+//change theme
+router.patch("/theme", auth, async (req, res) => {
+  //find user
+  const user = await User.findById(req.user._id);
+  user.settings.darkTheme = !user.settings.darkTheme;
+  const result = await user.save();
+  res.send(result.settings.darkTheme);
 });
 
 const validateLoginCredentials = (data) => {
@@ -71,8 +84,5 @@ const validateLoginCredentials = (data) => {
   });
   return schema.validate(data);
 };
-
-//PUT
-//DELETE
 
 module.exports = router;

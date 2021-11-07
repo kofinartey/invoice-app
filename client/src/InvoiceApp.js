@@ -31,15 +31,15 @@ function InvoiceApp() {
       style={{ backgroundColor: darkTheme ? "#141625" : "#F8F8FB " }}
     >
       {/* Remove appbar from login/signup page */}
-      {location.pathname !== "/auth" && (
+      {location.pathname !== "/" && (
         <nav className={classes.Appbar}>
           <Appbar />
         </nav>
       )}
       <AnimatePresence>
         <Switch location={location} key={location.key}>
-          <Route exact path="/auth" render={() => <Login />} />
-          <Route exact path="/" render={() => <MainPage />} />
+          <Route exact path="/" render={() => <Login />} />
+          <Route exact path="/main" render={() => <MainPage />} />
           <Route
             exact
             path="/invoice/:_id/:id"
