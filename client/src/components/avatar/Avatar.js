@@ -100,7 +100,7 @@ function Avatar() {
                   </div>
                   <Divider style={{ color: darkTheme && "red" }} />
                   <Link
-                    to="#"
+                    to="/settings"
                     style={{ color: darkTheme ? "white" : "black" }}
                     onClick={toggleMenu}
                   >

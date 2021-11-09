@@ -6,8 +6,9 @@ const InvoiceAppStyles = makeStyles({
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-    transition: "all .3s ease-out",
+    marginBottom: "2rem",
     overflowX: "hidden",
+    transition: "all .3s ease-out",
     "&::-webkit-scrollbar": {
       width: ".5rem",
       height: "2rem",

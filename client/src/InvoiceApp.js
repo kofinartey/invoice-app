@@ -5,12 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 //my imports
 import { fetchInvoices } from "./redux/invoice/invoiceActions";
+import InvoiceAppStyles from "./InvoiceAppStyles";
 import Login from "./components/auth/Auth";
 import Appbar from "./components/appbar/Appbar";
-import InvoiceAppStyles from "./InvoiceAppStyles";
 import MainPage from "./components/main_page/MainPage";
 import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
+import Settings from "./components/settings/Settings";
 
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
@@ -45,6 +46,7 @@ function InvoiceApp() {
             path="/invoice/:_id/:id"
             render={(routeProps) => <InvoiceDetails {...routeProps} />}
           />
+          <Route exact path="/settings" render={() => <Settings />} />
         </Switch>
       </AnimatePresence>
       <div className={classes.notification}>
