@@ -16,6 +16,7 @@ router.get("/me", async (req, res) => {
 //POST
 //signup
 router.post("/sign_up", async (req, res) => {
+  console.log(req.body);
   //validate req
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -24,7 +25,8 @@ router.post("/sign_up", async (req, res) => {
   if (existingUser) return res.status(400).send("User already exists");
   //create a new user
   let user = new User({
-    name: req.body.name,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
     settings: new Settings({
@@ -37,7 +39,8 @@ router.post("/sign_up", async (req, res) => {
   //send response
   const token = user.generateAuthToken();
   res.send({
-    name: user.name,
+    firstName: user.firstName,
+    lastName: user.lastName,
     id: user._id,
     email: user.email,
     settings: user.settings,

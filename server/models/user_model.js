@@ -5,14 +5,19 @@ const config = require("config");
 
 const settingsSchema = new mongoose.Schema({
   darkTheme: { type: Boolean, default: false },
-  currency: { type: String, default: "Dollar" },
+  currency: { type: String, default: "$" },
 });
 
 const Settings = mongoose.model("Settings", settingsSchema);
 
 //create user schema
 const userSchema = new mongoose.Schema({
-  name: {
+  firstName: {
+    type: String,
+    required: true,
+    max: 70,
+  },
+  lastName: {
     type: String,
     required: true,
     max: 70,
@@ -39,7 +44,8 @@ const User = mongoose.model("User", userSchema);
 //validate user input
 const validateUser = (data) => {
   const schema = Joi.object({
-    name: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).max(255).required(),
   });

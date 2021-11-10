@@ -10,7 +10,8 @@ import { signUp } from "../../redux/auth/authActions";
 // import Input from "../shared_components/Input";
 
 const signupSchema = yup.object().shape({
-  name: yup.string().required("can't be empty"),
+  firstName: yup.string().required("can't be empty"),
+  lastName: yup.string().required("can't be empty"),
   email: yup.string().email("invalid email").required("can't be empty"),
   password: yup.string().min(8).max(255).required("can't be empty"),
 });
@@ -41,12 +42,21 @@ function SignUp({ changeForm }) {
       <form className={classes.form} onSubmit={handleSubmit(submit)}>
         <>
           <div className={classes.formControl}>
-            <p className={classes.error}>{errors.name?.message}</p>
+            <p className={classes.error}>{errors.firstName?.message}</p>
             <input
               type="text"
               className={classes.input}
-              placeholder="Name"
-              {...register("name")}
+              placeholder="First Name"
+              {...register("firstName")}
+            />
+          </div>
+          <div className={classes.formControl}>
+            <p className={classes.error}>{errors.lastName?.message}</p>
+            <input
+              type="text"
+              className={classes.input}
+              placeholder="Last Name"
+              {...register("lastName")}
             />
           </div>
           <div className={classes.formControl}>

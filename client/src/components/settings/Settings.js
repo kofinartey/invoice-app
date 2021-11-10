@@ -8,6 +8,7 @@ import Input from "../shared_components/Input";
 import Select from "../shared_components/Select";
 import { Divider } from "@material-ui/core";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import leftArrow from "../../assets/icon-arrow-left.svg";
 import SettingsStyles from "./SettingsStyles";
 
 function Settings() {
@@ -15,6 +16,7 @@ function Settings() {
   const history = useHistory();
   const darkTheme = useSelector((state) => state.theme);
   const user = useSelector((state) => state.user.userInfo);
+  const userName = `${user.firstName} ${user.lastName}`;
   const invoices = useSelector((state) => state.invoice.invoices);
   const paid = invoices.filter((invoice) => invoice.status === "paid");
   const pending = invoices.filter((invoice) => invoice.status === "pending");
@@ -26,9 +28,19 @@ function Settings() {
         color: darkTheme && "white",
       }}
     >
+      <div className={classes.goBack} onClick={() => history.goBack()}>
+        <img src={leftArrow} alt="" />
+        <p>Go back</p>
+      </div>
+
       <div className={classes.wrapper}>
-        <p onClick={() => history.goBack()}>Go back</p>
         <section className={classes.profile}>
+          <p
+            className={classes.group__heading}
+            style={{ color: darkTheme && "white" }}
+          >
+            Profile
+          </p>
           <Card
             style={{
               width: "100%",
@@ -37,11 +49,10 @@ function Settings() {
               alignItems: "center",
             }}
           >
-            <p className={classes.group__heading}>Profile</p>
             <div className={classes.profile_pic}>
-              <p>{user.name[0].toUpperCase()}</p>
+              <p>{userName[0].toUpperCase()}</p>
             </div>
-            <p className={classes.userName}>{user.name}</p>
+            <p className={classes.userName}>{userName}</p>
             <div className={classes.invoice__summary}>
               <div className={classes.summary__item}>
                 <p>{invoices.length}</p>
@@ -65,17 +76,43 @@ function Settings() {
             </button>
           </Card>
         </section>
+
+        {/* divides profile and settings at 1080px and above */}
+        <div className={classes.vertical__divider}></div>
+
         <section className={classes.settings__main}>
-          <p className={classes.group__heading}>Basic Info</p>
+          <p
+            className={classes.group__heading}
+            style={{ color: darkTheme && "white" }}
+          >
+            Basic Info
+          </p>
           <Card>
             <div className={classes.basic__info}>
-              <Input type="text" label="First Name" />
-              <Input type="text" label="Last Name" />
-              <Input type="text" label="Email" />
+              <div>
+                <Input type="text" label="First Name" value={user.firstName} />
+              </div>
+              <div>
+                <Input type="text" label="Last Name" value={user.lastName} />
+              </div>
+              <div>
+                <Input type="text" label="Email" value={user.email} />
+              </div>
+              <button
+                className={classes.profile__btn}
+                style={{ backgroundColor: darkTheme && "#252945" }}
+              >
+                Save changes
+              </button>
             </div>
           </Card>
 
-          <p className={classes.group__heading}>Preferences</p>
+          <p
+            className={classes.group__heading}
+            style={{ color: darkTheme && "white" }}
+          >
+            Preferences
+          </p>
           <Card>
             <div className={classes.preferences__unit}>
               <p>Theme</p>
@@ -93,18 +130,34 @@ function Settings() {
             </div>
           </Card>
 
-          <p className={classes.group__heading}>Account Actions</p>
-          <Card>
+          <p
+            className={classes.group__heading}
+            style={{ color: darkTheme && "white" }}
+          >
+            Account Actions
+          </p>
+          <Card style={{ marginBottom: "10rem" }}>
             <div className={classes.password}>
               <p>Change Password</p>
               <div>
                 <Input type="password" label="Enter Current Password" />
                 <Input type="password" label="Enter New Password" />
                 <Input type="password" label="Confirm New Password" />
+                <button
+                  className={classes.profile__btn}
+                  style={{ backgroundColor: darkTheme && "#252945" }}
+                >
+                  CHANGE PASSWORD
+                </button>
               </div>
             </div>
+
+            <Divider style={{ margin: "5rem 0  5rem 0" }} />
+
             <div className={classes.delete__account}>
-              <p>Delete All Invoices</p>
+              <p style={{ color: darkTheme ? "white" : "black" }}>
+                Delete All Invoices
+              </p>
               <button
                 className={`${classes.profile__btn} ${classes.delete__btn}`}
               >
@@ -112,7 +165,6 @@ function Settings() {
                 <p>DELETE</p>
               </button>
             </div>
-            <Divider />
             <div className={classes.delete__account}>
               <p>Delete Account</p>
               <button

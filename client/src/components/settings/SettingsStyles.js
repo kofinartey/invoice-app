@@ -3,12 +3,27 @@ import { borderRadius } from "@mui/system";
 
 const SettingsStyles = makeStyles({
   Settings: {
+    width: "100%",
     height: "100vh",
     // margin: "5rem 0",
     padding: "5rem 0",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+
+  goBack: {
+    alignSelf: "flex-start",
+    display: "flex",
+    alignItems: "center",
+    margin: "2rem 10% ",
+    "& p": {
+      marginLeft: "0.5rem",
+      fontWeight: "800",
+    },
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
   wrapper: {
     width: "90%",
@@ -60,7 +75,7 @@ const SettingsStyles = makeStyles({
     },
   },
   profile__btn: {
-    padding: "1rem",
+    padding: "0.8rem",
     // borderStyle: "none",
     borderRadius: "0.5rem",
     fontWeight: 700,
@@ -78,6 +93,9 @@ const SettingsStyles = makeStyles({
       backgroundColor: "white",
       color: "#7C5DFA",
     },
+  },
+  vertical__divider: {
+    display: "none",
   },
   group__heading: {
     marginTop: "3rem",
@@ -98,7 +116,7 @@ const SettingsStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    margin: "2rem 0",
+    margin: "1rem 0",
     color: "#EC5757",
     fontWeight: "700",
   },
@@ -117,14 +135,78 @@ const SettingsStyles = makeStyles({
 
   ///MEDIA QUERIES
   ///MEDIA QUERIES
-  ///MEDIA QUERIES
   "@media(min-width: 45rem)": {
     Settings: {
-      backgroundColor: "red",
+      padding: "0",
+      margin: "5rem 0",
+    },
+    goBack: {
+      margin: "0 22%",
+    },
+    wrapper: {
+      width: "90%",
+      marginBottom: "6rem",
     },
     basic__info: {
-      gridTemplateRow: "1fr 1fr",
+      gridTemplateRow: "repeat(1fr, 3)",
       gridTemplateColumn: "1fr 1fr",
+      gridGap: "1rem",
+      "& div:nth-of-type(1)": {
+        gridColumn: "1/2",
+        gridRow: "1/2",
+      },
+
+      "& div:nth-of-type(2)": {
+        gridColumn: "2/3",
+        gridRow: "1/2",
+      },
+      "& div:nth-of-type(3)": {
+        gridColumn: "1/3",
+        gridRow: "2/3",
+      },
+      "& button": {
+        width: "100%",
+        gridColumn: "2/3",
+        gridRow: "3/4",
+        // backgroundColor: "white",
+        // color: "#7C5DFA",
+      },
+    },
+
+    password: {
+      display: "flex",
+      justifyContent: "space-between",
+      "& button": {
+        width: "100%",
+        marginTop: "1rem",
+      },
+    },
+  },
+
+  "@media(min-width: 64rem)": {
+    wrapper: {
+      width: "80%",
+      marginLeft: "6rem",
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    vertical__divider: {
+      display: "block",
+      width: "0.1rem",
+      height: "70rem",
+      margin: "0 2rem",
+      backgroundColor: "rgba(0,0,0,0.08)",
+      position: "relative",
+      top: "5rem",
+    },
+    settings__main: {
+      //   width: "60%",
+    },
+  },
+
+  "@media(min-width: 80rem)": {
+    wrapper: {
+      width: "65%",
     },
   },
 });
