@@ -42,6 +42,9 @@ function InvoiceDetails(props) {
   const invoiceData = useSelector((state) => state.invoice.invoices);
   const invoiceToDisplay = invoiceData.find((invoice) => invoice.id === id);
   const darkTheme = useSelector((state) => state.theme);
+  const currency = useSelector(
+    (state) => state.user.userInfo.settings.currency
+  );
   const formDisplay = useSelector((state) => state.formDisplay);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
@@ -213,7 +216,8 @@ function InvoiceDetails(props) {
                                   {item.quantity} x £{item.price.toFixed(2)}
                                 </h5>
                                 <h5 style={{ color: darkTheme && "white" }}>
-                                  £{item.total.toFixed(2)}
+                                  {currency}
+                                  {item.total.toFixed(2)}
                                 </h5>
                               </div>
                             ))
@@ -238,10 +242,11 @@ function InvoiceDetails(props) {
                                       {item.quantity}
                                     </h5>
                                     <h5 style={{ color: darkTheme && "white" }}>
-                                      £{formatAmount(item.price.toFixed(2))}
+                                      {currency}{" "}
+                                      {formatAmount(item.price.toFixed(2))}
                                     </h5>
                                     <h5 style={{ color: darkTheme && "white" }}>
-                                      £
+                                      {currency}{" "}
                                       {item.total &&
                                         formatAmount(item.total.toFixed(2))}
                                     </h5>
@@ -257,7 +262,7 @@ function InvoiceDetails(props) {
                           >
                             <p>Amount Due</p>
                             <h3>
-                              £{" "}
+                              {currency}{" "}
                               {invoice.total &&
                                 formatAmount(invoice.total.toFixed(2))}
                             </h3>

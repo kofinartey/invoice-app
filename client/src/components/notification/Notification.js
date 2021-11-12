@@ -9,7 +9,7 @@ function Notification() {
     notification: {
       color: "white",
       backgroundColor:
-        notification.msg.toLowerCase() === "invoice deleted"
+        notification.msg.toLowerCase() === "invoice(s) deleted"
           ? "red"
           : "#9277FF",
       fontWeight: "bold",

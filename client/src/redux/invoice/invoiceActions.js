@@ -10,6 +10,7 @@ import {
   HIDE_NOTIFICATION,
   DRAFT_NOTIFICATION,
   DELETED_NOTIFICATION,
+  DELETE_ALL,
 } from "./invoiceTypes";
 
 export const fetchInvoicesRequest = () => ({ type: FETCH_INVOICES_REQUEST });
@@ -176,9 +177,11 @@ export const patchStatus = (id) => async (dispatch) => {
 
 export const deleteInvoice = (id) => async (dispatch) => {
   try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(`http://localhost:5000/api/invoices/${id}`, {
       method: "DELETE",
       headers: {
+        "x-auth-token": token,
         "Content-Type": "application/json",
       },
     });
@@ -195,4 +198,24 @@ const toggleNotification = (action, type) => {
   setTimeout(() => {
     action(hideNotification());
   }, 2000);
+};
+
+export const deleteAllInvoices = (userId) => async (dispatch) => {
+  try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
+    const response = await fetch(
+      `http://localhost:5000/api/invoices/deleteAll/${userId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch({ type: DELETE_ALL });
+  } catch (error) {
+    console.log(error);
+  }
 };

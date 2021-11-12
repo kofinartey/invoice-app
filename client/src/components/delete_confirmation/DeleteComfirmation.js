@@ -28,7 +28,7 @@ function DeleteComfirmation(props) {
     dispatch(deleteInvoice(props._id));
 
     setTimeout(() => {
-      props.history.push("/");
+      props.history.push("/main");
       dispatch(toggleConfirmation());
     }, 300);
     dispatch(deletedNotification());

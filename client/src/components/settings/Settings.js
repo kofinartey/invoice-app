@@ -1,12 +1,18 @@
-import React from "react";
+//package imports
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 //my imports
-import Button from "../shared_components/Button";
+import { editUserInfo, changeCurrency } from "../../redux/auth/authActions";
+import { switchTheme } from "../../redux/theme/themeAction";
+import { infoSchema } from "./settingsSchema";
+import DeleteModal from "./DeleteModal";
 import Card from "../shared_components/Card";
 import Input from "../shared_components/Input";
 import Select from "../shared_components/Select";
-import { Divider } from "@material-ui/core";
+import { Divider, Switch } from "@material-ui/core";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 import SettingsStyles from "./SettingsStyles";
@@ -14,12 +20,55 @@ import SettingsStyles from "./SettingsStyles";
 function Settings() {
   const classes = SettingsStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const darkTheme = useSelector((state) => state.theme);
   const user = useSelector((state) => state.user.userInfo);
   const userName = `${user.firstName} ${user.lastName}`;
+  const currency = user.settings.currency;
   const invoices = useSelector((state) => state.invoice.invoices);
   const paid = invoices.filter((invoice) => invoice.status === "paid");
   const pending = invoices.filter((invoice) => invoice.status === "pending");
+  const [checked, setChecked] = useState(false);
+  const [modal, setModal] = useState({
+    visible: false,
+    type: "",
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    resolver: yupResolver(infoSchema),
+  });
+
+  //change theme checker based on current theme
+  useEffect(() => {
+    if (darkTheme) setChecked(true);
+    else setChecked(false);
+  }, [darkTheme]);
+
+  const toggleModal = (modalType) => {
+    setModal({
+      visible: !modal.visible,
+      type: modalType,
+    });
+  };
+  const cancelModal = () => {
+    setModal({
+      visible: !modal.visible,
+      type: "",
+    });
+  };
+
+  const sumbitBasicInfo = (data) => {
+    dispatch(editUserInfo(data));
+  };
+
+  const handleCurrency = (e) => {
+    dispatch(changeCurrency(e.target.value));
+  };
 
   return (
     <div
@@ -28,7 +77,15 @@ function Settings() {
         color: darkTheme && "white",
       }}
     >
-      <div className={classes.goBack} onClick={() => history.goBack()}>
+      {modal.visible && (
+        <DeleteModal
+          toggleModal={toggleModal}
+          cancelModal={cancelModal}
+          modal={modal}
+          id={user._id}
+        />
+      )}
+      <div className={classes.goBack} onClick={() => history.push("/main")}>
         <img src={leftArrow} alt="" />
         <p>Go back</p>
       </div>
@@ -88,15 +145,39 @@ function Settings() {
             Basic Info
           </p>
           <Card>
-            <div className={classes.basic__info}>
+            <form
+              className={classes.basic__info}
+              onSubmit={handleSubmit(sumbitBasicInfo)}
+            >
               <div>
-                <Input type="text" label="First Name" value={user.firstName} />
+                <Input
+                  type="text"
+                  label="First Name"
+                  inputid="firstName"
+                  value={user.firstName}
+                  {...register("firstName")}
+                  errors={errors.firstName?.message}
+                />
               </div>
               <div>
-                <Input type="text" label="Last Name" value={user.lastName} />
+                <Input
+                  type="text"
+                  label="Last Name"
+                  inputid="lastName"
+                  value={user.lastName}
+                  {...register("lastName")}
+                  errors={errors.lastName?.message}
+                />
               </div>
               <div>
-                <Input type="text" label="Email" value={user.email} />
+                <Input
+                  type="text"
+                  label="Email"
+                  inputid="email"
+                  value={user.email}
+                  {...register("email")}
+                  errors={errors.email?.message}
+                />
               </div>
               <button
                 className={classes.profile__btn}
@@ -104,7 +185,7 @@ function Settings() {
               >
                 Save changes
               </button>
-            </div>
+            </form>
           </Card>
 
           <p
@@ -116,12 +197,23 @@ function Settings() {
           <Card>
             <div className={classes.preferences__unit}>
               <p>Theme</p>
-              <p>switch</p>
+              <div className={classes.themeSwitch}>
+                <p>Light</p>
+                <Switch
+                  checked={checked}
+                  style={{ color: "#7C5DFA" }}
+                  onChange={() => {
+                    dispatch(switchTheme());
+                  }}
+                />
+                <p>Dark</p>
+              </div>
             </div>
             <Divider />
             <div className={classes.preferences__unit}>
               <p>Currency</p>
-              <Select>
+              <p>{currency}</p>
+              <Select value={currency} onChange={handleCurrency}>
                 <option value="$">Dollar</option>
                 <option value="€">Euro</option>
                 <option value="£">Pound</option>
@@ -160,14 +252,19 @@ function Settings() {
               </p>
               <button
                 className={`${classes.profile__btn} ${classes.delete__btn}`}
+                onClick={() => {
+                  toggleModal("deleteInvoices");
+                }}
               >
                 <WarningRoundedIcon />
                 <p>DELETE</p>
               </button>
             </div>
+
             <div className={classes.delete__account}>
               <p>Delete Account</p>
               <button
+                onClick={() => toggleModal("deleteAccount")}
                 className={`${classes.profile__btn} ${classes.delete__btn}`}
                 style={{ backgroundColor: "#EC5757" }}
               >

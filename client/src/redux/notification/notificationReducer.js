@@ -36,7 +36,7 @@ const notificationReducer = (state = initialState, action) => {
     case DRAFT:
       return { visible: true, msg: "Saved as Draft" };
     case DELETED:
-      return { visible: true, msg: "Invoice Deleted" };
+      return { visible: true, msg: "Invoice(s) Deleted" };
     case HIDE:
       return initialState;
     default:

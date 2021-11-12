@@ -1,11 +1,9 @@
 import { makeStyles } from "@mui/styles";
-import { borderRadius } from "@mui/system";
 
 const SettingsStyles = makeStyles({
   Settings: {
     width: "100%",
     height: "100vh",
-    // margin: "5rem 0",
     padding: "5rem 0",
     display: "flex",
     flexDirection: "column",
@@ -40,7 +38,6 @@ const SettingsStyles = makeStyles({
     backgroundColor: "#7C5DFA",
     margin: "3rem 0",
     color: "white",
-    // border: "0.5rem solid #9277F",
     border: "0.5rem solid white",
     display: "flex",
     justifyContent: "center",
@@ -65,8 +62,6 @@ const SettingsStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
     "& p:nth-of-type(1)": {
-      //   color: "#7C5DFA",
-      //   color: "#7",
       fontSize: "1.2rem",
       fontWeight: "800",
     },
@@ -76,7 +71,6 @@ const SettingsStyles = makeStyles({
   },
   profile__btn: {
     padding: "0.8rem",
-    // borderStyle: "none",
     borderRadius: "0.5rem",
     fontWeight: 700,
     color: "white",
@@ -112,6 +106,10 @@ const SettingsStyles = makeStyles({
     alignItems: "center",
     minHeight: "4rem",
   },
+  themeSwitch: {
+    display: "flex",
+    alignItems: "center",
+  },
   delete__account: {
     display: "flex",
     justifyContent: "space-between",
@@ -145,7 +143,6 @@ const SettingsStyles = makeStyles({
     },
     wrapper: {
       width: "90%",
-      marginBottom: "6rem",
     },
     basic__info: {
       gridTemplateRow: "repeat(1fr, 3)",
@@ -168,8 +165,6 @@ const SettingsStyles = makeStyles({
         width: "100%",
         gridColumn: "2/3",
         gridRow: "3/4",
-        // backgroundColor: "white",
-        // color: "#7C5DFA",
       },
     },
 
@@ -199,9 +194,7 @@ const SettingsStyles = makeStyles({
       position: "relative",
       top: "5rem",
     },
-    settings__main: {
-      //   width: "60%",
-    },
+    settings__main: {},
   },
 
   "@media(min-width: 80rem)": {

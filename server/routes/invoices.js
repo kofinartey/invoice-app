@@ -1,7 +1,8 @@
 const express = require("express");
+const { Invoice, validateInvoice } = require("../models/invoice_model");
+const { User } = require("../models/user_model");
 
 const router = express.Router();
-const { Invoice, validateInvoice } = require("../models/invoice_model");
 
 //GET
 router.get("/", async (req, res) => {
@@ -54,10 +55,21 @@ router.patch("/:id/status", async (req, res) => {
 });
 
 //DELETE
+//delete a specific invoice
 router.delete("/:id", async (req, res) => {
   const toDelete = await Invoice.findByIdAndRemove({ _id: req.params.id });
   if (!toDelete) return res.status(404).send("The requested invoice not found");
   res.send(toDelete);
+});
+
+//delete all invoices for a user
+router.delete("/deleteAll/:userId", async (req, res) => {
+  //determine if user exists
+  const user = await User.findById(req.params.userId);
+  if (!user) return res.status(400).send("User not found");
+  //delete all invoices for that user
+  const invoices = await Invoice.deleteMany({ user: req.params.userId });
+  res.send(invoices);
 });
 
 module.exports = router;

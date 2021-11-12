@@ -1,9 +1,11 @@
+//package imports
 const express = require("express");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
-
+//my imports
 const { User, Settings, validateUser } = require("../models/user_model");
 const auth = require("../middleware/auth");
+const { Invoice } = require("../models/invoice_model");
 
 const router = express.Router();
 
@@ -16,7 +18,6 @@ router.get("/me", async (req, res) => {
 //POST
 //signup
 router.post("/sign_up", async (req, res) => {
-  console.log(req.body);
   //validate req
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -63,12 +64,26 @@ router.post("/login", async (req, res) => {
   if (!validPassword) return res.status(400).send("Invalid email or password");
   const token = user.generateAuthToken();
   res.send({
-    name: user.name,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
     _id: user._id,
     settings: user.settings,
     token,
   });
+});
+
+//edit userInfo
+router.put("/edit_user_info", auth, async (req, res) => {
+  //find user
+  const user = await User.findById(req.user._id);
+  if (!user) return res.status(400).send("Bad request. User does not exist");
+  //implement changes
+  user.firstName = req.body.firstName;
+  user.lastName = req.body.lastName;
+  user.email = req.body.email;
+  const result = await user.save();
+  res.send(result);
 });
 
 //change theme
@@ -78,6 +93,22 @@ router.patch("/theme", auth, async (req, res) => {
   user.settings.darkTheme = !user.settings.darkTheme;
   const result = await user.save();
   res.send(result.settings.darkTheme);
+});
+
+//change currency
+router.patch("/change_currency", auth, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  user.settings.currency = req.body.currency;
+  const result = await user.save();
+  res.json(result.settings.currency);
+});
+
+//DELETE
+//delete user account
+router.delete("/delete_user", auth, async (req, res) => {
+  const user = await User.findByIdAndDelete(req.user._id);
+  const invoices = await Invoice.deleteMany({ user: req.user._id });
+  res.send(user);
 });
 
 const validateLoginCredentials = (data) => {

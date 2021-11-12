@@ -1,4 +1,5 @@
 import { SWITCH_THEME } from "./themeTypes";
+// const initialState = false;
 const initialState = JSON.parse(localStorage.getItem("userInfo"))
   ? JSON.parse(localStorage.getItem("userInfo")).settings.darkTheme
   : false;
