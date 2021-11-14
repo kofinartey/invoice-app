@@ -5,6 +5,7 @@ export const ADD_INVOICE = "ADD_INVOICE";
 export const MARK_AS_PAID = "MARK_AS_PAID";
 export const EDIT = "EDIT";
 export const REMOVE = "REMOVE";
+export const DELETE_ALL = "DELETE_ALL";
 
 //notification types
 export const ADDED_NOTIFICATION = "ADDED_NOTIFICATION";

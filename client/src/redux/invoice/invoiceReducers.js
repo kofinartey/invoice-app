@@ -5,6 +5,7 @@ import {
   FETCH_INVOICES_FAILURE,
   ADD_INVOICE,
   REMOVE,
+  DELETE_ALL,
   EDIT,
   MARK_AS_PAID,
   ADDED_NOTIFICATION,
@@ -70,6 +71,11 @@ const invoiceReducer = (state = initialState, action) => {
         invoices: state.invoices.filter(
           (invoice) => invoice._id !== action.payload
         ),
+      };
+    case DELETE_ALL:
+      return {
+        ...state,
+        invoices: [],
       };
 
     //notification stuff

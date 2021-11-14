@@ -9,6 +9,9 @@ import StatusCard from "../shared_components/StatusCard";
 function Invoice({ data }) {
   const classes = InvoiceStyles();
   const darkTheme = useSelector((state) => state.theme);
+  const currency = useSelector(
+    (state) => state.user.userInfo.settings.currency
+  );
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
     let width = window.innerWidth;
@@ -34,7 +37,7 @@ function Invoice({ data }) {
       <p className={classes.clientName}>{data.clientName}</p>
       <p className={classes.date}>Due {data.paymentDue}</p>
       <h4 className={classes.amount}>
-        £{data.total && formatAmount(data.total.toFixed(2))}
+        {currency} {data.total && formatAmount(data.total.toFixed(2))}
       </h4>
 
       <div className={classes.status}>

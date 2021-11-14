@@ -50,6 +50,7 @@ function Avatar() {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState("main");
   const user = useSelector((state) => state.user.userInfo);
+  const userName = `${user.firstName} ${user.lastName}`;
   const darkTheme = useSelector((state) => state.theme);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -63,14 +64,26 @@ function Avatar() {
     dispatch(logout(history));
   };
 
+  const DefaultAvatar = () => {
+    return (
+      <div className={classes.avatar__default} onClick={toggleMenu}>
+        <p>{user.firstName[0].toUpperCase()}</p>
+      </div>
+    );
+  };
   return (
     <div className={classes.Avatar}>
-      <img
-        className={classes.avatar_img}
-        src={avatar}
-        alt="avatar"
-        onClick={toggleMenu}
-      />
+      {user.image ? (
+        <img
+          className={classes.avatar_img}
+          src={avatar}
+          alt="avatar"
+          onClick={toggleMenu}
+        />
+      ) : (
+        <DefaultAvatar />
+      )}
+
       <div>
         {open && (
           <>
@@ -91,16 +104,16 @@ function Avatar() {
                 >
                   <div className={classes.username}>
                     <div>
-                      <p>{user.name}</p>
+                      <p>{userName}</p>
                       <small>{user.email}</small>
                     </div>
-                    <div>
-                      <img src={avatar} alt="" className={classes.avatar_img} />
-                    </div>
+                    <DefaultAvatar />
                   </div>
-                  <Divider style={{ color: darkTheme && "red" }} />
+                  <Divider
+                    style={{ color: darkTheme && "red", marginTop: "0.5rem" }}
+                  />
                   <Link
-                    to="#"
+                    to="/settings"
                     style={{ color: darkTheme ? "white" : "black" }}
                     onClick={toggleMenu}
                   >

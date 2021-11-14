@@ -3,6 +3,8 @@ import {
   AUTH_SUCCESS,
   AUTH_FAILURE,
   USER_LOGOUT,
+  EDIT_USER_INFO,
+  CHANGE_CURRENCY,
 } from "./authTypes";
 
 const initialState = {
@@ -18,6 +20,7 @@ const userReducer = (state = initialState, action) => {
         loading: true,
       };
     case AUTH_SUCCESS:
+      console.log("AUTH SUCCESS called");
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
       return {
         ...state,
@@ -33,6 +36,31 @@ const userReducer = (state = initialState, action) => {
     case USER_LOGOUT:
       localStorage.clear();
       return initialState;
+    case EDIT_USER_INFO:
+      const editedInfo = {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          email: action.payload.email,
+        },
+      };
+      localStorage.setItem("userInfo", JSON.stringify(editedInfo.userInfo));
+      return editedInfo;
+    case CHANGE_CURRENCY:
+      const editedCurrency = {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          settings: {
+            ...state.userInfo.settings,
+            currency: action.payload,
+          },
+        },
+      };
+      localStorage.setItem("userInfo", JSON.stringify(editedCurrency.userInfo));
+      return editedCurrency;
     default:
       return state;
   }

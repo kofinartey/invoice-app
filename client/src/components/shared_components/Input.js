@@ -25,7 +25,8 @@ const Input = forwardRef((props, ref) => {
       borderRadius: "0.3rem",
       padding: "0.9rem",
       color: darkTheme && "white",
-      backgroundColor: darkTheme && "#1E2139",
+      // backgroundColor: darkTheme && "#1E2139",
+      backgroundColor: darkTheme && "#252945",
       borderColor: props.errors ? "#EC5757" : darkTheme ? "#252945" : "#DFE3FA",
       marginTop: "0.75rem",
 

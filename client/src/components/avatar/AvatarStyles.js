@@ -11,6 +11,21 @@ const AvatarStyles = makeStyles({
     left: "0",
     top: "0",
   },
+  avatar__default: {
+    width: "3rem",
+    height: "3rem",
+    backgroundColor: "#7C5DFA",
+    color: "white",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
+    "& p": {
+      fontWeight: "800",
+      fontSize: "1.4rem",
+    },
+  },
   avatar_img: {
     width: "3rem",
     borderRadius: "50%",
