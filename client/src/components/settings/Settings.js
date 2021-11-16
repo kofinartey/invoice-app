@@ -5,9 +5,14 @@ import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //my imports
-import { editUserInfo, changeCurrency } from "../../redux/auth/authActions";
+import ChangePasswordForm from "./ChangePassword";
+import {
+  editUserInfo,
+  changeCurrency,
+  changePassword,
+} from "../../redux/auth/authActions";
 import { switchTheme } from "../../redux/theme/themeAction";
-import { infoSchema } from "./settingsSchema";
+import { infoSchema, passwordSchema } from "./settingsSchema";
 import DeleteModal from "./DeleteModal";
 import Card from "../shared_components/Card";
 import Input from "../shared_components/Input";
@@ -28,6 +33,7 @@ function Settings() {
   const invoices = useSelector((state) => state.invoice.invoices);
   const paid = invoices.filter((invoice) => invoice.status === "paid");
   const pending = invoices.filter((invoice) => invoice.status === "pending");
+  const [changingPassword, setChangingPassword] = useState(false);
   const [checked, setChecked] = useState(false);
   const [modal, setModal] = useState({
     visible: false,
@@ -40,7 +46,7 @@ function Settings() {
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    resolver: yupResolver(infoSchema),
+    resolver: yupResolver(changingPassword ? passwordSchema : infoSchema),
   });
 
   //change theme checker based on current theme
@@ -63,6 +69,7 @@ function Settings() {
   };
 
   const sumbitBasicInfo = (data) => {
+    console.log(data);
     dispatch(editUserInfo(data));
   };
 
@@ -147,7 +154,7 @@ function Settings() {
           <Card>
             <form
               className={classes.basic__info}
-              onSubmit={handleSubmit(sumbitBasicInfo)}
+              onSubmit={handleSubmit(!changingPassword && sumbitBasicInfo)}
             >
               <div>
                 <Input
@@ -229,21 +236,7 @@ function Settings() {
             Account Actions
           </p>
           <Card style={{ marginBottom: "10rem" }}>
-            <div className={classes.password}>
-              <p>Change Password</p>
-              <div>
-                <Input type="password" label="Enter Current Password" />
-                <Input type="password" label="Enter New Password" />
-                <Input type="password" label="Confirm New Password" />
-                <button
-                  className={classes.profile__btn}
-                  style={{ backgroundColor: darkTheme && "#252945" }}
-                >
-                  CHANGE PASSWORD
-                </button>
-              </div>
-            </div>
-
+            <ChangePasswordForm />
             <Divider style={{ margin: "5rem 0  5rem 0" }} />
 
             <div className={classes.delete__account}>
@@ -278,5 +271,73 @@ function Settings() {
     </div>
   );
 }
+
+//move change password form out of main settings component.
+//it was causing a few issues with how react hook form handles both it and the edit userInfo form
+// const ChangePasswordForm = () => {
+//   const classes = SettingsStyles();
+//   const darkTheme = useSelector((state) => state.theme);
+//   const dispatch = useDispatch();
+//   const defaultValues = {
+//     currentPassword: "",
+//     newPassword: "",
+//     confirmPassword: "",
+//   };
+//   const {
+//     handleSubmit,
+//     reset,
+//     register,
+//     formState: { errors },
+//   } = useForm({
+//     resolver: yupResolver(passwordSchema),
+//   });
+//   const [changingStatus, setChangingStatus] = useState({
+//     loading: false,
+//     message: "",
+//     visible: false,
+//   });
+
+//   const submitPassword = (data) => {
+//     dispatch(changePassword(data, setChangingStatus, reset));
+//     reset();
+//   };
+//   return (
+//     <div className={classes.password}>
+//       <p>Change Password</p>
+//       <form onSubmit={handleSubmit(submitPassword)}>
+//         <Input
+//           type="password"
+//           inputid="currentPassword"
+//           label="Enter Current Password"
+//           {...register("currentPassword")}
+//           errors={errors.currentPassword?.message}
+//         />
+//         <Input
+//           type="password"
+//           inputid="newPassword"
+//           label="Enter New Password"
+//           {...register("newPassword")}
+//           errors={errors.newPassword?.message}
+//         />
+//         <Input
+//           type="password"
+//           inputid="confirmPassword"
+//           label="Confirm New Password"
+//           {...register("confirmPassword")}
+//           errors={errors.confirmPassword && "Passwords don't match"}
+//         />
+//         <p style={{ fontSize: "0.8rem", color: "#ec5757" }}>
+//           {changingStatus.visible && `*** ${changingStatus.message}`}
+//         </p>
+//         <button
+//           className={classes.profile__btn}
+//           style={{ backgroundColor: darkTheme && "#252945" }}
+//         >
+//           CHANGE PASSWORD
+//         </button>
+//       </form>
+//     </div>
+//   );
+// };
 
 export default Settings;

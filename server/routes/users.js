@@ -61,9 +61,9 @@ router.post("/login", async (req, res) => {
   }
   //compare password input with password on DB
   const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).send("Invalid email or password");
+  if (!validPassword) return res.status(400).json("Invalid email or password");
   const token = user.generateAuthToken();
-  res.send({
+  res.json({
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
@@ -84,6 +84,30 @@ router.put("/edit_user_info", auth, async (req, res) => {
   user.email = req.body.email;
   const result = await user.save();
   res.send(result);
+});
+
+//change password
+router.patch("/change_password", auth, async (req, res) => {
+  console.log(req.body);
+  const { error } = validatePasswordCredentials(req.body);
+  if (error) return res.status(400).send("Bad request");
+  if (req.body.newPassword !== req.body.confirmPassword)
+    return res.status(400).send("Passwords do not match");
+  //get the user from db
+  //get password and compare with hashed password in db
+  //if passwords match hash new password and save in db
+  let user = await User.findById(req.user._id);
+  const validPassword = await bcrypt.compare(
+    req.body.currentPassword,
+    user.password
+  );
+  console.log("validPassword => ", validPassword);
+  if (!validPassword) return res.status(400).json("Invalid password");
+  const salt = await bcrypt.genSalt(10);
+  console.log(salt);
+  user.password = await bcrypt.hash(req.body.newPassword, salt);
+  await user.save();
+  res.json("Password changed");
 });
 
 //change theme
@@ -115,6 +139,16 @@ const validateLoginCredentials = (data) => {
   const schema = Joi.object({
     email: Joi.string().min(8).max(255).email().required(),
     password: Joi.string().min(6).max(255).required(),
+  });
+  return schema.validate(data);
+};
+
+const validatePasswordCredentials = (data) => {
+  const schema = Joi.object({
+    currentPassword: Joi.string().min(8).max(255).required(),
+    newPassword: Joi.string().min(8).max(255).required(),
+    confirmPassword: Joi.string().min(8).max(255).required(),
+    // confirmPassword: Joi.any().equal(Joi.ref("password")),
   });
   return schema.validate(data);
 };
