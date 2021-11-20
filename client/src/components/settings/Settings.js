@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //my imports
 import ChangePasswordForm from "./ChangePassword";
+import SelectImage from "./SelectImage";
 import {
   editUserInfo,
   changeCurrency,
@@ -33,8 +34,8 @@ function Settings() {
   const invoices = useSelector((state) => state.invoice.invoices);
   const paid = invoices.filter((invoice) => invoice.status === "paid");
   const pending = invoices.filter((invoice) => invoice.status === "pending");
-  const [changingPassword, setChangingPassword] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [showImageSelector, setShowImageSelector] = useState(false);
   const [modal, setModal] = useState({
     visible: false,
     type: "",
@@ -46,7 +47,7 @@ function Settings() {
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    resolver: yupResolver(changingPassword ? passwordSchema : infoSchema),
+    resolver: yupResolver(infoSchema),
   });
 
   //change theme checker based on current theme
@@ -84,6 +85,7 @@ function Settings() {
         color: darkTheme && "white",
       }}
     >
+      {/* conditionally render modal for delete actions */}
       {modal.visible && (
         <DeleteModal
           toggleModal={toggleModal}
@@ -92,6 +94,9 @@ function Settings() {
           id={user._id}
         />
       )}
+      {/* conditionally render image selection modals */}
+      {showImageSelector && <SelectImage toggle={setShowImageSelector} />}
+
       <div className={classes.goBack} onClick={() => history.push("/main")}>
         <img src={leftArrow} alt="" />
         <p>Go back</p>
@@ -131,7 +136,15 @@ function Settings() {
                 <p>Pending</p>
               </div>
             </div>
-            <button className={classes.profile__btn}>UPLOAD NEW AVATAR</button>
+            <button
+              className={classes.profile__btn}
+              onClick={() => {
+                setShowImageSelector(true);
+              }}
+            >
+              {" "}
+              UPLOAD NEW AVATAR
+            </button>
             <button
               className={classes.profile__btn}
               style={{ backgroundColor: darkTheme && "#252945" }}
@@ -154,7 +167,7 @@ function Settings() {
           <Card>
             <form
               className={classes.basic__info}
-              onSubmit={handleSubmit(!changingPassword && sumbitBasicInfo)}
+              onSubmit={handleSubmit(sumbitBasicInfo)}
             >
               <div>
                 <Input
@@ -208,7 +221,6 @@ function Settings() {
                 <p>Light</p>
                 <Switch
                   checked={checked}
-                  style={{ color: "#7C5DFA" }}
                   onChange={() => {
                     dispatch(switchTheme());
                   }}

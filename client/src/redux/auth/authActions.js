@@ -62,6 +62,22 @@ export const logout = (history) => async (dispatch) => {
   history.push("/");
 };
 
+export const addAvatar = (formData) => async (dispatch) => {
+  try {
+    // console.log(formData.get("file"));
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
+    const response = await fetch("http://localhost:5000/api/users/add_avatar", {
+      method: "POST",
+      headers: {
+        "x-auth-token": token,
+      },
+      body: formData,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const changePassword =
   (formData, setChangingStatus, reset) => async (dispatch) => {
     try {

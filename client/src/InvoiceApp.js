@@ -12,6 +12,8 @@ import MainPage from "./components/main_page/MainPage";
 import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 import Settings from "./components/settings/Settings";
+import Report from "./pages/report/Report";
+import Feedback from "./pages/feedback/Feedback";
 
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
@@ -47,6 +49,7 @@ function InvoiceApp() {
             render={(routeProps) => <InvoiceDetails {...routeProps} />}
           />
           <Route exact path="/settings" render={() => <Settings />} />
+          <Route exact path="/feedback" render={() => <Feedback />} />
         </Switch>
       </AnimatePresence>
       <div className={classes.notification}>

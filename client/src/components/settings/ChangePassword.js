@@ -42,7 +42,6 @@ const ChangePasswordForm = () => {
             className={classes.input}
             type="password"
             id="currentPassword"
-            placeholder="Enter Current Password"
             {...register("currentPassword")}
           />
         </div>
@@ -55,7 +54,6 @@ const ChangePasswordForm = () => {
           <input
             type="password"
             className={classes.input}
-            placeholder="Enter New Password"
             {...register("newPassword")}
           />
         </div>
@@ -68,7 +66,6 @@ const ChangePasswordForm = () => {
           <input
             type="password"
             className={classes.input}
-            placeholder="Confirm New Password"
             {...register("confirmPassword")}
             errors={errors.confirmPassword && "Passwords don't match"}
           />

@@ -1,13 +1,44 @@
 //package imports
+const fs = require("fs");
 const express = require("express");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+const multer = require("multer");
 //my imports
 const { User, Settings, validateUser } = require("../models/user_model");
 const auth = require("../middleware/auth");
 const { Invoice } = require("../models/invoice_model");
 
+//initialize packages
 const router = express.Router();
+
+//configure multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // if(fs.exists("./uploads"))
+    cb(null, `./uploads`);
+    // cb(null, `./uploads/${req.user._id}`);
+  },
+  filename: function (req, file, cb) {
+    // cb(null, new Date().toISOString() + file.originalname);
+    // cb(null, new Date().toDateString() + file.originalname);
+    cb(null, file.originalname);
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5,
+  },
+  fileFilter: fileFilter,
+});
 
 //GET
 router.get("/me", async (req, res) => {
@@ -71,6 +102,12 @@ router.post("/login", async (req, res) => {
     settings: user.settings,
     token,
   });
+});
+
+//add avatar
+router.post("/add_avatar", auth, upload.single("file"), async (req, res) => {
+  console.log(req.file);
+  console.log(req.body);
 });
 
 //edit userInfo
