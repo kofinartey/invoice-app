@@ -117,7 +117,7 @@ function Feedback() {
             </div>
 
             <div className={classes.formControl}>
-              <StyledLabel>Describe your feedback below</StyledLabel>
+              <StyledLabel>Describe your below</StyledLabel>
               <textarea
                 className={classes.textarea}
                 {...register("description", { required: true })}

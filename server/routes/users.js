@@ -1,5 +1,6 @@
 //package imports
 const fs = require("fs");
+const util = require("util");
 const express = require("express");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
@@ -8,42 +9,34 @@ const multer = require("multer");
 const { User, Settings, validateUser } = require("../models/user_model");
 const auth = require("../middleware/auth");
 const { Invoice } = require("../models/invoice_model");
+const {
+  uploadFile,
+  getFileStream,
+  deleteAvatars3,
+  fileExists,
+} = require("../s3");
 
 //initialize packages
+const unlinkFile = util.promisify(fs.unlink);
 const router = express.Router();
-
-//configure multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // if(fs.exists("./uploads"))
-    cb(null, `./uploads`);
-    // cb(null, `./uploads/${req.user._id}`);
-  },
-  filename: function (req, file, cb) {
-    // cb(null, new Date().toISOString() + file.originalname);
-    // cb(null, new Date().toDateString() + file.originalname);
-    cb(null, file.originalname);
-  },
-});
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5,
-  },
-  fileFilter: fileFilter,
-});
+const upload = multer({ dest: "uploads/" });
 
 //GET
 router.get("/me", async (req, res) => {
   const users = await User.find({});
   res.send(users);
+});
+
+//get avatar
+router.get("/avatar/:key", async (req, res) => {
+  try {
+    const key = req.params.key;
+    const readStream = await getFileStream(key);
+    readStream.pipe(res);
+  } catch (error) {
+    // console.log(error);
+    res.status(500).send("Failed to get avatar");
+  }
 });
 
 //POST
@@ -98,6 +91,8 @@ router.post("/login", async (req, res) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    avatar: user.avatar,
+    role: user.role,
     _id: user._id,
     settings: user.settings,
     token,
@@ -106,8 +101,56 @@ router.post("/login", async (req, res) => {
 
 //add avatar
 router.post("/add_avatar", auth, upload.single("file"), async (req, res) => {
-  console.log(req.file);
-  console.log(req.body);
+  try {
+    //1.get user and check if user has an avatar
+    //2.if user does not have and avatar, proceed to post to s3
+    //3.if user has a current avatar, loof for and delete current avatar from s3
+    //4.send new avatar to s3
+
+    const sendImageToS3 = async (image) => {
+      //seng to s3
+      const result = await uploadFile(image);
+      await unlinkFile(image.path);
+      //add link to avatar to user data
+      user.avatar = `/avatar/${result.key}`;
+      await user.save();
+      //4
+      res.json(`/avatar/${result.key}`);
+    };
+
+    //1
+    let user = await User.findById(req.user._id);
+    if (!user) return res.status(400).send("User does not exist");
+    //2
+    if (!user.avatar) {
+      sendImageToS3(req.file); //potential error
+    }
+    //3
+    else {
+      const exists = fileExists(user.avatar.slice(8));
+      if (exists) {
+        deleteAvatars3(user.avatar.slice(8));
+        sendImageToS3(req.file);
+      } else sendImageToS3(req.file);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Something went wrong on the server");
+  }
+});
+
+//delete avatar
+router.delete("/delete_avatar", auth, async (req, res) => {
+  //1. get user avartar
+  //2. delete avatar fromm s3
+  //3. delete avatar link in db
+  let user = await User.findById(req.user._id);
+  if (!user) return res.status(400).send("user not found");
+
+  if (!user.avatar) return;
+  await deleteAvatars3(user.avatar.slice(8));
+  (user.avatar = ""), await user.save();
+  res.json("Successfully deleted avatar");
 });
 
 //edit userInfo

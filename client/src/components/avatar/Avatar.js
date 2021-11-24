@@ -69,7 +69,14 @@ function Avatar() {
   const DefaultAvatar = () => {
     return (
       <div className={classes.avatar__default} onClick={toggleMenu}>
-        <p>{user.firstName[0].toUpperCase()}</p>
+        {user.avatar ? (
+          <img
+            src={`${process.env.REACT_APP_USER_BASE_URL}${user.avatar}`}
+            alt=""
+          />
+        ) : (
+          <p>{user.firstName[0].toUpperCase()}</p>
+        )}
       </div>
     );
   };

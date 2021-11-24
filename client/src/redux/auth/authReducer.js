@@ -5,6 +5,7 @@ import {
   USER_LOGOUT,
   EDIT_USER_INFO,
   CHANGE_CURRENCY,
+  ADD_AVATAR,
 } from "./authTypes";
 
 const initialState = {
@@ -20,7 +21,6 @@ const userReducer = (state = initialState, action) => {
         loading: true,
       };
     case AUTH_SUCCESS:
-      console.log("AUTH SUCCESS called");
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
       return {
         ...state,
@@ -59,8 +59,20 @@ const userReducer = (state = initialState, action) => {
           },
         },
       };
+      console.log(editedCurrency);
       localStorage.setItem("userInfo", JSON.stringify(editedCurrency.userInfo));
       return editedCurrency;
+    case ADD_AVATAR:
+      const editedAvatar = {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          avatar: action.payload,
+        },
+      };
+      console.log(editedAvatar);
+      localStorage.setItem("userInfo", JSON.stringify(editedAvatar.userInfo));
+      return editedAvatar;
     default:
       return state;
   }

@@ -14,8 +14,7 @@ function SelectImage({ toggle }) {
 
   const handleChange = (e) => {
     try {
-      const a = setFile(e.target.files[0]);
-      console.log(a);
+      setFile(e.target.files[0]);
       setFileName(e.target.files[0].name);
     } catch (err) {
       setFile("");
@@ -27,11 +26,9 @@ function SelectImage({ toggle }) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("fileName", fileName);
-    // console.log(formData);
-    // console.log(formData.get("file"));
     if (!file) return;
     dispatch(addAvatar(formData));
+    toggle(false);
   };
 
   return (

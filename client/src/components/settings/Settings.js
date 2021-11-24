@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+// require("dotenv").config();
+import { config } from "dotenv";
+// config();
 //my imports
 import ChangePasswordForm from "./ChangePassword";
 import SelectImage from "./SelectImage";
@@ -23,7 +26,12 @@ import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 import SettingsStyles from "./SettingsStyles";
 
+// const USER_BASE_URL = "http://localhost:5000/api/users";
+// const USER_BASE_URL = process.env.REACT_APP_USER_BASE_URL;
+// console.log(USER_BASE_URL);
+
 function Settings() {
+  config();
   const classes = SettingsStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -70,7 +78,6 @@ function Settings() {
   };
 
   const sumbitBasicInfo = (data) => {
-    console.log(data);
     dispatch(editUserInfo(data));
   };
 
@@ -103,6 +110,7 @@ function Settings() {
       </div>
 
       <div className={classes.wrapper}>
+        {/* profile section */}
         <section className={classes.profile}>
           <p
             className={classes.group__heading}
@@ -118,8 +126,18 @@ function Settings() {
               alignItems: "center",
             }}
           >
-            <div className={classes.profile_pic}>
-              <p>{userName[0].toUpperCase()}</p>
+            <div
+              className={classes.profile_pic}
+              style={{ borderColor: darkTheme && "#7C5DFA" }}
+            >
+              {user.avatar ? (
+                <img
+                  src={`${process.env.REACT_APP_USER_BASE_URL}${user.avatar}`}
+                  alt=""
+                />
+              ) : (
+                <p>{userName[0].toUpperCase()}</p>
+              )}
             </div>
             <p className={classes.userName}>{userName}</p>
             <div className={classes.invoice__summary}>

@@ -5,6 +5,7 @@ import {
   USER_LOGOUT,
   EDIT_USER_INFO,
   CHANGE_CURRENCY,
+  ADD_AVATAR,
 } from "./authTypes";
 
 export const authRequest = () => ({ type: AUTH_REQUEST });
@@ -73,9 +74,28 @@ export const addAvatar = (formData) => async (dispatch) => {
       },
       body: formData,
     });
+    const avatarUrl = await response.json();
+    dispatch({ type: ADD_AVATAR, payload: avatarUrl });
+    console.log(avatarUrl);
   } catch (error) {
     console.error(error);
   }
+};
+
+export const removeAvatar = () => async (dispatch) => {
+  try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
+    const response = fetch(
+      `${process.env.REACT_APP_USER_BASE_URL}/remove_avatar`,
+      {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    const data = response.json();
+  } catch (error) {}
 };
 
 export const changePassword =
@@ -171,7 +191,6 @@ export const changeCurrency = (currency) => async (dispatch) => {
       }
     );
     const data = await response.json();
-    console.log(data);
     dispatch({ type: CHANGE_CURRENCY, payload: data });
   } catch (error) {
     console.log(error);

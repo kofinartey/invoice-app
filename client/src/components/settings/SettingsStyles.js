@@ -45,6 +45,11 @@ const SettingsStyles = makeStyles({
     fontSize: "3rem",
     fontWeight: 800,
     boxShadow: " 0 10px 10px rgba(0,0,0,0.1)",
+    "& img": {
+      width: "7rem",
+      height: "7rem",
+      borderRadius: "50%",
+    },
   },
   userName: {
     fontSize: "1.5rem",
