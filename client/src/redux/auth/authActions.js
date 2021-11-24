@@ -6,6 +6,7 @@ import {
   EDIT_USER_INFO,
   CHANGE_CURRENCY,
   ADD_AVATAR,
+  REMOVE_AVATAR,
 } from "./authTypes";
 
 export const authRequest = () => ({ type: AUTH_REQUEST });
@@ -76,7 +77,6 @@ export const addAvatar = (formData) => async (dispatch) => {
     });
     const avatarUrl = await response.json();
     dispatch({ type: ADD_AVATAR, payload: avatarUrl });
-    console.log(avatarUrl);
   } catch (error) {
     console.error(error);
   }
@@ -85,8 +85,8 @@ export const addAvatar = (formData) => async (dispatch) => {
 export const removeAvatar = () => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
-    const response = fetch(
-      `${process.env.REACT_APP_USER_BASE_URL}/remove_avatar`,
+    const response = await fetch(
+      `${process.env.REACT_APP_USER_BASE_URL}/delete_avatar`,
       {
         method: "DELETE",
         headers: {
@@ -94,8 +94,11 @@ export const removeAvatar = () => async (dispatch) => {
         },
       }
     );
-    const data = response.json();
-  } catch (error) {}
+    // const data = response.json();
+    dispatch({ type: REMOVE_AVATAR });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const changePassword =

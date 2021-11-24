@@ -5,3 +5,4 @@ export const USER_LOGOUT = "USER_LOGOUT";
 export const EDIT_USER_INFO = "EDIT_USER_INFO";
 export const CHANGE_CURRENCY = "CHANGE_CURRENCY";
 export const ADD_AVATAR = "ADD_AVATAR";
+export const REMOVE_AVATAR = "REMOVE_AVATAR";

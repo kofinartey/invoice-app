@@ -34,7 +34,7 @@ router.get("/avatar/:key", async (req, res) => {
     const readStream = await getFileStream(key);
     readStream.pipe(res);
   } catch (error) {
-    // console.log(error);
+    console.error(error);
     res.status(500).send("Failed to get avatar");
   }
 });
@@ -148,8 +148,10 @@ router.delete("/delete_avatar", auth, async (req, res) => {
   if (!user) return res.status(400).send("user not found");
 
   if (!user.avatar) return;
-  await deleteAvatars3(user.avatar.slice(8));
-  (user.avatar = ""), await user.save();
+  deleteAvatars3(user.avatar.slice(8));
+
+  user.avatar = "";
+  await user.save();
   res.json("Successfully deleted avatar");
 });
 
@@ -168,7 +170,6 @@ router.put("/edit_user_info", auth, async (req, res) => {
 
 //change password
 router.patch("/change_password", auth, async (req, res) => {
-  console.log(req.body);
   const { error } = validatePasswordCredentials(req.body);
   if (error) return res.status(400).send("Bad request");
   if (req.body.newPassword !== req.body.confirmPassword)
@@ -181,10 +182,8 @@ router.patch("/change_password", auth, async (req, res) => {
     req.body.currentPassword,
     user.password
   );
-  console.log("validPassword => ", validPassword);
   if (!validPassword) return res.status(400).json("Invalid password");
   const salt = await bcrypt.genSalt(10);
-  console.log(salt);
   user.password = await bcrypt.hash(req.body.newPassword, salt);
   await user.save();
   res.json("Password changed");

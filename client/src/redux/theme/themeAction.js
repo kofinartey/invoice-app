@@ -11,7 +11,6 @@ export const switchTheme = () => async (dispatch) => {
       },
     });
     const data = await response.json();
-    console.log(data);
     dispatch({ type: SWITCH_THEME, payload: data });
   } catch (error) {
     console.log(error.message);

@@ -13,7 +13,7 @@ import SelectImage from "./SelectImage";
 import {
   editUserInfo,
   changeCurrency,
-  changePassword,
+  removeAvatar,
 } from "../../redux/auth/authActions";
 import { switchTheme } from "../../redux/theme/themeAction";
 import { infoSchema, passwordSchema } from "./settingsSchema";
@@ -85,6 +85,10 @@ function Settings() {
     dispatch(changeCurrency(e.target.value));
   };
 
+  const deleteAvatar = () => {
+    dispatch(removeAvatar());
+  };
+
   return (
     <div
       className={classes.Settings}
@@ -154,6 +158,7 @@ function Settings() {
                 <p>Pending</p>
               </div>
             </div>
+
             <button
               className={classes.profile__btn}
               onClick={() => {
@@ -166,6 +171,7 @@ function Settings() {
             <button
               className={classes.profile__btn}
               style={{ backgroundColor: darkTheme && "#252945" }}
+              onClick={deleteAvatar}
             >
               DELETE
             </button>
