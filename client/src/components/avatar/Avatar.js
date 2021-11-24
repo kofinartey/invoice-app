@@ -14,6 +14,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
+import FeedbackIcon from "@mui/icons-material/Feedback";
+import HelpIcon from "@mui/icons-material/Help";
 import Divider from "@mui/material/Divider";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
@@ -67,7 +69,14 @@ function Avatar() {
   const DefaultAvatar = () => {
     return (
       <div className={classes.avatar__default} onClick={toggleMenu}>
-        <p>{user.firstName[0].toUpperCase()}</p>
+        {user.avatar ? (
+          <img
+            src={`${process.env.REACT_APP_USER_BASE_URL}${user.avatar}`}
+            alt=""
+          />
+        ) : (
+          <p>{user.firstName[0].toUpperCase()}</p>
+        )}
       </div>
     );
   };
@@ -159,11 +168,20 @@ function Avatar() {
                       onClick={() => setMenu("main")}
                     />
                     <Divider />
-                    <DropDownItem>Report a problem</DropDownItem>
+                    <Link
+                      to="/feedback"
+                      style={{ color: darkTheme ? "white" : "black" }}
+                      onClick={toggleMenu}
+                    >
+                      <DropDownItem leftIcon={<FeedbackIcon />}>
+                        Feedback
+                      </DropDownItem>
+                    </Link>
                     <Divider />
-                    <DropDownItem>Support Inbox</DropDownItem>
-                    <Divider />
-                    <DropDownItem>Help Center</DropDownItem>
+
+                    <DropDownItem leftIcon={<HelpIcon />}>
+                      Help Center
+                    </DropDownItem>
                   </motion.div>
                 </AnimatePresence>
               )}

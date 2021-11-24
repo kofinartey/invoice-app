@@ -32,10 +32,20 @@ const userSchema = new mongoose.Schema({
     required: true,
     max: 1000,
   },
+  avatar: {
+    type: String,
+  },
   settings: settingsSchema,
+  role: {
+    type: String,
+    default: "user",
+  },
 });
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+  const token = jwt.sign(
+    { _id: this._id, role: this.role },
+    config.get("jwtPrivateKey")
+  );
   return token;
 };
 

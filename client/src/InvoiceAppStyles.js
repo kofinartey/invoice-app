@@ -2,8 +2,8 @@ import { makeStyles } from "@material-ui/core";
 
 const InvoiceAppStyles = makeStyles({
   InvoiceApp: {
-    height: "100%",
-    minHeight: "100vh",
+    // height: "100%",
+    // minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
     marginBottom: "2rem",
@@ -32,6 +32,7 @@ const InvoiceAppStyles = makeStyles({
   "@media(min-width: 64rem)": {
     InvoiceApp: {
       flexDirection: "row",
+      minHeight: "100vh",
     },
     Appbar: {
       width: "0",

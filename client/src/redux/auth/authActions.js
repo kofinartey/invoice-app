@@ -5,6 +5,8 @@ import {
   USER_LOGOUT,
   EDIT_USER_INFO,
   CHANGE_CURRENCY,
+  ADD_AVATAR,
+  REMOVE_AVATAR,
 } from "./authTypes";
 
 export const authRequest = () => ({ type: AUTH_REQUEST });
@@ -47,11 +49,13 @@ export const login = (formData, history) => async (dispatch) => {
       dispatch(authSucess(data));
       history.push("/main");
     } else {
+      console.log(data);
       dispatch(authFailure(data));
     }
     // dispatch(authSucess(data));
   } catch (error) {
-    dispatch(authFailure(error));
+    // dispatch(authFailure(error.message));
+    console.log(error.message);
   }
 };
 
@@ -59,6 +63,99 @@ export const logout = (history) => async (dispatch) => {
   dispatch(userLogout());
   history.push("/");
 };
+
+export const addAvatar = (formData) => async (dispatch) => {
+  try {
+    // console.log(formData.get("file"));
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
+    const response = await fetch("http://localhost:5000/api/users/add_avatar", {
+      method: "POST",
+      headers: {
+        "x-auth-token": token,
+      },
+      body: formData,
+    });
+    const avatarUrl = await response.json();
+    dispatch({ type: ADD_AVATAR, payload: avatarUrl });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const removeAvatar = () => async (dispatch) => {
+  try {
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
+    const response = await fetch(
+      `${process.env.REACT_APP_USER_BASE_URL}/delete_avatar`,
+      {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    // const data = response.json();
+    dispatch({ type: REMOVE_AVATAR });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const changePassword =
+  (formData, setChangingStatus, reset) => async (dispatch) => {
+    try {
+      setChangingStatus({
+        visble: true,
+        loading: true,
+        message: "loading",
+      });
+      const token = JSON.parse(localStorage.getItem("userInfo")).token;
+      const response = await fetch(
+        "http://localhost:5000/api/users/change_password",
+        {
+          method: "PATCH",
+          headers: {
+            "x-auth-token": token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setChangingStatus({
+          loading: false,
+          visible: true,
+          message: "Password changed",
+        });
+        setTimeout(() => {
+          setChangingStatus({
+            loading: false,
+            visible: false,
+            message: "",
+          });
+        }, 2000);
+        reset({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      } else {
+        setChangingStatus({
+          loading: false,
+          visible: true,
+          message: "Failed to change password",
+        });
+        setTimeout(() => {
+          setChangingStatus({
+            loading: false,
+            visible: false,
+            message: "",
+          });
+        }, 1000);
+      }
+      // reset();
+      // console.log(reset);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 export const editUserInfo = (userInfo) => async (dispatch) => {
   try {
@@ -97,7 +194,6 @@ export const changeCurrency = (currency) => async (dispatch) => {
       }
     );
     const data = await response.json();
-    console.log(data);
     dispatch({ type: CHANGE_CURRENCY, payload: data });
   } catch (error) {
     console.log(error);

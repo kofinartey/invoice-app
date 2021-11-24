@@ -25,6 +25,10 @@ const AvatarStyles = makeStyles({
       fontWeight: "800",
       fontSize: "1.4rem",
     },
+    "& img": {
+      width: "3rem",
+      borderRadius: "50%",
+    },
   },
   avatar_img: {
     width: "3rem",

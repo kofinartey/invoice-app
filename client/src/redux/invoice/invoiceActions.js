@@ -186,7 +186,6 @@ export const deleteInvoice = (id) => async (dispatch) => {
       },
     });
     const data = await response.json();
-    console.log(data);
     dispatch(removeInvoice(data._id));
   } catch (error) {
     console.log(error.message);
