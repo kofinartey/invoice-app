@@ -9,12 +9,10 @@ const users = require("./routes/users");
 const feedback = require("./routes/feedback");
 const auth = require("./middleware/auth");
 
-if (!config.get("jwtPrivateKey")) {
+if (!process.env.JWT_PRIVATE_KEY) {
   console.log("FATAL ERROR: jwtPrivateKey is not defined");
   process.exit(1);
 }
-// console.log(process.env.MONGODB_CONNECTION_URL);
-//rz3aXHwTdYTzA4UY
 
 //connect to mongoose
 mongoose
@@ -38,6 +36,10 @@ app.use(express.json());
 app.use("/api/invoices", auth, invoices);
 app.use("/api/users", users);
 app.use("/api/feedback", feedback);
+
+app.get("/", (req, res) => {
+  res.send("Hello world");
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
