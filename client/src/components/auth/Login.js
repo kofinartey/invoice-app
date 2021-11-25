@@ -7,7 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //my imports
 import { login } from "../../redux/auth/authActions";
 import AuthStyles from "./AuthStyles";
-import Input from "../shared_components/Input";
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("can't be empty"),
@@ -36,53 +35,35 @@ function Login({ changeForm, values }) {
     dispatch(login(data, history));
   };
   return (
-    <div className={classes.Auth}>
-      <form onSubmit={handleSubmit(submit)} className={classes.form}>
-        {fetchError && <p>{fetchError}</p>}
-        <>
-          <div className={classes.formControl}>
-            <p className={classes.error}>{errors.email?.message}</p>
-            <input
-              type="text"
-              className={classes.input}
-              {...register("email")}
-              placeholder="email"
-            />
-          </div>
-          <div className={classes.formControl}>
-            <p className={classes.error}>{errors.password?.message}</p>
-            <input
-              type="password"
-              className={classes.input}
-              {...register("password")}
-              placeholder="password"
-            />
-          </div>
-
-          {/* <Input
-            type="email"
-            // value={values && values.email}
-            inputid="email"
-            placeholder="E-mail"
+    <form onSubmit={handleSubmit(submit)} className={classes.form}>
+      {fetchError && <p>{fetchError}</p>}
+      <>
+        <div className={classes.formControl}>
+          <p className={classes.error}>{errors.email?.message}</p>
+          <input
+            type="text"
+            className={classes.input}
             {...register("email")}
-            errors={errors.email?.message}
+            placeholder="email"
           />
-          <Input
-            type="password"
-            placeholder="Password"
-            inputid="password"
-            {...register("password")}
-            errors={errors.password?.message}
-          /> */}
-        </>
-        <button className={classes.button}>LOGIN</button>
-        <div className={classes.switch}>
-          <p>
-            Don't have an account? <span onClick={switchForm}> SignUp</span>
-          </p>
         </div>
-      </form>
-    </div>
+        <div className={classes.formControl}>
+          <p className={classes.error}>{errors.password?.message}</p>
+          <input
+            type="password"
+            className={classes.input}
+            {...register("password")}
+            placeholder="password"
+          />
+        </div>
+      </>
+      <button className={classes.button}>LOGIN</button>
+      <div className={classes.switch}>
+        <p>
+          Don't have an account? <span onClick={switchForm}> SignUp</span>
+        </p>
+      </div>
+    </form>
   );
 }
 

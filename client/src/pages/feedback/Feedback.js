@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 //my imports
 import FeedbackStyles from "./FeedBackStyles";
 import Card from "../../components/shared_components/Card";
-import Input from "../../components/shared_components/Input";
 import { StyledLabel } from "../../components/shared_components/FormElements";
 import Select from "../../components/shared_components/Select";
 import Button from "../../components/shared_components/Button";

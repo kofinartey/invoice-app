@@ -54,6 +54,7 @@ function InvoiceList(props) {
   const showLoading = () => {
     return (
       <div>
+        {/* <CircularProgress /> */}
         <SkeletonList />
       </div>
     );

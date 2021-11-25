@@ -4,9 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-// require("dotenv").config();
 import { config } from "dotenv";
-// config();
 //my imports
 import ChangePasswordForm from "./ChangePassword";
 import SelectImage from "./SelectImage";
@@ -16,7 +14,7 @@ import {
   removeAvatar,
 } from "../../redux/auth/authActions";
 import { switchTheme } from "../../redux/theme/themeAction";
-import { infoSchema, passwordSchema } from "./settingsSchema";
+import { infoSchema } from "./settingsSchema";
 import DeleteModal from "./DeleteModal";
 import Card from "../shared_components/Card";
 import Input from "../shared_components/Input";
@@ -25,10 +23,6 @@ import { Divider, Switch } from "@material-ui/core";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 import SettingsStyles from "./SettingsStyles";
-
-// const USER_BASE_URL = "http://localhost:5000/api/users";
-// const USER_BASE_URL = process.env.REACT_APP_USER_BASE_URL;
-// console.log(USER_BASE_URL);
 
 function Settings() {
   config();

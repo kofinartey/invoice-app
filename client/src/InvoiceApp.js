@@ -27,6 +27,8 @@ function InvoiceApp() {
   useEffect(() => {
     dispatch(fetchInvoices());
   }, [dispatch, user]);
+  // if (user && user.email) dispatch(fetchInvoices());
+
   return (
     <div
       className={classes.InvoiceApp}

@@ -2,11 +2,17 @@ import { makeStyles } from "@mui/styles";
 
 const AuthStyles = makeStyles({
   Auth: {
-    width: "90%",
-    maxWidth: "25rem",
+    width: "100%",
+    // maxWidth: "25rem",
+    height: "100vh",
     margin: "auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   form: {
+    width: "90%",
+    maxWidth: "25rem",
     backgroundColor: "white",
     padding: "4rem 2rem",
     borderRadius: "1rem",
