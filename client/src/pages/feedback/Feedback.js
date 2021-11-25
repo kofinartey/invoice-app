@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
@@ -13,6 +14,7 @@ import LibraryAddCheckRoundedIcon from "@mui/icons-material/LibraryAddCheckRound
 
 function Feedback() {
   const classes = FeedbackStyles();
+  const darkTheme = useSelector((state) => state.theme);
   const {
     register,
     handleSubmit,
@@ -63,6 +65,11 @@ function Feedback() {
     sendFeedback(toSend);
   };
 
+  const inputStyle = {
+    color: darkTheme && "white",
+    background: darkTheme && "#252945",
+    borderColor: darkTheme && "#252945",
+  };
   const SuccessModal = () => {
     return (
       <motion.div className={classes.successModal}>
@@ -88,11 +95,15 @@ function Feedback() {
   return (
     <div className={classes.Feedback}>
       {success && <SuccessModal />}
+      <Link
+        to="/main"
+        className={classes.back}
+        style={{ color: darkTheme && "white" }}
+      >
+        <img src={leftArrow} alt="" /> Back to Invoices
+      </Link>
       <Card>
         <div className={classes.wrapper}>
-          <Link to="/main" className={classes.back}>
-            <img src={leftArrow} alt="" /> Back to Invoices
-          </Link>
           <form
             onSubmit={handleSubmit(submitFeedback)}
             className={classes.form}
@@ -110,6 +121,7 @@ function Feedback() {
               <input
                 type="text"
                 className={classes.input}
+                style={inputStyle}
                 {...register("title", { required: true })}
               />
               <p className={classes.errors}>
@@ -121,6 +133,7 @@ function Feedback() {
               <StyledLabel>Describe your below</StyledLabel>
               <textarea
                 className={classes.textarea}
+                style={inputStyle}
                 {...register("description", { required: true })}
               />
               <p className={classes.errors}>
@@ -130,6 +143,16 @@ function Feedback() {
             {status && <p>{status}</p>}
             <Button color="white" background="#7b5cfa">
               SEND
+            </Button>
+            <Button
+              color="black"
+              background={darkTheme ? "white" : "rgba(0,0,0,0.1)"}
+              onClick={(e) => {
+                e.preventDefault();
+                reset();
+              }}
+            >
+              CANCEL
             </Button>
           </form>
         </div>

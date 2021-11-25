@@ -29,7 +29,7 @@ const FeedbackStyles = makeStyles({
     flexDirection: "column",
   },
   form: {
-    marginTop: " 4rem",
+    marginTop: " 1rem",
     "& input": {
       outline: "none",
       width: "100%",
@@ -69,6 +69,7 @@ const FeedbackStyles = makeStyles({
     },
     "& button": {
       width: "100%",
+      marginBottom: "0.5rem",
     },
   },
   errors: {

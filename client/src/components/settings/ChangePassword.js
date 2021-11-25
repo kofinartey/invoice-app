@@ -29,6 +29,13 @@ const ChangePasswordForm = () => {
   const submitPassword = (data) => {
     dispatch(changePassword(data, setChangingStatus, reset));
   };
+
+  const inputStyle = {
+    color: darkTheme && "white",
+    background: darkTheme && "#252945",
+    borderColor: darkTheme && "#252945",
+  };
+
   return (
     <div className={classes.password}>
       <p>Change Password</p>
@@ -42,6 +49,7 @@ const ChangePasswordForm = () => {
             className={classes.input}
             type="password"
             id="currentPassword"
+            style={inputStyle}
             {...register("currentPassword")}
           />
         </div>
@@ -54,6 +62,7 @@ const ChangePasswordForm = () => {
           <input
             type="password"
             className={classes.input}
+            style={inputStyle}
             {...register("newPassword")}
           />
         </div>
@@ -65,6 +74,7 @@ const ChangePasswordForm = () => {
           </label>
           <input
             type="password"
+            style={inputStyle}
             className={classes.input}
             {...register("confirmPassword")}
             errors={errors.confirmPassword && "Passwords don't match"}
