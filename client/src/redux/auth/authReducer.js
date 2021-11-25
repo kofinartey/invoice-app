@@ -65,7 +65,6 @@ const userReducer = (state = initialState, action) => {
           },
         },
       };
-      console.log(editedCurrency);
       localStorage.setItem("userInfo", JSON.stringify(editedCurrency.userInfo));
       return editedCurrency;
 

@@ -72,7 +72,7 @@ export const fetchInvoices = () => async (dispatch) => {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
     // console.log(token);
     dispatch(fetchInvoicesRequest());
-    const response = await fetch("http://localhost:5000/api/invoices", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/invoices`, {
       headers: {
         "x-auth-token": token,
       },
@@ -90,7 +90,7 @@ export const fetchInvoices = () => async (dispatch) => {
 export const postInvoice = (invoiceData) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
-    const response = await fetch("http://localhost:5000/api/invoices", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/invoices`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -115,14 +115,17 @@ export const postInvoice = (invoiceData) => async (dispatch) => {
 export const postDraft = (invoiceData) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
-    const response = await fetch("http://localhost:5000/api/invoices/draft", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": token,
-      },
-      body: JSON.stringify(invoiceData),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/invoices/draft`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify(invoiceData),
+      }
+    );
     const data = await response.json();
     dispatch(addInvoice(data));
   } catch (error) {
@@ -136,7 +139,7 @@ export const patchInvoice = (id, invoiceData) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(
-      `http://localhost:5000/api/invoices/edit/${id}`,
+      `${process.env.REACT_APP_BASE_URL}/invoices/edit/${id}`,
       {
         method: "PUT",
         headers: {
@@ -158,7 +161,7 @@ export const patchStatus = (id) => async (dispatch) => {
   const token = JSON.parse(localStorage.getItem("userInfo")).token;
   try {
     const response = await fetch(
-      `http://localhost:5000/api/invoices/${id}/status`,
+      `${process.env.REACT_APP_BASE_URL}/invoices/${id}/status`,
       {
         method: "PATCH",
         headers: {
@@ -178,13 +181,16 @@ export const patchStatus = (id) => async (dispatch) => {
 export const deleteInvoice = (id) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
-    const response = await fetch(`http://localhost:5000/api/invoices/${id}`, {
-      method: "DELETE",
-      headers: {
-        "x-auth-token": token,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/invoices/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     dispatch(removeInvoice(data._id));
   } catch (error) {
@@ -203,7 +209,7 @@ export const deleteAllInvoices = (userId) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(
-      `http://localhost:5000/api/invoices/deleteAll/${userId}`,
+      `${process.env.REACT_APP_BASE_URL}/invoices/deleteAll/${userId}`,
       {
         method: "DELETE",
         headers: {

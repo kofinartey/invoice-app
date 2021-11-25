@@ -130,7 +130,7 @@ function Settings() {
             >
               {user.avatar ? (
                 <img
-                  src={`${process.env.REACT_APP_USER_BASE_URL}${user.avatar}`}
+                  src={`${process.env.REACT_APP_BASE_URL}/users${user.avatar}`}
                   alt=""
                 />
               ) : (

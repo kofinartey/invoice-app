@@ -30,14 +30,17 @@ function Feedback() {
   const sendFeedback = async (feedback) => {
     try {
       const token = JSON.parse(localStorage.getItem("userInfo")).token;
-      const response = await fetch("http://localhost:5000/api/feedback/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": token,
-        },
-        body: JSON.stringify(feedback),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/feedback/add`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+          body: JSON.stringify(feedback),
+        }
+      );
       const data = await response.json();
       setStatus(data);
       setSuccess(true);

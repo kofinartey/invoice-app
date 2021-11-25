@@ -14,7 +14,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: darkTheme ? "red" : "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
       <div className={classes.skeleton}>
@@ -22,7 +22,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
       <div className={classes.skeleton}>
@@ -30,7 +30,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
       <div className={classes.skeleton}>
@@ -38,7 +38,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
       <div className={classes.skeleton}>
@@ -46,7 +46,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
       <div className={classes.skeleton}>
@@ -54,7 +54,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
       <div className={classes.skeleton}>
@@ -62,7 +62,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
       <div className={classes.skeleton}>
@@ -70,23 +70,7 @@ function SkeletonList() {
           variant="rectangular"
           animation="wave"
           height={85}
-          sx={{ bgcolor: "grey.200" }}
-        />
-      </div>
-      <div className={classes.skeleton}>
-        <Skeleton
-          variant="rectangular"
-          animation="wave"
-          height={85}
-          sx={{ bgcolor: "grey.200" }}
-        />
-      </div>
-      <div className={classes.skeleton}>
-        <Skeleton
-          variant="rectangular"
-          animation="wave"
-          height={85}
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: darkTheme ? "#1e2139" : "grey.200" }}
         />
       </div>
     </div>

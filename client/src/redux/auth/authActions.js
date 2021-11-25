@@ -17,13 +17,16 @@ export const userLogout = () => ({ type: USER_LOGOUT });
 export const signUp = (formData, history) => async (dispatch) => {
   try {
     dispatch(authRequest());
-    const response = await fetch("http://localhost:5000/api/users/sign_up", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/sign_up`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
     const data = await response.json();
     dispatch(authSucess(data));
     history.push("/");
@@ -37,13 +40,16 @@ export const signUp = (formData, history) => async (dispatch) => {
 export const login = (formData, history) => async (dispatch) => {
   try {
     dispatch(authRequest());
-    const response = await fetch("http://localhost:5000/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
     const data = await response.json();
     if (response.ok) {
       dispatch(authSucess(data));
@@ -68,13 +74,16 @@ export const addAvatar = (formData) => async (dispatch) => {
   try {
     // console.log(formData.get("file"));
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
-    const response = await fetch("http://localhost:5000/api/users/add_avatar", {
-      method: "POST",
-      headers: {
-        "x-auth-token": token,
-      },
-      body: formData,
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/add_avatar`,
+      {
+        method: "POST",
+        headers: {
+          "x-auth-token": token,
+        },
+        body: formData,
+      }
+    );
     const avatarUrl = await response.json();
     dispatch({ type: ADD_AVATAR, payload: avatarUrl });
   } catch (error) {
@@ -86,7 +95,7 @@ export const removeAvatar = () => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(
-      `${process.env.REACT_APP_USER_BASE_URL}/delete_avatar`,
+      `${process.env.REACT_APP_BASE_URL}/users/delete_avatar`,
       {
         method: "DELETE",
         headers: {
@@ -111,7 +120,7 @@ export const changePassword =
       });
       const token = JSON.parse(localStorage.getItem("userInfo")).token;
       const response = await fetch(
-        "http://localhost:5000/api/users/change_password",
+        `${process.env.REACT_APP_BASE_URL}/users/change_password`,
         {
           method: "PATCH",
           headers: {
@@ -161,7 +170,7 @@ export const editUserInfo = (userInfo) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(
-      "http://localhost:5000/api/users/edit_user_info",
+      `${process.env.REACT_APP_BASE_URL}/users/edit_user_info`,
       {
         method: "PUT",
         headers: {
@@ -182,7 +191,7 @@ export const changeCurrency = (currency) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(
-      "http://localhost:5000/api/users/change_currency",
+      `${process.env.REACT_APP_BASE_URL}/users/change_currency`,
       {
         method: "PATCH",
         headers: {
@@ -204,7 +213,7 @@ export const deleteUser = (history) => async (dispatch) => {
   try {
     const token = JSON.parse(localStorage.getItem("userInfo")).token;
     const response = await fetch(
-      "http://localhost:5000/api/users/delete_user",
+      `${process.env.REACT_APP_BASE_URL}/users/delete_user`,
       {
         method: "DELETE",
         headers: {
