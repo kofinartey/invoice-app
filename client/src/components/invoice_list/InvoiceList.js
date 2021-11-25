@@ -6,7 +6,6 @@ import Invoice from "../invoice/Invoice";
 import InvoiceListStyles from "./InvoiceListStyles";
 import empty from "../../assets/illustration-empty.svg";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
-import CircularProgress from "@mui/material/CircularProgress";
 
 function InvoiceList(props) {
   const classes = InvoiceListStyles();

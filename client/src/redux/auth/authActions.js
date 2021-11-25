@@ -92,78 +92,70 @@ export const addAvatar = (formData) => async (dispatch) => {
 };
 
 export const removeAvatar = () => async (dispatch) => {
-  try {
-    const token = JSON.parse(localStorage.getItem("userInfo")).token;
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/users/delete_avatar`,
-      {
-        method: "DELETE",
-        headers: {
-          "x-auth-token": token,
-        },
-      }
-    );
-    // const data = response.json();
-    dispatch({ type: REMOVE_AVATAR });
-  } catch (error) {
-    console.error(error);
-  }
+  const token = JSON.parse(localStorage.getItem("userInfo")).token;
+  fetch(`${process.env.REACT_APP_BASE_URL}/users/delete_avatar`, {
+    method: "DELETE",
+    headers: {
+      "x-auth-token": token,
+    },
+  })
+    .then((response) => {
+      dispatch({ type: REMOVE_AVATAR });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 export const changePassword =
   (formData, setChangingStatus, reset) => async (dispatch) => {
-    try {
-      setChangingStatus({
-        visble: true,
-        loading: true,
-        message: "loading",
-      });
-      const token = JSON.parse(localStorage.getItem("userInfo")).token;
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/users/change_password`,
-        {
-          method: "PATCH",
-          headers: {
-            "x-auth-token": token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+    setChangingStatus({
+      visble: true,
+      loading: true,
+      message: "loading",
+    });
+    const token = JSON.parse(localStorage.getItem("userInfo")).token;
+    fetch(`${process.env.REACT_APP_BASE_URL}/users/change_password`, {
+      method: "PATCH",
+      headers: {
+        "x-auth-token": token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          setChangingStatus({
+            loading: false,
+            visible: true,
+            message: "Password changed",
+          });
+          setTimeout(() => {
+            setChangingStatus({
+              loading: false,
+              visible: false,
+              message: "",
+            });
+          }, 2000);
+          reset({ currentPassword: "", newPassword: "", confirmPassword: "" });
+        } else {
+          setChangingStatus({
+            loading: false,
+            visible: true,
+            message: "Failed to change password",
+          });
+          setTimeout(() => {
+            setChangingStatus({
+              loading: false,
+              visible: false,
+              message: "",
+            });
+          }, 1000);
         }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setChangingStatus({
-          loading: false,
-          visible: true,
-          message: "Password changed",
-        });
-        setTimeout(() => {
-          setChangingStatus({
-            loading: false,
-            visible: false,
-            message: "",
-          });
-        }, 2000);
-        reset({ currentPassword: "", newPassword: "", confirmPassword: "" });
-      } else {
-        setChangingStatus({
-          loading: false,
-          visible: true,
-          message: "Failed to change password",
-        });
-        setTimeout(() => {
-          setChangingStatus({
-            loading: false,
-            visible: false,
-            message: "",
-          });
-        }, 1000);
-      }
-      // reset();
-      // console.log(reset);
-    } catch (error) {
-      console.error(error);
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
 export const editUserInfo = (userInfo) => async (dispatch) => {

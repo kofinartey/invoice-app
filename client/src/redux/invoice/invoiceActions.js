@@ -206,21 +206,18 @@ const toggleNotification = (action, type) => {
 };
 
 export const deleteAllInvoices = (userId) => async (dispatch) => {
-  try {
-    const token = JSON.parse(localStorage.getItem("userInfo")).token;
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/invoices/deleteAll/${userId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": token,
-        },
-      }
-    );
-    const data = await response.json();
-    dispatch({ type: DELETE_ALL });
-  } catch (error) {
-    console.log(error);
-  }
+  const token = JSON.parse(localStorage.getItem("userInfo")).token;
+  fetch(`${process.env.REACT_APP_BASE_URL}/invoices/deleteAll/${userId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": token,
+    },
+  })
+    .then((response) => {
+      dispatch({ type: DELETE_ALL });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
