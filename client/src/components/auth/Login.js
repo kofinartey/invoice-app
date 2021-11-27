@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 //my imports
 import { login } from "../../redux/auth/authActions";
+import { CircularProgress } from "@mui/material";
 import AuthStyles from "./AuthStyles";
 
 const loginSchema = yup.object().shape({
@@ -17,6 +18,7 @@ function Login({ changeForm, values }) {
   const classes = AuthStyles();
   const dispatch = useDispatch();
   const fetchError = useSelector((state) => state.user.error);
+  const user = useSelector((state) => state.user);
   const history = useHistory();
   const {
     register,
@@ -36,7 +38,7 @@ function Login({ changeForm, values }) {
   };
   return (
     <form onSubmit={handleSubmit(submit)} className={classes.form}>
-      {fetchError && <p>{fetchError}</p>}
+      {fetchError && <p style={{ color: "#EC5757" }}>{fetchError}</p>}
       <>
         <div className={classes.formControl}>
           <p className={classes.error}>{errors.email?.message}</p>
@@ -62,6 +64,13 @@ function Login({ changeForm, values }) {
         <p>
           Don't have an account? <span onClick={switchForm}> SignUp</span>
         </p>
+      </div>
+      <div className={classes.spinner}>
+        {user.loading && (
+          <CircularProgress
+          // size="30" color="inherit"
+          />
+        )}
       </div>
     </form>
   );

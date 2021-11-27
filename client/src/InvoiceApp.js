@@ -17,17 +17,18 @@ import Feedback from "./pages/feedback/Feedback";
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
   const darkTheme = useSelector((state) => state.theme);
-  const user = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
   const location = useLocation();
   const notificationDisplay = useSelector(
     (state) => state.invoice.notifications.visible
   );
 
+  //load invoices when login is successful
   useEffect(() => {
-    dispatch(fetchInvoices());
-  }, [dispatch, user]);
-  // if (user && user.email) dispatch(fetchInvoices());
+    if (location.pathname === "/main") {
+      dispatch(fetchInvoices());
+    }
+  });
 
   return (
     <div

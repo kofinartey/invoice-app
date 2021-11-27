@@ -7,6 +7,7 @@ const AuthStyles = makeStyles({
     height: "100vh",
     margin: "auto",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -16,6 +17,7 @@ const AuthStyles = makeStyles({
     backgroundColor: "white",
     padding: "4rem 2rem",
     borderRadius: "1rem",
+    position: "relative",
   },
   switch: {
     fontSize: "0.75rem",
@@ -70,6 +72,12 @@ const AuthStyles = makeStyles({
     "&:hover": {
       cursor: "pointer",
     },
+  },
+  spinner: {
+    height: "2rem",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
 });
 

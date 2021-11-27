@@ -2,7 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const config = require("config");
+require("dotenv").config();
 //my imports
 const invoices = require("./routes/invoices");
 const users = require("./routes/users");
