@@ -37,9 +37,9 @@ function MainPage() {
     setWindowWidth(width);
   });
 
-  useEffect(() => {
-    dispatch(fetchInvoices());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchInvoices());
+  // }, [dispatch]);
 
   const [filters, setFilters] = useState({
     draft: false,

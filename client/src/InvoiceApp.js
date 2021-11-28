@@ -13,6 +13,7 @@ import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 import Settings from "./components/settings/Settings";
 import Feedback from "./pages/feedback/Feedback";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
@@ -24,12 +25,12 @@ function InvoiceApp() {
   );
 
   //load invoices when login is successful
-  // useEffect(() => {
-  //   // if (location.pathname === "/main") {
-  //   //   dispatch(fetchInvoices());
-  //   // }
-  //   dispatch(fetchInvoices());
-  // }, [dispatch]);
+  useEffect(() => {
+    // if (location.pathname === "/main") {
+    //   dispatch(fetchInvoices());
+    // }
+    dispatch(fetchInvoices());
+  }, [dispatch]);
 
   return (
     <div
@@ -53,6 +54,7 @@ function InvoiceApp() {
           />
           <Route exact path="/settings" render={() => <Settings />} />
           <Route exact path="/feedback" render={() => <Feedback />} />
+          <Route exact path="/dashboard" render={() => <Dashboard />} />
         </Switch>
       </AnimatePresence>
       <div className={classes.notification}>

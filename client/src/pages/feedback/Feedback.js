@@ -109,7 +109,7 @@ function Feedback() {
             className={classes.form}
           >
             <div className={classes.formControl}>
-              <Select label="Kind" onChange={changeType}>
+              <Select label="Category" onChange={changeType}>
                 <option default>General Feedback</option>
                 <option value="Bug report">Bug Report</option>
                 <option value="suggestion">Suggestion</option>
@@ -130,7 +130,7 @@ function Feedback() {
             </div>
 
             <div className={classes.formControl}>
-              <StyledLabel>Describe your below</StyledLabel>
+              <StyledLabel>Describe your feedback</StyledLabel>
               <textarea
                 className={classes.textarea}
                 style={inputStyle}

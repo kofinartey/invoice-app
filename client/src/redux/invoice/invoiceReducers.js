@@ -49,7 +49,6 @@ const invoiceReducer = (state = initialState, action) => {
         invoices: [...state.invoices, action.payload],
       };
     case EDIT:
-      console.log(action.payload);
       return {
         ...state,
         invoices: state.invoices.map((invoice) =>
