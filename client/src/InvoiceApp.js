@@ -24,11 +24,12 @@ function InvoiceApp() {
   );
 
   //load invoices when login is successful
-  useEffect(() => {
-    if (location.pathname === "/main") {
-      dispatch(fetchInvoices());
-    }
-  });
+  // useEffect(() => {
+  //   // if (location.pathname === "/main") {
+  //   //   dispatch(fetchInvoices());
+  //   // }
+  //   dispatch(fetchInvoices());
+  // }, [dispatch]);
 
   return (
     <div

@@ -75,18 +75,28 @@ function InvoiceForm(props) {
   }, [formDisplay, reset]);
 
   //calculate total for all items
+  // // useEffect(() => {
+  // const calculateTotal = () => {
+  //   if (itemList.length === 1) {
+  //     setTotal(itemList[0].total);
+  //   } else {
+  //     const calculated =
+  //       itemList.length > 0 &&
+  //       itemList.reduce((accumulator, currentValue) => {
+  //         return accumulator.total + currentValue.total;
+  //       });
+  //     setTotal(calculated);
+  //   }
+  // };
+  // // calculateTotal();
+  // // }, [itemList]);
   useEffect(() => {
     const calculateTotal = () => {
-      if (itemList.length === 1) {
-        setTotal(itemList[0].total);
-      } else {
-        const calculated =
-          itemList.length > 0 &&
-          itemList.reduce((accumulator, currentValue) => {
-            return accumulator.total + currentValue.total;
-          });
-        setTotal(calculated);
-      }
+      let calculated = 0;
+      itemList.forEach((item) => {
+        calculated += item.total;
+      });
+      setTotal(calculated);
     };
     calculateTotal();
   }, [itemList]);
@@ -143,6 +153,7 @@ function InvoiceForm(props) {
   };
 
   const handleEdit = (data) => {
+    console.log(total);
     let dataToAdd = {
       id: props.values.id,
       createdAt: dayjs(date).format("D MMM YYYY"),

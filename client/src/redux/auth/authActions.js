@@ -60,7 +60,7 @@ export const login = (formData, history) => async (dispatch) => {
     }
     // dispatch(authSucess(data));
   } catch (error) {
-    // dispatch(authFailure(error.message));
+    dispatch(authFailure(error.message));
     console.log(error.message);
   }
 };

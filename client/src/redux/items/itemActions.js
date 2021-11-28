@@ -15,7 +15,6 @@ export const addItem = (item) => {
 };
 
 export const deleteItem = (id) => {
-  console.log(id);
   return {
     type: DELETE_ITEM,
     payload: id,
