@@ -39,6 +39,29 @@ const DashboardStyles = makeStyles({
   chart: {
     width: "100%",
   },
+  activities: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "3rem 0 4rem 0",
+  },
+  activities__wrapper: {
+    width: "90%",
+  },
+  incoming: {
+    marginTop: "3rem",
+  },
+  days: {
+    color: "#ec5757",
+  },
+  id: {
+    fontWeight: "bold",
+    "& span": {
+      fontWeight: "normal",
+    },
+  },
+  invoice__amount: {
+    fontWeight: "bold",
+  },
 
   "@media(min-width: 48rem)": {
     finances__wrapper: {
@@ -64,10 +87,27 @@ const DashboardStyles = makeStyles({
     finances__wrapper: {
       width: "70%",
     },
+    activities__wrapper: {
+      width: "70%",
+      display: "flex",
+      gap: "2rem",
+    },
+    overdue: {
+      width: "50%",
+    },
+    incoming: {
+      width: "50%",
+    },
   },
   "@media(min-width: 90rem)": {
     finances__wrapper: {
       width: "60%",
+    },
+    activities__wrapper: {
+      width: "60%",
+    },
+    incoming: {
+      marginTop: 0,
     },
   },
 });

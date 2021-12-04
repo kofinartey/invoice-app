@@ -7,6 +7,7 @@ function Card(props) {
   const styles = makeStyles({
     Card: {
       backgroundColor: darkTheme ? "#1E2139" : "white",
+      color: darkTheme && "white",
       margin: "1rem 0",
       padding: "1.5rem",
       borderRadius: ".5rem",
