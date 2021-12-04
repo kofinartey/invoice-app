@@ -27,6 +27,7 @@ function Bar(props) {
           ? "white"
           : "#373b53",
     },
+    transition: "all 0.3s ease-in-out",
   });
   const classes = styles();
   return (

@@ -8,56 +8,66 @@ const DashboardStyles = makeStyles({
     flexDirection: "column",
     // alignItems: "center",
   },
-  wrapper: {
-    width: "90%",
-    // margin: "auto",
-  },
-  invoiceStats: {
-    width: "100%",
+  finances: {
+    backgroundColor: "#373B53",
+    color: "white",
     display: "flex",
     justifyContent: "center",
-    "& $wrapper": {
+    margin: "2rem 0",
+  },
+  finances__wrapper: {
+    width: "90%",
+    margin: "2rem 0",
+  },
+  quote: {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    "& p:nth-of-type(1)": {
+      fontWeight: "normal",
+      fontSize: "0.8rem",
+      marginBottom: "0.8rem",
+    },
+  },
+  expected: {
+    fontSize: "2rem",
+  },
+  finances__others: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "2rem",
+  },
+  chart: {
+    width: "100%",
+  },
+
+  "@media(min-width: 48rem)": {
+    finances__wrapper: {
       display: "flex",
+      justifyContent: "space-between",
       alignItems: "center",
     },
-  },
-  totalInvoices: {
-    minWidth: "6rem",
-    minHeight: "6rem",
-    borderRadius: "1rem",
-    backgroundColor: "black",
-    color: "white",
-    marginRight: "1rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    "& p:nth-of-type(1)": {
-      fontWeight: "bold",
-      fontSize: "2rem",
+    stats: {
+      width: "40%",
     },
-    "& p:nth-of-type(2)": {
-      fontSize: "0.875rem",
+    chart: {
+      width: "50%",
+    },
+    expected: {
+      fontSize: "3rem",
     },
   },
-  bars__wrapper: {
-    width: "80%",
-    height: "3.5rem",
-    // minWidth: "rem",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
+
+  "@media(min-width: 64rem)": {
+    finances: {
+      marginTop: "4rem",
+    },
+    finances__wrapper: {
+      width: "70%",
+    },
   },
-  bar__label: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    height: "3.2rem",
-    // height: ""
-    "& p": {
-      marginLeft: "1rem",
-      width: "7rem",
-      fontSize: "0.875rem",
+  "@media(min-width: 90rem)": {
+    finances__wrapper: {
+      width: "60%",
     },
   },
 });
