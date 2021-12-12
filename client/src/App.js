@@ -4,13 +4,16 @@ import store from "./redux/store";
 import { Provider } from "react-redux";
 
 import InvoiceApp from "./InvoiceApp";
+import ScrollToTop from "./components/scroll_to_top/ScrollToTop";
 
 function App() {
   return (
     <Router>
       <Provider store={store}>
         <div>
-          <InvoiceApp />
+          <ScrollToTop>
+            <InvoiceApp />
+          </ScrollToTop>
         </div>
       </Provider>
     </Router>

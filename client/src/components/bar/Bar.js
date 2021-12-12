@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
 
@@ -42,4 +42,4 @@ function Bar(props) {
   );
 }
 
-export default Bar;
+export default memo(Bar);

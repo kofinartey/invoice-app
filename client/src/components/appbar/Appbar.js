@@ -25,11 +25,9 @@ function Appbar(props) {
       className={classes.Appbar}
       style={{ backgroundColor: darkTheme && "hsl(233, 30%, 21%)" }}
     >
-      <div className={classes.logo__container}>
-        <Link to="/main">
-          <img src={logo} alt="logo" />
-        </Link>
-      </div>
+      <Link to="/main" className={classes.logo__container}>
+        <img src={logo} alt="logo" />
+      </Link>
       <Link to="/dashboard">
         <AssessmentIcon
           sx={{

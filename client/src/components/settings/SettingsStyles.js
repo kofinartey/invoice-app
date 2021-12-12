@@ -56,24 +56,7 @@ const SettingsStyles = makeStyles({
     fontWeight: "bold",
     marginBottom: "4rem",
   },
-  invoice__summary: {
-    width: "15rem",
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "4rem",
-  },
-  summary__item: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    "& p:nth-of-type(1)": {
-      fontSize: "1.2rem",
-      fontWeight: "800",
-    },
-    "& p:nth-of-type(2)": {
-      fontSize: "0.8rem",
-    },
-  },
+
   profile__btn: {
     padding: "0.8rem",
     borderRadius: "0.5rem",

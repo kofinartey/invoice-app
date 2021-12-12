@@ -138,20 +138,6 @@ function Settings() {
               )}
             </div>
             <p className={classes.userName}>{userName}</p>
-            <div className={classes.invoice__summary}>
-              <div className={classes.summary__item}>
-                <p>{invoices.length}</p>
-                <p>Invoices</p>
-              </div>
-              <div className={classes.summary__item}>
-                <p>{paid.length}</p>
-                <p>Paid</p>
-              </div>
-              <div className={classes.summary__item}>
-                <p>{pending.length}</p>
-                <p>Pending</p>
-              </div>
-            </div>
 
             <button
               className={classes.profile__btn}

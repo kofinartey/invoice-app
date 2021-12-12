@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import {
@@ -11,6 +11,7 @@ import {
   LabelList,
 } from "recharts";
 //my imports
+import { fetchInvoices } from "../../redux/invoice/invoiceActions";
 import Card from "../../components/shared_components/Card";
 import formatAmount from "../../helper_functions/formatAmount";
 import InvoiceStatsMobile from "../../components/invoice_stats/InvoiceStatsMobile";
@@ -19,10 +20,9 @@ import DashboardStyles from "./DashboardStyles";
 
 function Dashboard() {
   const classes = DashboardStyles();
+  const dispatch = useDispatch();
   const darkTheme = useSelector((state) => state.theme);
   const invoices = useSelector((state) => state.invoice.invoices);
-  const [overdue, setOverdue] = useState([]);
-  const [incoming, setincoming] = useState([]);
   const currency = useSelector(
     (state) => state.user.userInfo.settings.currency
   );
@@ -32,6 +32,12 @@ function Dashboard() {
   window.addEventListener("resize", () => {
     setWindowWidth(window.innerWidth);
   });
+
+  console.log("DASHBOARD MOUNTED");
+
+  // useEffect(() => {
+  //   dispatch(fetchInvoices());
+  // });
 
   //calculate expected earnings
   useEffect(() => {
@@ -50,29 +56,6 @@ function Dashboard() {
     calcExpected();
   }, [invoices]);
 
-  //group overdue and upcoming invoices
-  useEffect(() => {
-    const today = dayjs(new Date());
-    let due = [];
-    let notYet = [];
-    invoices.forEach((invoice) => {
-      if (invoice.status === "pending") {
-        let dueDate = dayjs(invoice.paymentDue);
-        let dayDiff = dueDate.diff(today, "day");
-        if (dayDiff < 0) {
-          setOverdue([...overdue, invoice]);
-          due.push({ ...invoice, days: dayDiff });
-        } else if (dayDiff < 14) {
-          //load invoices due in 2 weeks
-          notYet.push({ ...invoice, days: dayDiff });
-          setincoming([invoice]);
-        }
-      }
-    });
-    setOverdue(due);
-    setincoming(notYet);
-  }, [invoices]);
-
   //stuff for pie chart
   const chartColors = ["#39d69f", "#ff8f00"];
   const data = [
@@ -87,6 +70,74 @@ function Dashboard() {
       value: expectedEarnings - paidInvoices,
     },
   ];
+
+  const overdue = (activity) => {
+    return invoices.map((invoice) => {
+      if (invoice.status === "pending") {
+        const today = dayjs(new Date());
+        let dueDate = dayjs(invoice.paymentDue);
+        let dayDiff = dueDate.diff(today, "day");
+        if (dayDiff < 0) {
+          return (
+            <Link
+              to={`/invoice/${invoice._id}/${invoice.id}`}
+              key={`overdue_${invoice.id}`}
+            >
+              <Card
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <p className={classes.id}>
+                  <span>#</span>
+                  {invoice.id}
+                </p>
+                <div className={classes.days}>
+                  <p>{Math.abs(dayDiff)} days</p>
+                  <p>overdue</p>
+                </div>
+                <p className={classes.invoice__amount}>
+                  {currency} {formatAmount(invoice.total)}
+                </p>
+              </Card>
+            </Link>
+          );
+        } else return null;
+      }
+    });
+  };
+  const upcoming = (activity) => {
+    return invoices.map((invoice) => {
+      if (invoice.status === "pending") {
+        const today = dayjs(new Date());
+        let dueDate = dayjs(invoice.paymentDue);
+        let dayDiff = dueDate.diff(today, "day");
+        if (dayDiff < 0) {
+          return (
+            <Link
+              to={`/invoice/${invoice._id}/${invoice.id}`}
+              key={`overdue_${invoice.id}`}
+            >
+              <Card
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <p className={classes.id}>
+                  <span>#</span>
+                  {invoice.id}
+                </p>
+                <p>{invoice.paymentDue}</p>
+                <p className={classes.invoice__amount}>
+                  {currency} {formatAmount(invoice.total)}
+                </p>
+              </Card>
+            </Link>
+          );
+        } else return null;
+      }
+    });
+  };
+
+  // const y = () => {
+  //   return invoices.map();
+  // };
 
   return (
     <div className={classes.Dashboard}>
@@ -167,53 +218,13 @@ function Dashboard() {
           {/* overdue invoices */}
           <div className={classes.overdue}>
             <p>Overdue Invoices</p>
-            {overdue &&
-              overdue.map((invoice) => (
-                <Link
-                  to={`/invoice/${invoice._id}/${invoice.id}`}
-                  key={`overdue_${invoice.id}`}
-                >
-                  <Card
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <p className={classes.id}>
-                      <span>#</span>
-                      {invoice.id}
-                    </p>
-                    <div className={classes.days}>
-                      <p>{Math.abs(invoice.days)} days</p>
-                      <p>overdue</p>
-                    </div>
-                    <p className={classes.invoice__amount}>
-                      {currency} {formatAmount(invoice.total)}
-                    </p>
-                  </Card>
-                </Link>
-              ))}
+            {overdue()}
           </div>
 
           {/* upcoming payments*/}
           <div className={classes.incoming}>
             <p>Upcoming Payments</p>
-            {incoming.map((invoice) => (
-              <Link
-                to={`/invoice/${invoice._id}/${invoice.id}`}
-                key={`overdue_${invoice.id}`}
-              >
-                <Card
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <p className={classes.id}>
-                    <span>#</span>
-                    {invoice.id}
-                  </p>
-                  <p>{invoice.paymentDue}</p>
-                  <p className={classes.invoice__amount}>
-                    {currency} {formatAmount(invoice.total)}
-                  </p>
-                </Card>
-              </Link>
-            ))}
+            {upcoming()}
           </div>
         </div>
       </section>
@@ -221,4 +232,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default memo(Dashboard);

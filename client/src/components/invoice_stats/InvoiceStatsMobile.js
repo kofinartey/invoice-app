@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { useSelector } from "react-redux";
 //myimports
 import Bar from "../bar/Bar";
@@ -57,4 +57,4 @@ function InvoiceStatsMobile() {
   );
 }
 
-export default InvoiceStatsMobile;
+export default memo(InvoiceStatsMobile);

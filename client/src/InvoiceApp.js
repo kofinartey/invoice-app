@@ -54,7 +54,7 @@ function InvoiceApp() {
           />
           <Route exact path="/settings" render={() => <Settings />} />
           <Route exact path="/feedback" render={() => <Feedback />} />
-          <Route exact path="/dashboard" render={() => <Dashboard />} />
+          {/* <Route exact path="/dashboard" render={() => <Dashboard />} /> */}
         </Switch>
       </AnimatePresence>
       <div className={classes.notification}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { useSelector } from "react-redux";
 //my imports
 import InvoiceStatsTabStyles from "./InvoiceStatsTabStyles";
@@ -76,4 +76,4 @@ function InvoiceStatsTab() {
   );
 }
 
-export default InvoiceStatsTab;
+export default memo(InvoiceStatsTab);
