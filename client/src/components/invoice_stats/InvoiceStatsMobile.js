@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 //myimports
 import Bar from "../bar/Bar";
@@ -8,7 +8,6 @@ function InvoiceStatsMobile() {
   const classes = InvoiceStatsMobileStyles();
   const darkTheme = useSelector((state) => state.theme);
   const invoices = useSelector((state) => state.invoice.invoices);
-  const [expectedEarnings, setExpectedEarnings] = useState(0);
   const paidInvoices = invoices.filter((invoice) => invoice.status === "paid");
   const pendingInvoices = invoices.filter(
     (invoice) => invoice.status === "pending"

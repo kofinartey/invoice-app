@@ -1,17 +1,10 @@
 import React, { useState, useEffect, memo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Legend,
-  Cell,
-  LabelList,
-} from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Legend, Cell } from "recharts";
 //my imports
-import { fetchInvoices } from "../../redux/invoice/invoiceActions";
+// import { fetchInvoices } from "../../redux/invoice/invoiceActions";
 import Card from "../../components/shared_components/Card";
 import formatAmount from "../../helper_functions/formatAmount";
 import InvoiceStatsMobile from "../../components/invoice_stats/InvoiceStatsMobile";
@@ -20,7 +13,7 @@ import DashboardStyles from "./DashboardStyles";
 
 function Dashboard() {
   const classes = DashboardStyles();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const darkTheme = useSelector((state) => state.theme);
   const invoices = useSelector((state) => state.invoice.invoices);
   const currency = useSelector(
@@ -104,7 +97,7 @@ function Dashboard() {
       }
     });
   };
-  const upcoming = (activity) => {
+  const upcoming = () => {
     return invoices.map((invoice) => {
       if (invoice.status === "pending") {
         const today = dayjs(new Date());
@@ -130,8 +123,8 @@ function Dashboard() {
               </Card>
             </Link>
           );
-        } else return null;
-      }
+        }
+      } else return null;
     });
   };
 

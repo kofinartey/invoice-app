@@ -13,7 +13,7 @@ import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 import Settings from "./components/settings/Settings";
 import Feedback from "./pages/feedback/Feedback";
-import Dashboard from "./pages/dashboard/Dashboard";
+// import Dashboard from "./pages/dashboard/Dashboard";
 
 function InvoiceApp() {
   const classes = InvoiceAppStyles();

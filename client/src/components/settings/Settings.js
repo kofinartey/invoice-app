@@ -33,9 +33,6 @@ function Settings() {
   const user = useSelector((state) => state.user.userInfo);
   const userName = `${user.firstName} ${user.lastName}`;
   const currency = user.settings.currency;
-  const invoices = useSelector((state) => state.invoice.invoices);
-  const paid = invoices.filter((invoice) => invoice.status === "paid");
-  const pending = invoices.filter((invoice) => invoice.status === "pending");
   const [checked, setChecked] = useState(false);
   const [showImageSelector, setShowImageSelector] = useState(false);
   const [modal, setModal] = useState({
@@ -287,73 +284,5 @@ function Settings() {
     </div>
   );
 }
-
-//move change password form out of main settings component.
-//it was causing a few issues with how react hook form handles both it and the edit userInfo form
-// const ChangePasswordForm = () => {
-//   const classes = SettingsStyles();
-//   const darkTheme = useSelector((state) => state.theme);
-//   const dispatch = useDispatch();
-//   const defaultValues = {
-//     currentPassword: "",
-//     newPassword: "",
-//     confirmPassword: "",
-//   };
-//   const {
-//     handleSubmit,
-//     reset,
-//     register,
-//     formState: { errors },
-//   } = useForm({
-//     resolver: yupResolver(passwordSchema),
-//   });
-//   const [changingStatus, setChangingStatus] = useState({
-//     loading: false,
-//     message: "",
-//     visible: false,
-//   });
-
-//   const submitPassword = (data) => {
-//     dispatch(changePassword(data, setChangingStatus, reset));
-//     reset();
-//   };
-//   return (
-//     <div className={classes.password}>
-//       <p>Change Password</p>
-//       <form onSubmit={handleSubmit(submitPassword)}>
-//         <Input
-//           type="password"
-//           inputid="currentPassword"
-//           label="Enter Current Password"
-//           {...register("currentPassword")}
-//           errors={errors.currentPassword?.message}
-//         />
-//         <Input
-//           type="password"
-//           inputid="newPassword"
-//           label="Enter New Password"
-//           {...register("newPassword")}
-//           errors={errors.newPassword?.message}
-//         />
-//         <Input
-//           type="password"
-//           inputid="confirmPassword"
-//           label="Confirm New Password"
-//           {...register("confirmPassword")}
-//           errors={errors.confirmPassword && "Passwords don't match"}
-//         />
-//         <p style={{ fontSize: "0.8rem", color: "#ec5757" }}>
-//           {changingStatus.visible && `*** ${changingStatus.message}`}
-//         </p>
-//         <button
-//           className={classes.profile__btn}
-//           style={{ backgroundColor: darkTheme && "#252945" }}
-//         >
-//           CHANGE PASSWORD
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
 
 export default Settings;

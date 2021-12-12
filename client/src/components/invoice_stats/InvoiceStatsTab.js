@@ -8,7 +8,6 @@ function InvoiceStatsTab() {
   const classes = InvoiceStatsTabStyles();
   const darkTheme = useSelector((state) => state.theme);
   const invoices = useSelector((state) => state.invoice.invoices);
-  const [expectedEarnings, setExpectedEarnings] = useState(0);
   const paidInvoices = invoices.filter((invoice) => invoice.status === "paid");
   const pendingInvoices = invoices.filter(
     (invoice) => invoice.status === "pending"
