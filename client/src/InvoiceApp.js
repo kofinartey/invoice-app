@@ -18,6 +18,7 @@ import Feedback from "./pages/feedback/Feedback";
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
   const darkTheme = useSelector((state) => state.theme);
+  const user = useSelector((state) => state.user.userInfo._id);
   const dispatch = useDispatch();
   const location = useLocation();
   const notificationDisplay = useSelector(
@@ -30,7 +31,7 @@ function InvoiceApp() {
     //   dispatch(fetchInvoices());
     // }
     dispatch(fetchInvoices());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <div

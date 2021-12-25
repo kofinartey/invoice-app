@@ -39,7 +39,7 @@ const userReducer = (state = initialState, action) => {
 
     case USER_LOGOUT:
       localStorage.clear();
-      return initialState;
+      return { ...initialState };
 
     case EDIT_USER_INFO:
       const editedInfo = {
