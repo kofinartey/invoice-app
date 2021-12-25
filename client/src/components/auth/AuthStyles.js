@@ -22,8 +22,9 @@ const AuthStyles = makeStyles({
   },
   form: {
     width: "100%",
-    // maxWidth: "30rem",
     position: "relative",
+    right: "0",
+    bottom: "0",
   },
   switch: {
     fontSize: "0.75rem",
