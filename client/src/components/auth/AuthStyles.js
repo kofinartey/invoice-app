@@ -11,12 +11,18 @@ const AuthStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
   },
-  form: {
+  wrapper: {
+    // backgroundColor: "red",
     width: "90%",
     maxWidth: "25rem",
     backgroundColor: "white",
-    padding: "4rem 2rem",
     borderRadius: "1rem",
+    padding: "4rem 2rem",
+    boxShadow: "0 5px 20px rgba(0,0,0,0.07)",
+  },
+  form: {
+    width: "100%",
+    // maxWidth: "30rem",
     position: "relative",
   },
   switch: {
@@ -42,9 +48,6 @@ const AuthStyles = makeStyles({
     border: "2px solid #DFE3FA",
     borderRadius: "0.3rem",
     padding: "0.9rem",
-    // color: darkTheme && "white",
-    // backgroundColor: darkTheme && "#1E2139",
-    // borderColor: props.errors ? "#EC5757" : darkTheme ? "#252945" : "#DFE3FA",
     marginTop: "0.75rem",
 
     "&:focus": {
@@ -71,6 +74,27 @@ const AuthStyles = makeStyles({
     fontSize: "1rem",
     "&:hover": {
       cursor: "pointer",
+    },
+  },
+  trial: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: "1rem",
+    "& p": {
+      fontSize: "0.8rem",
+      textAlign: "center",
+      marginBottom: "0.5rem",
+    },
+    "& button": {
+      // width: "60%",
+      border: "2px solid lightgrey",
+      color: "black",
+      backgroundColor: "lightgrey",
+      "&:hover": {
+        color: "grey",
+        background: "none",
+      },
     },
   },
   spinner: {

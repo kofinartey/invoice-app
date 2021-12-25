@@ -36,6 +36,7 @@ function Login({ changeForm, values }) {
   const submit = (data) => {
     dispatch(login(data, history));
   };
+
   return (
     <form onSubmit={handleSubmit(submit)} className={classes.form}>
       {fetchError && <p style={{ color: "#EC5757" }}>{fetchError}</p>}
@@ -59,19 +60,22 @@ function Login({ changeForm, values }) {
           />
         </div>
       </>
-      <button className={classes.button}>LOGIN</button>
+      <button type="submit" className={classes.button}>
+        LOGIN
+      </button>
       <div className={classes.switch}>
         <p>
           Don't have an account? <span onClick={switchForm}> SignUp</span>
         </p>
       </div>
-      <div className={classes.spinner}>
-        {user.loading && (
+
+      {user.loading && (
+        <div className={classes.spinner}>
           <CircularProgress
           // size="30" color="inherit"
           />
-        )}
-      </div>
+        </div>
+      )}
     </form>
   );
 }

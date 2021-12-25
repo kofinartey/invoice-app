@@ -2,11 +2,8 @@ import { makeStyles } from "@material-ui/core";
 
 const InvoiceAppStyles = makeStyles({
   InvoiceApp: {
-    // height: "100%",
-    // minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-    marginBottom: "2rem",
     overflowX: "hidden",
     transition: "all .3s ease-out",
     "&::-webkit-scrollbar": {

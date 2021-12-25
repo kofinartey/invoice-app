@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import AuthStyles from "./AuthStyles";
+import { Divider } from "@material-ui/core";
 
 function Auth() {
   const classes = AuthStyles();
@@ -14,13 +15,26 @@ function Auth() {
     setIsSignUp(!isSignUp);
   };
 
+  const trialLogin = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className={classes.Auth}>
-      {isSignUp ? (
-        <SignUp changeForm={changeForm} />
-      ) : (
-        <Login changeForm={changeForm} />
-      )}
+      <div className={classes.wrapper}>
+        {isSignUp ? (
+          <SignUp changeForm={changeForm} />
+        ) : (
+          <Login changeForm={changeForm} />
+        )}
+        <Divider />
+        <div className={classes.trial}>
+          <p>Don't want to be bothered?</p>
+          <button className={`${classes.button} `} onClick={trialLogin}>
+            Use trial account
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
