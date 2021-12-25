@@ -1,5 +1,4 @@
 {
-  "homepage": "http://kofinartey.github.io/invoice-app/client",
   "name": "invoice-app",
   "version": "0.1.0",
   "private": true,
@@ -39,7 +38,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-    
   },
   "eslintConfig": {
     "extends": [
