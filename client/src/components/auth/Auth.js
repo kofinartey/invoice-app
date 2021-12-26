@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { login } from "../../redux/auth/authActions";
 import SignUp from "./SignUp";
 import Login from "./Login";
+import logo from "../../assets/logologo.png";
 import AuthStyles from "./AuthStyles";
 import { Divider } from "@material-ui/core";
 
@@ -18,7 +19,7 @@ function Auth() {
   const changeForm = () => {
     setIsSignUp(!isSignUp);
   };
-  console.log(process.env);
+
   const trialLogin = (event) => {
     event.preventDefault();
     dispatch(
@@ -34,6 +35,10 @@ function Auth() {
 
   return (
     <div className={classes.Auth}>
+      <div className={classes.logo}>
+        <img src={logo} alt="logo icon" />
+        <p>dirn</p>
+      </div>
       <div className={classes.wrapper}>
         {isSignUp ? (
           <SignUp changeForm={changeForm} />

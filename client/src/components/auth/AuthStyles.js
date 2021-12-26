@@ -11,6 +11,20 @@ const AuthStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
   },
+  logo: {
+    display: "flex",
+    marginBottom: "2rem",
+    "& img": {
+      width: "3.5rem",
+      height: "3.5rem",
+    },
+    "& p": {
+      fontFamily: "Montserrat",
+      fontWeight: 800,
+      fontSize: "3rem",
+      marginLeft: "1rem",
+    },
+  },
   wrapper: {
     // backgroundColor: "red",
     width: "90%",
