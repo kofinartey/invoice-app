@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import InvoiceList from "../invoice_list/InvoiceList";
 import Filters from "../filters/Filters";
-// import { fetchInvoices } from "../../redux/invoice/invoiceActions";
 import { toggleNewForm } from "../../redux/form_display/formDisplayAction";
 import plus from "../../assets/icon-plus.svg";
 import MainPageStyles from "./MainPageStyles.js";
@@ -30,16 +29,13 @@ function MainPage() {
   const darkTheme = useSelector((state) => state.theme);
   const invoiceData = useSelector((state) => state.invoice.invoices);
   const formDisplay = useSelector((state) => state.formDisplay);
+
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
     let width = window.innerWidth;
     setWindowWidth(width);
   });
-
-  // useEffect(() => {
-  //   dispatch(fetchInvoices());
-  // }, [dispatch]);
 
   const [filters, setFilters] = useState({
     draft: false,

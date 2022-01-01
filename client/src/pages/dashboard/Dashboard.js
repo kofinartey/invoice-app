@@ -103,7 +103,7 @@ function Dashboard() {
         const today = dayjs(new Date());
         let dueDate = dayjs(invoice.paymentDue);
         let dayDiff = dueDate.diff(today, "day");
-        if (dayDiff < 0) {
+        if (dayDiff > 0 && dayDiff < 14) {
           return (
             <Link
               to={`/invoice/${invoice._id}/${invoice.id}`}

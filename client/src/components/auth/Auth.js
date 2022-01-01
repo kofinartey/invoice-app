@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 //my imports
 import { login } from "../../redux/auth/authActions";
@@ -13,6 +13,7 @@ function Auth() {
   const classes = AuthStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const darkTheme = useSelector((state) => state.theme);
   // const user = useSelector((state) => state.user);
   const [isSignUp, setIsSignUp] = useState(false);
 
@@ -35,7 +36,7 @@ function Auth() {
 
   return (
     <div className={classes.Auth}>
-      <div className={classes.logo}>
+      <div className={classes.logo} style={{ color: darkTheme && "white" }}>
         <img src={logo} alt="logo icon" />
         <p>dirn</p>
       </div>

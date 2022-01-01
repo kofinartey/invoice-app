@@ -18,7 +18,6 @@ import Feedback from "./pages/feedback/Feedback";
 function InvoiceApp() {
   const classes = InvoiceAppStyles();
   const darkTheme = useSelector((state) => state.theme);
-  const user = useSelector((state) => state.user.userInfo._id);
   const dispatch = useDispatch();
   const location = useLocation();
   const notificationDisplay = useSelector(
@@ -27,11 +26,10 @@ function InvoiceApp() {
 
   //load invoices when login is successful
   useEffect(() => {
-    // if (location.pathname === "/main") {
-    //   dispatch(fetchInvoices());
-    // }
-    dispatch(fetchInvoices());
-  }, [dispatch, user]);
+    if (location.pathname !== "/") {
+      dispatch(fetchInvoices());
+    }
+  }, [dispatch, location.pathname]);
 
   return (
     <div
