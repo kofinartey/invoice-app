@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+//my imports
 import InvoiceList from "../invoice_list/InvoiceList";
 import Filters from "../filters/Filters";
+import Notification from "../notification/Notification";
 import { toggleNewForm } from "../../redux/form_display/formDisplayAction";
 import plus from "../../assets/icon-plus.svg";
 import MainPageStyles from "./MainPageStyles.js";
@@ -95,6 +97,7 @@ function MainPage() {
 
         {formDisplay.new && <InvoiceForm />}
       </div>
+      <Notification />
     </motion.main>
   );
 }

@@ -9,7 +9,6 @@ import InvoiceAppStyles from "./InvoiceAppStyles";
 import Login from "./components/auth/Auth";
 import Appbar from "./components/appbar/Appbar";
 import MainPage from "./components/main_page/MainPage";
-import Notification from "./components/notification/Notification";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 import Settings from "./components/settings/Settings";
 import Feedback from "./pages/feedback/Feedback";
@@ -20,9 +19,6 @@ function InvoiceApp() {
   const darkTheme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   const location = useLocation();
-  const notificationDisplay = useSelector(
-    (state) => state.invoice.notifications.visible
-  );
 
   //load invoices when login is successful
   useEffect(() => {
@@ -56,10 +52,6 @@ function InvoiceApp() {
           {/* <Route exact path="/dashboard" render={() => <Dashboard />} /> */}
         </Switch>
       </AnimatePresence>
-      <div className={classes.notification}>
-        {notificationDisplay && <Notification />}
-      </div>
-      {/* <InvoiceForm /> */}
     </div>
   );
 }
