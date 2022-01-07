@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { forwardRef } from "react";
 import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 
 const Input = forwardRef((props, ref) => {
   const darkTheme = useSelector((state) => state.theme);

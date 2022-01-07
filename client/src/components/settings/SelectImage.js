@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { addAvatar } from "../../redux/auth/authActions";
-import { Card } from "@material-ui/core";
+import { Card } from "@mui/material";
 import Button from "../shared_components/Button";
 import SelectImageStyles from "./SelectImageStyles";
 

@@ -7,7 +7,7 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import logo from "../../assets/logologo.png";
 import AuthStyles from "./AuthStyles";
-import { Divider } from "@material-ui/core";
+import { Divider } from "@mui/material";
 
 function Auth() {
   const classes = AuthStyles();

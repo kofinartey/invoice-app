@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 
 function Select(props) {
   const darkTheme = useSelector((state) => state.theme);

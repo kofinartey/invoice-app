@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 
 function StatusCard(props) {
   const darkTheme = useSelector((state) => state.theme);

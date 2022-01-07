@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 import { StyledLabel } from "../shared_components/FormElements";
 import formatAmount from "../../helper_functions/formatAmount";
 import { deleteItem } from "../../redux/items/itemActions";

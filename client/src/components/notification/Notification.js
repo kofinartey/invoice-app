@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 
 function Notification() {
   const notification = useSelector((state) => state.invoice.notifications);

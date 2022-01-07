@@ -19,7 +19,7 @@ import DeleteModal from "./DeleteModal";
 import Card from "../shared_components/Card";
 import Input from "../shared_components/Input";
 import Select from "../shared_components/Select";
-import { Divider, Switch } from "@material-ui/core";
+import { Divider, Switch } from "@mui/material";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import leftArrow from "../../assets/icon-arrow-left.svg";
 import SettingsStyles from "./SettingsStyles";

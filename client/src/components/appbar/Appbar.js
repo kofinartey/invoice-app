@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { switchTheme } from "../../redux/theme/themeAction";
 import Avatar from "../avatar/Avatar";
 import AppbarStyles from "./AppbarStyles";
-import { IconButton } from "@material-ui/core";
+import { IconButton } from "@mui/material";
 import logo from "../../assets/logo.svg";
 import sun from "../../assets/icon-sun.svg";
 import moon from "../../assets/icon-moon.svg";
