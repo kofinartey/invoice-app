@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 //my imports
 import InvoiceList from "../invoice_list/InvoiceList";
 import Filters from "../filters/Filters";
-import Notification from "../notification/Notification";
+// import Notification from "../notification/Notification";
 import { toggleNewForm } from "../../redux/form_display/formDisplayAction";
 import plus from "../../assets/icon-plus.svg";
 import MainPageStyles from "./MainPageStyles.js";
@@ -31,7 +31,7 @@ function MainPage() {
   const darkTheme = useSelector((state) => state.theme);
   const invoiceData = useSelector((state) => state.invoice.invoices);
   const formDisplay = useSelector((state) => state.formDisplay);
-
+  // const showNotifications = useSelector((state) => state.notifications.visible);
   const dispatch = useDispatch();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener("resize", () => {
@@ -97,7 +97,7 @@ function MainPage() {
 
         {formDisplay.new && <InvoiceForm />}
       </div>
-      <Notification />
+      {/* <div>{<Notification />}</div> */}
     </motion.main>
   );
 }

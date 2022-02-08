@@ -8,6 +8,7 @@ import { fetchInvoices } from "./redux/invoice/invoiceActions";
 import InvoiceAppStyles from "./InvoiceAppStyles";
 import Login from "./components/auth/Auth";
 import Appbar from "./components/appbar/Appbar";
+import Notification from "./components/notification/Notification";
 import MainPage from "./components/main_page/MainPage";
 import InvoiceDetails from "./components/invoice_details/InvoiceDetails";
 import Settings from "./components/settings/Settings";
@@ -19,7 +20,7 @@ function InvoiceApp() {
   const darkTheme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   const location = useLocation();
-
+  const showNotifications = useSelector((state) => state.notifications.visible);
   //load invoices when login is successful
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -52,6 +53,9 @@ function InvoiceApp() {
           {/* <Route exact path="/dashboard" render={() => <Dashboard />} /> */}
         </Switch>
       </AnimatePresence>
+      <div className={classes.notification}>
+        {showNotifications && <Notification />}
+      </div>
     </div>
   );
 }

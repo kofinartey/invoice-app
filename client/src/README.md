@@ -1,6 +1,6 @@
 # Invoice App
 
-[Live](https://invoice-app-five.vercel.app/)
+[Live](https://dirninvoicing.vercel.app/)
 
 This is a simple invoicing app help freelancers keep track of their invoices.
 
